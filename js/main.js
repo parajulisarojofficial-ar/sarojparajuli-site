@@ -363,7 +363,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   // --------------------------------------------------------------------------
   function extractYouTubeId(url) {
     if (!url) return null;
-    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=|shorts\/))([\w-]{11})/i);
     return match ? match[1] : null;
   }
 
@@ -383,7 +383,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     items.forEach(track => {
       const card = document.createElement("div");
-      card.className = "p-6 rounded-2xl glass-card space-y-4 flex flex-col justify-between";
+      card.className = "p-6 rounded-2xl glass-card space-y-5 flex flex-col justify-between hover:border-sky-500/40 transition group";
 
       const ytId = track.youtube_id || extractYouTubeId(track.youtube_url || track.url);
 
@@ -391,28 +391,48 @@ document.addEventListener("DOMContentLoaded", async () => {
       if (ytId) {
         mediaHtml = `
           <div class="video-responsive-container">
-            <iframe src="https://www.youtube.com/embed/${ytId}" title="${escapeHTML(track.title)}" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe 
+              src="https://www.youtube.com/embed/${ytId}" 
+              title="${escapeHTML(track.title)}" 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowfullscreen 
+              loading="lazy">
+            </iframe>
           </div>
         `;
-      } else if (track.image) {
+      } else if (track.cover_image || track.image) {
         mediaHtml = `
           <div class="aspect-video rounded-xl overflow-hidden bg-midnight-950 border border-slate-800">
-            <img src="${escapeHTML(track.image)}" alt="${escapeHTML(track.title)}" class="w-full h-full object-cover">
+            <img src="${escapeHTML(track.cover_image || track.image)}" alt="${escapeHTML(track.title)}" class="w-full h-full object-cover">
           </div>
         `;
       }
 
+      const watchUrl = track.youtube_url || (ytId ? `https://youtube.com/shorts/${ytId}` : null);
+
       card.innerHTML = `
-        <div class="space-y-3">
+        <div class="space-y-3.5">
           ${mediaHtml}
-          <div class="flex items-center justify-between text-xs font-mono text-slate-400 pt-2">
-            <span class="badge-sky px-2 py-0.5 rounded-full text-[10px] uppercase font-bold">${escapeHTML(track.type || "Acoustic Take")}</span>
-            <span>${escapeHTML(track.date || "")}</span>
+          <div class="flex items-center justify-between text-xs font-mono text-slate-400 pt-1">
+            <span class="badge-sky px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider">${escapeHTML(track.type || "Acoustic Take")}</span>
+            ${track.chords ? `<span class="text-xs font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">${escapeHTML(track.chords)}</span>` : ""}
           </div>
-          <h3 class="text-lg font-bold text-slate-100">${escapeHTML(track.title)}</h3>
-          ${track.chords ? `<div class="text-xs font-mono text-sky-400">Chords: ${escapeHTML(track.chords)}</div>` : ""}
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${escapeHTML(track.lyric || track.subtitle || track.description || "")}</p>
+          <h3 class="text-lg font-bold text-slate-100 group-hover:text-sky-300 transition">${escapeHTML(track.title)}</h3>
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${escapeHTML(track.description || track.lyric || track.subtitle || "")}</p>
         </div>
+        ${
+          watchUrl
+            ? `
+            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
+              <a href="${escapeHTML(watchUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-400 hover:text-sky-300 transition">
+                <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+                <span>Watch on YouTube</span>
+                <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+              </a>
+            </div>
+            `
+            : ""
+        }
       `;
       container.appendChild(card);
     });

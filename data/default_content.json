@@ -18,7 +18,30 @@
     "email": "sarojparajuli.personal@outlook.com"
   },
   "posts": [],
-  "musicGallery": [],
+  "musicGallery": [
+    {
+      "id": "track-1",
+      "title": "Nepathya – Resham (Intro Guitar Cover)",
+      "type": "Acoustic Cover",
+      "youtube_url": "https://youtube.com/shorts/nSQkOqUWEGw?si=fYPml98ot6ef4dJJ",
+      "youtube_id": "nSQkOqUWEGw",
+      "chords": "Em • D • C • Bm",
+      "description": "Acoustic guitar intro cover of the iconic Nepali folk-rock anthem \"Resham\" by Nepathya. Capturing the authentic rhythmic pulse and fingerstyle groove.",
+      "display_order": 1,
+      "is_published": true
+    },
+    {
+      "id": "track-2",
+      "title": "Taare Zameen Par – Maa (Guitar Solo Cover)",
+      "type": "Guitar Solo",
+      "youtube_url": "https://youtube.com/shorts/AdtMDW6tsIk",
+      "youtube_id": "AdtMDW6tsIk",
+      "chords": "C • G • Am • F",
+      "description": "Emotional acoustic guitar solo cover of \"Maa\" from Taare Zameen Par. Expressive fingerpicking melodic phrasing and gentle dynamics.",
+      "display_order": 2,
+      "is_published": true
+    }
+  ],
   "musicTracks": [],
   "career": [
     {
