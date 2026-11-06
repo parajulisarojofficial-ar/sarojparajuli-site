@@ -15,6 +15,11 @@
   <meta property="og:url" content="https://sarojparajuli.com.np">
   <meta property="og:image" content="assets/passport_photo.jpg">
 
+  <!-- Browser Tab Favicon (Profile Picture in Browser Tab) -->
+  <link rel="icon" type="image/jpeg" href="assets/passport_photo.jpg?v=20261106">
+  <link rel="shortcut icon" href="assets/passport_photo.jpg?v=20261106">
+  <link rel="apple-touch-icon" href="assets/passport_photo.jpg?v=20261106">
+
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
   <!-- Supabase JS CDN -->
@@ -87,15 +92,15 @@
 
       <!-- Desktop Navigation (The 6 Fixed Tabs) -->
       <nav aria-label="Main Navigation" class="hidden md:flex items-center gap-1 bg-midnight-800/90 border border-slate-700/60 rounded-full p-1.5 text-xs shadow-inner">
-        <button type="button" data-nav="home" class="nav-tab-btn px-4 py-2 rounded-full font-medium active flex items-center gap-2">
+        <a href="#home" data-nav="home" data-nav-target="home" class="nav-tab-btn px-4 py-2 rounded-full font-medium active flex items-center gap-2">
           <img src="assets/passport_photo.jpg" alt="" class="w-4 h-4 rounded-full object-cover border border-sky-400/50">
           <span>Home</span>
-        </button>
-        <button type="button" data-nav="about" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">About Me</button>
-        <button type="button" data-nav="blogs" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Blogs</button>
-        <button type="button" data-nav="music" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Music Gallery</button>
-        <button type="button" data-nav="career" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Career &amp; Portfolio</button>
-        <button type="button" data-nav="contact" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Contact Me</button>
+        </a>
+        <a href="#about" data-nav="about" data-nav-target="about" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">About Me</a>
+        <a href="#blogs" data-nav="blogs" data-nav-target="blogs" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Blogs</a>
+        <a href="#music" data-nav="music" data-nav-target="music" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Music Gallery</a>
+        <a href="#career" data-nav="career" data-nav-target="career" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Career &amp; Portfolio</a>
+        <a href="#contact" data-nav="contact" data-nav-target="contact" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Contact Me</a>
       </nav>
 
       <!-- Right Utility Controls -->
@@ -125,12 +130,12 @@
 
     <!-- Mobile Navigation Drawer -->
     <div id="mobileMenuDrawer" class="hidden md:hidden pt-3 pb-2 border-t border-slate-800 mt-3 flex flex-col gap-1">
-      <button type="button" data-nav="home" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Home</button>
-      <button type="button" data-nav="about" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">About Me</button>
-      <button type="button" data-nav="blogs" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Blogs</button>
-      <button type="button" data-nav="music" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Music Gallery</button>
-      <button type="button" data-nav="career" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Career &amp; Portfolio</button>
-      <button type="button" data-nav="contact" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Contact Me</button>
+      <a href="#home" data-nav="home" data-nav-target="home" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Home</a>
+      <a href="#about" data-nav="about" data-nav-target="about" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">About Me</a>
+      <a href="#blogs" data-nav="blogs" data-nav-target="blogs" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Blogs</a>
+      <a href="#music" data-nav="music" data-nav-target="music" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Music Gallery</a>
+      <a href="#career" data-nav="career" data-nav-target="career" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Career &amp; Portfolio</a>
+      <a href="#contact" data-nav="contact" data-nav-target="contact" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Contact Me</a>
     </div>
   </header>
 
@@ -907,10 +912,10 @@
     <span id="toastMessage">Notification</span>
   </div>
 
-  <!-- Client-side Scripts -->
-  <script src="js/config.js"></script>
-  <script src="js/supabase-client.js"></script>
-  <script src="js/analytics-chart.js"></script>
-  <script src="js/main.js"></script>
+  <!-- Client-side Scripts (Cache-Busted for Immediate Update) -->
+  <script src="js/config.js?v=20261106_v5"></script>
+  <script src="js/supabase-client.js?v=20261106_v5"></script>
+  <script src="js/analytics-chart.js?v=20261106_v5"></script>
+  <script src="js/main.js?v=20261106_v5"></script>
 </body>
 </html>

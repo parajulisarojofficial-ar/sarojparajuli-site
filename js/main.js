@@ -71,17 +71,19 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     // 2. Update desktop nav pills
     document.querySelectorAll(".nav-tab-btn").forEach(btn => {
-      const btnTab = btn.getAttribute("data-nav");
+      const btnTab = btn.getAttribute("data-nav") || btn.getAttribute("data-nav-target") || (btn.getAttribute("href") || "").replace(/^#/, "");
       if (btnTab === targetTab) {
-        btn.className = "nav-tab-btn px-4 py-2 rounded-full font-medium active";
+        btn.classList.add("active");
+        btn.classList.remove("text-slate-300");
       } else {
-        btn.className = "nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white";
+        btn.classList.remove("active");
+        btn.classList.add("text-slate-300");
       }
     });
 
     // 3. Update mobile drawer buttons
     document.querySelectorAll(".mobile-nav-btn").forEach(btn => {
-      const btnTab = btn.getAttribute("data-nav");
+      const btnTab = btn.getAttribute("data-nav") || btn.getAttribute("data-nav-target") || (btn.getAttribute("href") || "").replace(/^#/, "");
       if (btnTab === targetTab) {
         btn.className = "mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold bg-sky-600 text-white";
       } else {
@@ -110,23 +112,37 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Bind clicks on all elements with data-nav
-  navButtons.forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      e.preventDefault();
-      const target = btn.getAttribute("data-nav");
-      switchTab(target, true);
-    });
+  // Expose switchTab globally
+  window.switchTab = switchTab;
+
+  // Global event delegation for all tabs and anchor links
+  document.addEventListener("click", (e) => {
+    const navEl = e.target.closest("[data-nav], [data-nav-target], .nav-tab-btn, .mobile-nav-btn, a[href^='#']");
+    if (navEl) {
+      const rawTarget = navEl.getAttribute("data-nav") || navEl.getAttribute("data-nav-target") || (navEl.getAttribute("href") || "").replace(/^#/, "");
+      const cleanTarget = (rawTarget || "").replace(/^section-/, "").toLowerCase();
+      if (VALID_TABS.includes(cleanTarget)) {
+        e.preventDefault();
+        switchTab(cleanTarget, true);
+      }
+    }
   });
 
   // Handle Initial URL Hash & Back/Forward buttons
   function handleUrlHash() {
-    const rawHash = (window.location.hash || "").replace(/^#/, "").trim();
+    let target = "";
+    const rawHash = (window.location.hash || "").replace(/^#/, "").trim().toLowerCase();
+    const rawPath = (window.location.pathname || "").replace(/^\//, "").trim().toLowerCase();
+
     if (rawHash && VALID_TABS.includes(rawHash)) {
-      switchTab(rawHash, false);
+      target = rawHash;
+    } else if (rawPath && VALID_TABS.includes(rawPath)) {
+      target = rawPath;
     } else {
-      switchTab("home", false);
+      target = "home";
     }
+
+    switchTab(target, false);
   }
 
   handleUrlHash();
