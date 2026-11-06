@@ -226,6 +226,10 @@ app.delete('/api/guestbook/:id', async (req, res) => {
 // ----------------------------------------------------------------------------
 // STATIC ASSETS & PAGE ROUTING
 // ----------------------------------------------------------------------------
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.use('/css', express.static(path.join(__dirname, 'css')));
+app.use('/js', express.static(path.join(__dirname, 'js')));
+app.use('/data', express.static(path.join(__dirname, 'data')));
 app.use(express.static(path.join(__dirname), {
   maxAge: '1d',
   setHeaders: (res, filePath) => {
@@ -240,6 +244,9 @@ app.get('/admin', (req, res) => {
 });
 
 app.get('*', (req, res) => {
+  if (req.path.startsWith('/assets/') || req.path.startsWith('/css/') || req.path.startsWith('/js/') || req.path.startsWith('/data/')) {
+    return res.status(404).send('Not Found');
+  }
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 

@@ -4,18 +4,31 @@
  * ============================================================================
  */
 document.addEventListener("DOMContentLoaded", async () => {
-  // 1. Initialize Accessibility Engine
+  // 1. Initialize Accessibility Engine & Immediate Navigation
   if (window.SarojA11y) {
     window.SarojA11y.init();
   }
+
+  // Bind All Navigation, Tabs & Modals IMMEDIATELY so UI clicks respond instantly
+  bindNavigation();
+  bindStoryFilters();
+  bindCVModal();
+
+  // Check URL hash immediately on initial load (e.g. #music, #stories, #portfolio)
+  checkInitialHash();
+  window.addEventListener("hashchange", checkInitialHash);
 
   // 2. Global State
   let currentSiteData = null;
   let activeStoryFilter = "all";
 
-  // 3. Initialize Supabase
-  if (window.SarojSupabase) {
-    await window.SarojSupabase.init();
+  // 3. Initialize Supabase in background
+  try {
+    if (window.SarojSupabase) {
+      await window.SarojSupabase.init();
+    }
+  } catch (err) {
+    console.warn("Supabase init deferred:", err);
   }
 
   // 4. Load Content
@@ -23,14 +36,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 5. Initialize Interactive Analytics (Chart.js)
   if (window.SarojAnalytics) {
-    window.SarojAnalytics.init();
+    try {
+      window.SarojAnalytics.init();
+    } catch (err) {
+      console.warn("Analytics init deferred:", err);
+    }
   }
 
-  // 6. Bind All Navigation, Tabs, Forms & Modals
-  bindNavigation();
-  bindStoryFilters();
+  // 6. Bind Forms & Realtime
   bindGuestbookForm();
-  bindCVModal();
   bindRealtimeEvents();
 
   // --------------------------------------------------------------------------
@@ -223,7 +237,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       const imageHtml = p.image
         ? `<div class="aspect-video w-full overflow-hidden bg-espresso-950 relative">
-             <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy">
+             <img src="${escapeHTML(p.image)}" alt="${escapeHTML(p.title)}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" loading="lazy" onerror="this.onerror=null; this.parentElement.style.display='none';">
              <span class="absolute top-4 left-4 font-mono text-[10px] uppercase font-bold tracking-widest px-3 py-1 rounded-full bg-espresso-950/85 text-terracotta-400 border border-white/10 backdrop-blur-md">${escapeHTML(p.category || "story")}</span>
            </div>`
         : "";
@@ -467,58 +481,102 @@ document.addEventListener("DOMContentLoaded", async () => {
   // --------------------------------------------------------------------------
   // NAVIGATION & TAB SWITCHING
   // --------------------------------------------------------------------------
+  function checkInitialHash() {
+    const rawHash = (window.location.hash || "").replace(/^#/, "").trim();
+    if (!rawHash) return;
+    const cleanId = rawHash.replace(/^section-/, "");
+    const validSections = ["about", "stories", "music", "portfolio", "goals", "guestbook"];
+    if (validSections.includes(cleanId)) {
+      switchSection(cleanId, false);
+    }
+  }
+
   function bindNavigation() {
-    // Nav links
+    // Desktop navigation pills & any element with data-nav-target
     document.querySelectorAll("[data-nav-target]").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
         const targetId = btn.getAttribute("data-nav-target");
-        switchSection(targetId);
+        switchSection(targetId, true);
       });
     });
 
     // Mobile nav buttons
     document.querySelectorAll("[data-mobile-nav]").forEach(btn => {
-      btn.addEventListener("click", () => {
+      btn.addEventListener("click", (e) => {
+        e.preventDefault();
         const targetId = btn.getAttribute("data-mobile-nav");
-        switchSection(targetId);
+        switchSection(targetId, true);
       });
     });
 
     // CV modal trigger
     const cvBtn = document.getElementById("openCvModalBtn");
     if (cvBtn) {
-      cvBtn.addEventListener("click", () => openCVModal());
+      cvBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        openCVModal();
+      });
     }
   }
 
-  function switchSection(sectionId) {
-    document.querySelectorAll(".site-section").forEach(sec => sec.classList.add("hidden"));
-    const target = document.getElementById("section-" + sectionId);
+  function switchSection(sectionId, updateHash = true) {
+    if (!sectionId) return;
+    const cleanId = sectionId.replace(/^section-/, "");
+
+    // 1. Toggle visibility of sections
+    const allSections = document.querySelectorAll(".site-section");
+    allSections.forEach(sec => sec.classList.add("hidden"));
+
+    const target = document.getElementById("section-" + cleanId);
     if (target) {
       target.classList.remove("hidden");
-      window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    // Update desktop nav pills
+    // 2. Smoothly scroll into main content viewport
+    const mainContent = document.getElementById("main-content");
+    if (mainContent) {
+      const topOffset = mainContent.getBoundingClientRect().top + window.pageYOffset - 90;
+      window.scrollTo({
+        top: Math.max(0, topOffset),
+        behavior: "smooth"
+      });
+    }
+
+    // 3. Update desktop nav pills styling
     document.querySelectorAll("[data-nav-target]").forEach(btn => {
-      if (btn.getAttribute("data-nav-target") === sectionId) {
+      const btnTarget = (btn.getAttribute("data-nav-target") || "").replace(/^section-/, "");
+      if (btnTarget === cleanId) {
         btn.className = "nav-pill px-4 py-2 rounded-full font-medium transition bg-terracotta-500 text-white shadow-md";
       } else {
         btn.className = "nav-pill px-4 py-2 rounded-full font-medium transition text-parchment-200/80 hover:text-white";
       }
     });
 
-    // Update mobile bottom nav
+    // 4. Update mobile bottom navigation
     document.querySelectorAll("[data-mobile-nav]").forEach(btn => {
-      if (btn.getAttribute("data-mobile-nav") === sectionId) {
+      const btnTarget = (btn.getAttribute("data-mobile-nav") || "").replace(/^section-/, "");
+      if (btnTarget === cleanId) {
         btn.classList.add("text-terracotta-400");
+        btn.classList.remove("text-parchment-200/60");
       } else {
         btn.classList.remove("text-terracotta-400");
+        btn.classList.add("text-parchment-200/60");
       }
     });
 
+    // 5. Update browser address bar without jump
+    if (updateHash && window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", "#" + cleanId);
+    }
+
+    // 6. Handle chart resize when navigating to portfolio
+    if (cleanId === "portfolio" && window.SarojAnalytics && typeof window.SarojAnalytics.resizeChart === "function") {
+      setTimeout(() => window.SarojAnalytics.resizeChart(), 150);
+    }
+
     if (window.SarojA11y) {
-      window.SarojA11y.announce("Switched to " + sectionId + " section");
+      window.SarojA11y.announce("Switched to " + cleanId + " section");
     }
   }
 
