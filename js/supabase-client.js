@@ -101,14 +101,18 @@
 
           if (!blogsErr && blogsData && blogsData.length > 0) {
             if (!payload) payload = {};
-            payload.posts = blogsData.map(b => ({
+            payload.posts = blogsData.map((b, idx) => ({
               id: b.id,
+              sn: String(idx + 1).padStart(2, "0"),
               title: b.title,
+              slug: b.slug,
               category: b.category,
-              date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "",
+              date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Nov 6, 2026",
               image: b.cover_image,
               body: b.content,
-              excerpt: b.excerpt
+              excerpt: b.excerpt,
+              summary: b.excerpt || b.content,
+              url: b.slug ? `blogs/${b.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html"
             }));
           }
         } catch (e) {}

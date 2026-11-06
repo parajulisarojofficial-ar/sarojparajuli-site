@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 Nobel Prize in Medicine: Optogenetics, Retinitis Pigmentosa & the Future of Sight</title>
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif'],
+                    },
+                    colors: {
+                        nobel: {
+                            gold: '#D4AF37',
+                            cyan: '#06B6D4',
+                            deep: '#0B1120',
+                            slate: '#1E293B'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .reading-progress {
+            transition: width 0.15s ease-out;
+        }
+        .prose-article p {
+            margin-bottom: 1.35rem;
+            line-height: 1.85;
+        }
+        .prose-article a {
+            color: #0284c7;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .dark .prose-article a {
+            color: #38bdf8;
+        }
+        .prose-article a:hover {
+            color: #0369a1;
+        }
+        .dark .prose-article a:hover {
+            color: #7dd3fc;
+        }
+        .glass-card {
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased transition-colors duration-300">
+
+    <!-- Top Reading Progress Bar -->
+    <div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 dark:bg-slate-800 z-50">
+        <div id="progressBar" class="h-full bg-gradient-to-r from-cyan-500 via-sky-500 to-amber-400 reading-progress" style="width: 0%"></div>
+    </div>
+
+    <!-- Sticky Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 glass-card border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-colors">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <a href="../#blogs" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-700 dark:text-cyan-400 border border-cyan-500/30 text-xs font-semibold transition" title="Back to Saroj's Website">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+                    </svg>
+                    <span>Back to Website</span>
+                </a>
+                <div class="h-5 w-px bg-slate-300 dark:bg-slate-700 hidden sm:block"></div>
+                <div class="flex items-center gap-2.5">
+                    <img src="../assets/images/saroj-photo.png" alt="Saroj Parajuli" class="w-8 h-8 rounded-full border border-cyan-500/40 object-cover hidden sm:block shadow-sm">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-widest text-cyan-600 dark:text-cyan-400 block">Saroj Parajuli • Publication</span>
+                        <span class="text-sm font-semibold text-slate-900 dark:text-white hidden md:inline">2026 Nobel Prize Special Feature</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Section Jump Links -->
+            <nav class="hidden lg:flex items-center gap-5 text-xs font-medium text-slate-600 dark:text-slate-300">
+                <a href="#laureates" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition">The Laureates</a>
+                <a href="#science" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition">How It Works</a>
+                <a href="#retinitis-pigmentosa" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition">Retinitis Pigmentosa</a>
+                <a href="#clinical-trials" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition">Clinical Pipeline</a>
+                <a href="#beyond-vision" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition">Other Diseases</a>
+                <a href="#references" class="hover:text-cyan-600 dark:hover:text-cyan-400 transition">Sources</a>
+            </nav>
+
+            <!-- Reader Controls -->
+            <div class="flex items-center gap-2">
+                <button id="fontDecreaseBtn" type="button" title="Decrease font size" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    A-
+                </button>
+                <button id="fontIncreaseBtn" type="button" title="Increase font size" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                    A+
+                </button>
+                <button id="themeToggleBtn" type="button" title="Toggle Dark/Light Mode" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-700 dark:text-amber-300">
+                    <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                    <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+                    </svg>
+                </button>
+                <button id="openEmbedModalBtn" type="button" class="ml-1 px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white shadow-sm transition flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                    </svg>
+                    <span>Embed / Copy</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Banner Section -->
+    <section class="relative overflow-hidden bg-slate-900 text-white border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+                <div class="lg:col-span-7 space-y-6">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-400/30 text-amber-300 text-xs font-semibold tracking-wide uppercase">
+                        <span class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                        2026 Nobel Prize in Physiology or Medicine
+                    </div>
+                    <h1 class="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-tight text-white">
+                        Turning Light Into Sight: How the 2026 Nobel Prize in Optogenetics Is Transforming Treatment for Retinitis Pigmentosa and Beyond
+                    </h1>
+                    <p class="text-slate-300 text-base sm:text-lg leading-relaxed">
+                        A microscopic green alga that swims toward sunlight gave scientists a molecular light switch for living nerve cells. Recognized with the <a href="https://www.nobelprize.org/prizes/medicine/2026/press-release/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline hover:text-cyan-300">2026 Nobel Prize in Physiology or Medicine</a>, optogenetics is moving rapidly from basic brain research into human clinics—bringing landmark vision restoration therapies to patients with late-stage retinitis pigmentosa and opening new frontiers for Stargardt disease, deafness, cardiac arrhythmias, and neurological disorders.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-6 pt-2 text-xs text-slate-400 border-t border-slate-800/80">
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-slate-200">Published:</span> November 6, 2026
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-slate-200">Reading Time:</span> 12 min read
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-semibold text-slate-200">Prize Award:</span> 12 Million SEK (<a href="https://www.nobelprize.org/prizes/medicine/2026/press-release/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 hover:underline">Karolinska Institutet</a>)
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-5">
+                    <figure class="relative rounded-2xl overflow-hidden shadow-2xl border border-slate-700/80 bg-slate-950">
+                        <img src="assets/optogenetics-hero.jpg" alt="Editorial scientific illustration of bioluminescent blue light rays activating neural circuits and retinal nerve cells with glowing ion channels" class="w-full h-auto object-cover">
+                        <figcaption class="p-3.5 bg-slate-900/95 text-xs text-slate-400 border-t border-slate-800">
+                            <strong class="text-slate-200">Illuminating Neural Circuits:</strong> Light-gated ion channels embedded in neuronal membranes open within fractions of a millisecond when struck by light, triggering precise electrical nerve signals.
+                        </figcaption>
+                    </figure>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+            <!-- Left Sticky Sidebar: Table of Contents & Quick Facts -->
+            <aside class="lg:col-span-3 space-y-6">
+                <div class="sticky top-24 space-y-6">
+                    <!-- Table of Contents Card -->
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl p-5 border border-slate-200 dark:border-slate-800 shadow-sm">
+                        <h2 class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">Article Navigation</h2>
+                        <ul class="space-y-2.5 text-sm font-medium">
+                            <li><a href="#laureates" class="block text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition">1. The 2026 Nobel Laureates</a></li>
+                            <li><a href="#science" class="block text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition">2. From Pond Algae to Brain Switches</a></li>
+                            <li><a href="#retinitis-pigmentosa" class="block text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition">3. Retinitis Pigmentosa &amp; Bypassing Photoreceptors</a></li>
+                            <li><a href="#clinical-trials" class="block text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition">4. Leading Clinical Therapies &amp; Trials</a></li>
+                            <li><a href="#beyond-vision" class="block text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition">5. Prospects for Other Diseases</a></li>
+                            <li><a href="#faq" class="block text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition">6. Patient &amp; Reader FAQ</a></li>
+                            <li><a href="#references" class="block text-slate-700 dark:text-slate-300 hover:text-cyan-600 dark:hover:text-cyan-400 transition">7. Primary Scientific Sources</a></li>
+                        </ul>
+                    </div>
+
+                    <!-- At-a-Glance Fast Facts Box -->
+                    <div class="bg-gradient-to-br from-slate-900 to-slate-800 text-white rounded-2xl p-5 border border-slate-700 shadow-md space-y-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-xs font-bold uppercase tracking-wider text-amber-400">Fast Clinical Facts</h3>
+                            <span class="text-[11px] bg-amber-400/20 text-amber-300 px-2 py-0.5 rounded font-semibold">2026 Update</span>
+                        </div>
+                        <div class="space-y-3 text-xs">
+                            <div class="border-b border-slate-700/80 pb-2.5">
+                                <span class="text-slate-400 block">Nobel Announcement</span>
+                                <span class="font-semibold text-white">October 5, 2026 (<a href="https://www.nobelprize.org/prizes/medicine/2026/press-release/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline">NobelPrize.org</a>)</span>
+                            </div>
+                            <div class="border-b border-slate-700/80 pb-2.5">
+                                <span class="text-slate-400 block">Global RP Prevalence</span>
+                                <span class="font-semibold text-white">>1.5 Million People (~1 in 4,000) (<a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline">GenSight / NEJM</a>)</span>
+                            </div>
+                            <div class="border-b border-slate-700/80 pb-2.5">
+                                <span class="text-slate-400 block">Genetic Complexity</span>
+                                <span class="font-semibold text-white">>1,000 Mutations in >100 Genes (<a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline">Nanoscope</a>)</span>
+                            </div>
+                            <div>
+                                <span class="text-slate-400 block">First FDA BLA Acceptance</span>
+                                <span class="font-semibold text-white">MOGENRY (MCO-010) filed Sept 2026; decision expected H1 2027 (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer" class="text-cyan-400 underline">R&amp;D World</a>)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Article Column -->
+            <article id="articleBody" class="lg:col-span-9 prose-article text-base space-y-12">
+
+                <!-- Section 1: The Laureates -->
+                <section id="laureates" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-2">
+                        <span>Section 01</span>
+                        <span>&bull;</span>
+                        <span>The 2026 Nobel Prize in Physiology or Medicine</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4">
+                        Honoring the Architects of Light-Controlled Neuroscience
+                    </h2>
+                    <p>
+                        On October 5, 2026, the Nobel Assembly at the Karolinska Institutet in Stockholm awarded the <a href="https://www.nobelprize.org/prizes/medicine/2026/press-release/" target="_blank" rel="noopener noreferrer">2026 Nobel Prize in Physiology or Medicine</a> jointly to American psychiatrist and bioengineer <strong>Karl Deisseroth</strong> and German biophysicists <strong>Peter Hegemann</strong> and <strong>Georg Nagel</strong> “for their discoveries concerning light-gated ion channels and optogenetics.” Sharing the 12 million Swedish kronor award equally, the three laureates turned what was once considered an impossible dream in neurobiology into one of modern medicine’s most versatile discoveries (<a href="https://www.nobelprize.org/prizes/medicine/2026/summary/" target="_blank" rel="noopener noreferrer">NobelPrize.org Summary</a>).
+                    </p>
+                    <p>
+                        For decades, scientists struggled to map how the human brain—an organ weighing roughly 1.3 kilograms and containing around 90 billion interconnected nerve cells—produces memories, emotions, and actions (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>). Even Nobel laureate Francis Crick, co-discoverer of DNA’s double helix, speculated in the late 20th century that because neural signals travel so rapidly, light would be the ideal tool to switch specific neurons on or off in a living brain (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                    </p>
+
+                    <blockquote class="my-6 p-5 rounded-xl bg-slate-50 dark:bg-slate-800/70 border-l-4 border-amber-500 text-slate-700 dark:text-slate-200 italic">
+                        “Optogenetics provides opportunities for mapping the brain in a way that we could once only dream of.”
+                        <footer class="mt-2 text-xs not-italic font-semibold text-slate-500 dark:text-slate-400">
+                            — Prof. Per Svenningsson, Chair of the Nobel Committee for Physiology or Medicine (<a href="https://www.nobelprize.org/prizes/medicine/2026/press-release/" target="_blank" rel="noopener noreferrer">2026 Nobel Press Release</a>)
+                        </footer>
+                    </blockquote>
+
+                    <!-- Laureate Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mt-6">
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80">
+                            <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold mb-2">1/3 Prize Share</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Karl Deisseroth, MD, PhD</h3>
+                            <p class="text-xs text-cyan-600 dark:text-cyan-400 font-medium mb-2">Stanford University &amp; Howard Hughes Medical Institute, USA</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                Born in 1971, Deisseroth earned his PhD (1998) and MD (2000) from Stanford University. Motivated by clinical encounters with psychiatric patients, he engineered channelrhodopsin-2 into mammalian neurons in 2005 and demonstrated optical control of neural circuits in living mice in 2007 (<a href="https://www.nobelprize.org/prizes/medicine/2026/press-release/" target="_blank" rel="noopener noreferrer">Nobel Press Release</a>).
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80">
+                            <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold mb-2">1/3 Prize Share</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Peter Hegemann, PhD</h3>
+                            <p class="text-xs text-cyan-600 dark:text-cyan-400 font-medium mb-2">Humboldt University of Berlin, Germany</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                Born in 1954, Hegemann began studying the green alga <em>Chlamydomonas</em> in the early 1990s at the Max Planck Institute for Biochemistry in Martinsried, discovering that its eyespot generated an electrical current within 0.5 milliseconds of light exposure (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80">
+                            <span class="inline-block px-2.5 py-0.5 rounded bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-bold mb-2">1/3 Prize Share</span>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Georg Nagel, PhD</h3>
+                            <p class="text-xs text-cyan-600 dark:text-cyan-400 font-medium mb-2">University of Würzburg, Germany</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                Born in 1953, Nagel collaborated with Hegemann while at the Max Planck Institute for Biophysics in Frankfurt, expressing algal rhodopsin genes in frog oocytes and mammalian kidney cells in 2002–2003 to prove they acted as directly light-gated ion channels (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 2: How Optogenetics Works -->
+                <section id="science" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-2">
+                        <span>Section 02</span>
+                        <span>&bull;</span>
+                        <span>The Fundamental Science</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4">
+                        From Light-Seeking Pond Algae to a Millisecond Neural Switch
+                    </h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-6">
+                        <div class="lg:col-span-7">
+                            <p>
+                                The story of optogenetics began not in a hospital clinic, but in a petri dish swirling with <em>Chlamydomonas reinhardtii</em>, a single-celled green alga that swims toward sunlight to photosynthesize (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>). In the human eye, capturing light triggers a multi-step biochemical cascade that takes at least <strong>10 milliseconds</strong> to open an ion channel. Yet when Peter Hegemann measured electrical currents in the tiny orange eyespot of <em>Chlamydomonas</em> in the early 1990s, he found that an electrical impulse fired in just <strong>0.5 milliseconds</strong>—more than twenty times faster than human photoreceptors (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                            </p>
+                            <p class="mb-0">
+                                Hegemann hypothesized that a single algal protein both captured photons and served as a membrane ion channel. Around the turn of the millennium, after Japanese researchers sequenced the <em>Chlamydomonas</em> genome, Hegemann identified two candidate genes and partnered with electrophysiologist Georg Nagel (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>). By expressing these genes in frog eggs (<em>Xenopus laevis</em> oocytes) and human embryonic kidney cells in 2002 and 2003, Nagel and Hegemann proved that <strong>channelrhodopsin-1</strong> and <strong>channelrhodopsin-2 (ChR2)</strong> open within <strong>0.2 milliseconds</strong> of blue light illumination, allowing positively charged ions to surge into the cell (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                            </p>
+                        </div>
+                        <div class="lg:col-span-5">
+                            <figure class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-950 shadow-md">
+                                <img src="assets/algae-channelrhodopsin.jpg" alt="3D scientific illustration of microscopic green algae Chlamydomonas swimming toward blue light alongside a channelrhodopsin membrane channel" class="w-full h-auto object-cover">
+                                <figcaption class="p-3 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/90">
+                                    <strong>Nature's Ultrafast Photoreceptor:</strong> Single-celled <em>Chlamydomonas</em> algae use channelrhodopsin proteins in their eyespot to convert blue light directly into an inward flow of ions within 0.2 to 0.5 milliseconds (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">NobelPrize.org</a>).
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <p>
+                        In 2005, Karl Deisseroth’s laboratory at Stanford University—collaborating with Nagel and Ernst Bamberg—introduced the gene for channelrhodopsin-2 into cultured rat neurons (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>). Pulse after pulse of blue light triggered action potentials on command without harming the delicate nerve cells (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>). Coining the term <strong>optogenetics</strong> in 2006, Deisseroth and colleagues paired viral gene delivery with hair-thin fiber-optic cables in 2007 to control motor cortex activity and wakefulness in living mice, and later teamed up with 1987 Nobel laureate Susumu Tonegawa in 2012 to reactivate specific memory engrams using light (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                    </p>
+                </section>
+
+                <!-- Section 3: Retinitis Pigmentosa & Vision Restoration -->
+                <section id="retinitis-pigmentosa" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-2">
+                        <span>Section 03</span>
+                        <span>&bull;</span>
+                        <span>Retinitis Pigmentosa &amp; Ophthalmic Breakthroughs</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4">
+                        Why Retinitis Pigmentosa Is the Flagship Disease for Optogenetic Therapy
+                    </h2>
+                    <p>
+                        While optogenetics transformed basic brain research, the human eye quickly emerged as its most compelling clinical frontier. Unlike deep brain structures that require implanted optical fibers, the retina is naturally transparent and designed to receive light directly (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>).
+                    </p>
+                    <p>
+                        <strong>Retinitis pigmentosa (RP)</strong> is the most common group of inherited retinal diseases (IRDs), affecting roughly <strong>1 in 4,000 people—more than 1.5 million individuals worldwide</strong> and over 100,000 people in the United States (<a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">GenSight Biologics</a>; <a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">Nanoscope Therapeutics</a>). In RP, genetic mutations progressively destroy the retina’s primary light-capturing photoreceptor cells—the rods and cones. Patients typically experience night blindness first, followed by a relentless narrowing of peripheral vision ("tunnel vision"), losing an average of 0.03 LogMAR (about 1.5 letters on an eye chart) per year until a majority become legally blind (worse than 20/200) by age 60 (<a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">Nanoscope Therapeutics</a>).
+                    </p>
+
+                    <!-- Interactive Mechanism Explorer & Retinal Illustration -->
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center my-8 p-5 rounded-2xl bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700">
+                        <div class="lg:col-span-6 space-y-4">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Interactive Retinal Pathway Explorer</h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-300 !mb-3">
+                                Select a retinal state below to compare how light is processed in a healthy retina, a retina affected by late-stage retinitis pigmentosa, and an optogenetically treated retina:
+                            </p>
+                            <div class="flex flex-wrap gap-2">
+                                <button type="button" data-stage="healthy" class="stage-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 text-white shadow-sm transition">1. Healthy Retina</button>
+                                <button type="button" data-stage="rp" class="stage-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 transition">2. Late-Stage RP</button>
+                                <button type="button" data-stage="optogenetic" class="stage-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 transition">3. Optogenetic Bypass</button>
+                            </div>
+                            <div id="stageContentBox" class="p-4 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 space-y-2">
+                                <div id="stageBadge" class="inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400">Intact Photoreceptor Cascade</div>
+                                <h4 id="stageTitle" class="text-base font-bold text-slate-900 dark:text-white">Healthy Retinal Signaling</h4>
+                                <p id="stageDesc" class="text-xs text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                    Light passes through the transparent inner retinal layers to strike outer rods and cones. Photoreceptors convert photons into chemical and electrical signals (taking ≥10 ms), relaying them through bipolar cells to retinal ganglion cells, whose axons form the optic nerve to the brain (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">NobelPrize.org</a>).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-6">
+                            <figure class="rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-950 shadow-md">
+                                <img src="assets/retina-optogenetics.jpg" alt="Medical 3D illustration of the human retina cross-section showing light bypassing degenerated rods and cones to activate glowing bipolar and ganglion cells" class="w-full h-auto object-cover">
+                                <figcaption class="p-3 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/90">
+                                    <strong>Bypassing Damaged Rods &amp; Cones:</strong> Even after outer photoreceptors degenerate in RP, inner bipolar and retinal ganglion cells remain intact and can be converted into "replacement photoreceptors" via viral delivery of opsin genes (<a href="https://retinauk.org.uk/news/rtx-015-exploring-optogenetic-gene-therapy-for-rp-and-choroideremia/" target="_blank" rel="noopener noreferrer">Retina UK</a>).
+                                </figcaption>
+                            </figure>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-bold text-slate-900 dark:text-white mt-6 mb-3">
+                        The Game-Changing Advantage: A "Mutation-Agnostic" Approach
+                    </h3>
+                    <p>
+                        Conventional gene replacement therapy faces a daunting hurdle in retinitis pigmentosa: the disease is linked to <strong>more than 1,000 distinct mutations across over 100 different genes</strong> (<a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">Nanoscope Therapeutics</a>). Furthermore, once a patient’s rods and cones have died in advanced disease, replacing a single defective photoreceptor gene can no longer revive lost cells.
+                    </p>
+                    <p class="mb-0">
+                        Optogenetics solves both problems simultaneously. As first demonstrated in blind mice in 2006 by Dr. Zhuo-Hua Pan’s laboratory at Wayne State University, inner retinal neurons—specifically <strong>retinal bipolar cells</strong> and <strong>retinal ganglion cells (RGCs)</strong>—survive long after rods and cones degenerate (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>; <a href="https://raytherapeutics.com/ray-therapeutics-celebrates-2026-nobel-prize-for-foundational-discoveries-in-optogenetics/" target="_blank" rel="noopener noreferrer">Ray Therapeutics</a>). By using a harmless adeno-associated virus (AAV) vector administered via a single in-office intravitreal injection into the eye, doctors insert the genetic blueprint for a light-sensitive opsin protein directly into those surviving inner neurons (<a href="https://retinauk.org.uk/news/rtx-015-exploring-optogenetic-gene-therapy-for-rp-and-choroideremia/" target="_blank" rel="noopener noreferrer">Retina UK</a>). Because this bypasses rods and cones entirely, optogenetic therapy is <strong>mutation-agnostic (gene-independent)</strong>: a single treatment can potentially help patients regardless of which of the 100+ genes caused their blindness (<a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">Nanoscope Therapeutics</a>).
+                    </p>
+                </section>
+
+                <!-- Section 4: Clinical Pipeline & Trials -->
+                <section id="clinical-trials" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-2">
+                        <span>Section 04</span>
+                        <span>&bull;</span>
+                        <span>Clinical Pipeline &amp; Real-World Patient Outcomes</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4">
+                        Inside the Clinical Trials Restoring Vision in Humans
+                    </h2>
+                    <p>
+                        When the 2026 Nobel Prize was announced, optogenetics was no longer just a laboratory promise—its lead clinical candidate was already under active regulatory review by the U.S. Food and Drug Administration (FDA), and landmark human clinical data were published in <em>The New England Journal of Medicine</em> that same week (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>; <a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">GenSight Biologics</a>). Below is an in-depth look at the leading optogenetic platforms reshaping retinal medicine.
+                    </p>
+
+                    <!-- Detailed Prose Breakdown of Key Programs -->
+                    <div class="space-y-6 my-6">
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border-l-4 border-cyan-500">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">
+                                1. Nanoscope Therapeutics — MOGENRY® (sonpiretigene isteparvovec, MCO-010)
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-2">
+                                On September 9, 2026—less than a month before the Nobel announcement—the FDA accepted and filed the Biologics License Application (BLA) for <a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">MOGENRY (MCO-010)</a>, positioning it for a regulatory decision in the first half of 2027 as potentially the world's first FDA-approved optogenetic therapy (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>). Invented by Nanoscope Co-Founder Dr. Samarendra Mohanty, MCO-010 delivers a synthetic <strong>multi-characteristic opsin (MCO)</strong> to dense retinal bipolar cells via a one-time, in-office intravitreal injection (<a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">Nanoscope Press Release</a>). Notably, one of the three light-sensitive components in MOGENRY is <strong>CatCh</strong>, an engineered variant of channelrhodopsin-2 developed by Ernst Bamberg (Georg Nagel’s longtime collaborator at the Max Planck Institute of Biophysics) and licensed from Max Planck Innovation in 2024 (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>).
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0">
+                                Because MCO-010 responds rapidly across the broad visible light spectrum at ordinary ambient light levels, patients <strong>do not require external light-amplifying goggles</strong> (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>). In the randomized, sham-controlled Phase 2b/3 <strong>RESTORE</strong> trial and its long-term <strong>REMAIN</strong> follow-up study, patients achieved statistically significant visual acuity improvements at weeks 52 and 76, maintaining an average gain equivalent to roughly three lines on a standard eye chart through 3 to 4 years of follow-up with no treatment-related serious adverse events (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>; <a href="https://www.ophthalmologytimes.com/view/retina-society-2026-mco-010-optogenetic-therapy-maintains-visual-acuity-gains-through-4-years-in-advanced-rp" target="_blank" rel="noopener noreferrer">Ophthalmology Times</a>).
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border-l-4 border-amber-500">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">
+                                2. GenSight Biologics &amp; Institut de la Vision — GS030 (ChrimsonR + Light-Stimulating Goggles)
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-2">
+                                Pioneered by Professors José-Alain Sahel and Botond Roska, <a href="https://www.gensight-biologics.com/pipeline/" target="_blank" rel="noopener noreferrer">GenSight Biologics' GS030</a> combines an AAV2 intravitreal gene therapy encoding a red-shifted channelrhodopsin (<strong>ChrimsonR</strong>) in retinal ganglion cells with wearable biomimetic light-stimulating goggles (<a href="https://ophthalmologymanagement.com/issues/2025/julyaugust/the-optimism-of-optogenics/" target="_blank" rel="noopener noreferrer">Ophthalmology Management</a>). In 2021, a landmark <em>Nature Medicine</em> case report from the Phase 1/2 PIONEER trial provided the first proof-of-concept in humans when a blind RP patient regained the ability to perceive, locate, count, and grasp objects on a table (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>; <a href="https://www.gensight-biologics.com/2021/05/25/gensight-biologics-announces-nature-medicine-case-report-showing-visual-recovery-after-gs030-optogenetic-treatment/" target="_blank" rel="noopener noreferrer">GenSight 2021 Release</a>).
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0">
+                                On October 8, 2026—just three days after the Nobel Prize announcement—GenSight and the 15-20 National Hospital in Paris announced the publication of full <a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">PIONEER Phase 1/2 trial results in <em>The New England Journal of Medicine</em> (NEJM)</a>. Across 10 treated participants with late-stage RP, <strong>6 of 10 patients</strong> showed clinically meaningful improvements in light sensitivity on full-field stimulus threshold (FST) testing, and <strong>4 of 8 evaluated patients</strong> demonstrated positive behavioral gains in detecting, localizing, or touching objects and determining bar orientation while wearing the goggles, corroborated by high-density EEG signals reaching the visual cortex (<a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">GenSight NEJM Release</a>).
+                            </p>
+                        </div>
+
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border-l-4 border-emerald-500">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white mb-1">
+                                3. Ray Therapeutics — RTx-015 &amp; RTx-021 Bioengineered Opsins
+                            </h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0">
+                                Building on the foundational retinal research of Dr. Zhuo-Hua Pan, Berkeley-based <a href="https://raytherapeutics.com/ray-therapeutics-celebrates-2026-nobel-prize-for-foundational-discoveries-in-optogenetics/" target="_blank" rel="noopener noreferrer">Ray Therapeutics</a> is advancing next-generation bioengineered opsins that work without goggles via a single intravitreal injection. Their lead candidate, <strong>RTx-015</strong>, targets retinal ganglion cells in patients with advanced retinitis pigmentosa and choroideremia (<a href="https://retinauk.org.uk/news/rtx-015-exploring-optogenetic-gene-therapy-for-rp-and-choroideremia/" target="_blank" rel="noopener noreferrer">Retina UK</a>). In April 2026, RTx-015 received both the FDA’s <a href="https://raytherapeutics.com/ray-therapeutics-receives-fda-regenerative-medicine-advanced-therapy-rmat-designation-for-rtx-015-in-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">Regenerative Medicine Advanced Therapy (RMAT) designation</a> and the European Medicines Agency’s <a href="https://raytherapeutics.com/ray-therapeutics-granted-priority-medicines-prime-designation-from-the-european-medicines-agency-for-rtx-015-in-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">Priority Medicines (PRIME) designation</a>. A companion candidate, <strong>RTx-021</strong>, targets retinal bipolar cells to preserve higher-order retinal processing in Stargardt disease and geographic atrophy (<a href="https://raytherapeutics.com/ray-therapeutics-celebrates-2026-nobel-prize-for-foundational-discoveries-in-optogenetics/" target="_blank" rel="noopener noreferrer">Ray Therapeutics</a>).
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Interactive Filterable Comparison Table -->
+                    <div class="mt-8">
+                        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Comparative Overview of Optogenetic Vision Therapies (2026)</h3>
+                            <div class="flex flex-wrap gap-1.5">
+                                <button type="button" data-filter="all" class="table-filter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-cyan-600 text-white transition">All Programs</button>
+                                <button type="button" data-filter="no-goggles" class="table-filter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">Goggle-Free Only</button>
+                                <button type="button" data-filter="bipolar" class="table-filter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">Bipolar Cell Target</button>
+                                <button type="button" data-filter="rgc" class="table-filter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition">Ganglion Cell Target</button>
+                            </div>
+                        </div>
+
+                        <div class="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-700">
+                            <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                                <thead>
+                                    <tr class="bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-slate-100 font-bold border-b border-slate-200 dark:border-slate-700">
+                                        <th class="p-3.5">Therapy &amp; Developer</th>
+                                        <th class="p-3.5">Optogenetic Protein</th>
+                                        <th class="p-3.5">Target Retinal Cell</th>
+                                        <th class="p-3.5">External Goggles?</th>
+                                        <th class="p-3.5">2026 Clinical &amp; Regulatory Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="therapyTableBody" class="divide-y divide-slate-200 dark:divide-slate-800">
+                                    <tr data-tags="no-goggles bipolar" class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                                        <td class="p-3.5 font-semibold text-slate-900 dark:text-white">
+                                            <a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">MOGENRY® (MCO-010)</a>
+                                            <span class="block text-xs font-normal text-slate-500">Nanoscope Therapeutics</span>
+                                        </td>
+                                        <td class="p-3.5">Synthetic Multi-Characteristic Opsin (includes CatCh)</td>
+                                        <td class="p-3.5">Retinal Bipolar Cells</td>
+                                        <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">No (Ambient Light)</span></td>
+                                        <td class="p-3.5">FDA BLA accepted Sept 2026; Phase 2b/3 RESTORE &amp; 4-yr REMAIN positive; Stargardt Phase 3 planned (<a href="https://www.ophthalmologytimes.com/view/aao-2026-mco-010-sustains-vision-gains-in-rp-through-4-years" target="_blank" rel="noopener noreferrer">AAO 2026</a>)</td>
+                                    </tr>
+                                    <tr data-tags="rgc" class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                                        <td class="p-3.5 font-semibold text-slate-900 dark:text-white">
+                                            <a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">GS030</a>
+                                            <span class="block text-xs font-normal text-slate-500">GenSight Biologics</span>
+                                        </td>
+                                        <td class="p-3.5">ChrimsonR (Red-shifted channelrhodopsin)</td>
+                                        <td class="p-3.5">Retinal Ganglion Cells (RGCs)</td>
+                                        <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-amber-500/15 text-amber-700 dark:text-amber-300 text-xs font-semibold">Yes (Biomimetic Goggles)</span></td>
+                                        <td class="p-3.5">Phase 1/2 PIONEER results published in <em>NEJM</em> Oct 8, 2026 (light sensitivity gains in 6/10 patients) (<a href="https://www.retinalphysician.com/news/2026/gs030-shows-potential-to-restore-visual-function-in-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">Retinal Physician</a>)</td>
+                                    </tr>
+                                    <tr data-tags="no-goggles rgc" class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                                        <td class="p-3.5 font-semibold text-slate-900 dark:text-white">
+                                            <a href="https://raytherapeutics.com/pipeline/" target="_blank" rel="noopener noreferrer">RTx-015</a>
+                                            <span class="block text-xs font-normal text-slate-500">Ray Therapeutics</span>
+                                        </td>
+                                        <td class="p-3.5">Bioengineered High-Sensitivity Opsin</td>
+                                        <td class="p-3.5">Retinal Ganglion Cells (RGCs)</td>
+                                        <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">No (Ambient Light)</span></td>
+                                        <td class="p-3.5">Phase 1 trial in RP &amp; Choroideremia; granted FDA RMAT &amp; EMA PRIME designations in April 2026 (<a href="https://raytherapeutics.com/ray-therapeutics-granted-priority-medicines-prime-designation-from-the-european-medicines-agency-for-rtx-015-in-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">RayTx</a>)</td>
+                                    </tr>
+                                    <tr data-tags="no-goggles bipolar" class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                                        <td class="p-3.5 font-semibold text-slate-900 dark:text-white">
+                                            <a href="https://raytherapeutics.com/ray-therapeutics-celebrates-2026-nobel-prize-for-foundational-discoveries-in-optogenetics/" target="_blank" rel="noopener noreferrer">RTx-021</a>
+                                            <span class="block text-xs font-normal text-slate-500">Ray Therapeutics</span>
+                                        </td>
+                                        <td class="p-3.5">Bioengineered Bipolar-Targeted Opsin</td>
+                                        <td class="p-3.5">Retinal Bipolar Cells</td>
+                                        <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-700 dark:text-emerald-300 text-xs font-semibold">No (Ambient Light)</span></td>
+                                        <td class="p-3.5">Advancing for Stargardt disease &amp; Geographic Atrophy; backed by $8M CIRM grant (<a href="https://raytherapeutics.com/ray-therapeutics-celebrates-2026-nobel-prize-for-foundational-discoveries-in-optogenetics/" target="_blank" rel="noopener noreferrer">RayTx</a>)</td>
+                                    </tr>
+                                    <tr data-tags="rgc" class="hover:bg-slate-50/80 dark:hover:bg-slate-800/40 transition">
+                                        <td class="p-3.5 font-semibold text-slate-900 dark:text-white">
+                                            <a href="https://dzhk.de/en/newsroom/news/latest-news/article/licht-als-medizin-neuer-zellschalter-bringt-hoffnung-fuer-seh-hoer-und-herzerkrankungen" target="_blank" rel="noopener noreferrer">ChReef Platform</a>
+                                            <span class="block text-xs font-normal text-slate-500">UMG Göttingen / EKFZ OT</span>
+                                        </td>
+                                        <td class="p-3.5">ChReef (Ultra-efficient channelrhodopsin)</td>
+                                        <td class="p-3.5">Retinal / Auditory / Cardiac Cells</td>
+                                        <td class="p-3.5"><span class="px-2 py-0.5 rounded bg-sky-500/15 text-sky-700 dark:text-sky-300 text-xs font-semibold">Ultra-Low Light Threshold</span></td>
+                                        <td class="p-3.5">Preclinical breakthrough published in <em>Nature Biomedical Engineering</em> (restored brightness detection in blind mice) (<a href="https://dzhk.de/en/newsroom/news/latest-news/article/licht-als-medizin-neuer-zellschalter-bringt-hoffnung-fuer-seh-hoer-und-herzerkrankungen" target="_blank" rel="noopener noreferrer">DZHK</a>)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 5: Beyond RP - Many Other Diseases -->
+                <section id="beyond-vision" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-2">
+                        <span>Section 05</span>
+                        <span>&bull;</span>
+                        <span>Prospects Across Medicine</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-4">
+                        Beyond Retinitis Pigmentosa: How Optogenetics Is Targeting Many Other Diseases
+                    </h2>
+                    <p>
+                        Retinitis pigmentosa is only the opening chapter. Because every excitable cell in the human body—from retinal neurons and inner-ear hair cells to heart muscle fibers and deep-brain circuits—communicates through ion channels and electrical potentials, the 2026 Nobel discovery offers a universal blueprint for bioelectronic and gene-targeted medicine (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                    </p>
+
+                    <figure class="my-6 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 bg-slate-950 shadow-lg">
+                        <img src="assets/optogenetics-brain-heart-ear.jpg" alt="Futuristic medical illustration showing gentle pulses of light interacting with a translucent human brain, an optical spiral cochlea of the inner ear, and glowing cardiac pacemaker pathways in the heart" class="w-full h-auto object-cover">
+                        <figcaption class="p-4 text-xs text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800/90">
+                            <strong>A Multi-Organ Therapeutic Platform:</strong> Beyond the eye, engineered channelrhodopsins like ChReef and inhibitory opsins are advancing research and therapeutic development for neurological disorders in the brain, optical cochlear implants in the inner ear, and biological pacemakers in the heart (<a href="https://dzhk.de/en/newsroom/news/latest-news/article/licht-als-medizin-neuer-zellschalter-bringt-hoffnung-fuer-seh-hoer-und-herzerkrankungen" target="_blank" rel="noopener noreferrer">DZHK / Göttingen University Medical Centre</a>).
+                        </figcaption>
+                    </figure>
+
+                    <!-- Interactive Disease Domain Cards -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+                        <!-- Card 1: Other Blinding Retinal Diseases -->
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400">Ophthalmology Expansion</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Stargardt Disease, Geographic Atrophy &amp; Choroideremia</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                Building on RP success, <a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">Nanoscope Therapeutics</a> completed its Phase 2 <strong>STARLIGHT</strong> clinical trial of MCO-010 in <strong>Stargardt disease</strong> (juvenile macular degeneration) and is initiating a Phase 3 registrational trial alongside a Phase 2 program in <strong>geographic atrophy</strong> (late-stage dry age-related macular degeneration) and IND-ready work in <strong>Leber congenital amaurosis (LCA)</strong>. Concurrently, <a href="https://retinauk.org.uk/news/rtx-015-exploring-optogenetic-gene-therapy-for-rp-and-choroideremia/" target="_blank" rel="noopener noreferrer">Ray Therapeutics</a> is evaluating RTx-015 in <strong>choroideremia</strong> and RTx-021 in macular degeneration.
+                            </p>
+                        </div>
+
+                        <!-- Card 2: Hearing Loss & Optical Cochlear Implants -->
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400">Auditory Neuroscience</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Severe Hearing Loss &amp; Optical Cochlear Implants (oCI)</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                Highlighted in the <a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">2026 Nobel Prize popular background</a>, conventional electrical cochlear implants suffer from broad current spread in the inner ear, making it hard for users to distinguish fine musical pitches or speech in noisy rooms. Because light can be tightly focused, researchers led by Prof. Tobias Moser and Dr. Thomas Mager at <a href="https://dzhk.de/en/newsroom/news/latest-news/article/licht-als-medizin-neuer-zellschalter-bringt-hoffnung-fuer-seh-hoer-und-herzerkrankungen" target="_blank" rel="noopener noreferrer">Göttingen University Medical Centre</a> engineered <strong>ChReef</strong>—an ultra-efficient channelrhodopsin that enables low-energy "hearing with light" in primate models, paving the way for high-resolution optical cochlear implants.
+                            </p>
+                        </div>
+
+                        <!-- Card 3: Cardiac Arrhythmias -->
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400">Cardiovascular Medicine</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Cardiac Arrhythmias &amp; Gentle Optical Pacemakers</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                Electrical defibrillators reset life-threatening cardiac arrhythmias using high-energy shocks that cause severe pain and tissue stress. Using the high-efficiency <strong>ChReef</strong> channelrhodopsin, cardiovascular scientists led by Prof. Tobias Brügmann at the <a href="https://dzhk.de/en/newsroom/news/latest-news/article/licht-als-medizin-neuer-zellschalter-bringt-hoffnung-fuer-seh-hoer-und-herzerkrankungen" target="_blank" rel="noopener noreferrer">German Centre for Cardiovascular Research (DZHK)</a> demonstrated that irregularly beating heart muscle cells can be restored to a steady rhythm using gentle pulses of light with minimal energy expenditure. Deisseroth’s lab also used optical cardiac pacing to show how elevated heart rates directly interact with brain circuits governing anxiety (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                            </p>
+                        </div>
+
+                        <!-- Card 4: Epilepsy & Seizure Control -->
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400">Neurology &amp; Epilepsy</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Drug-Resistant Epilepsy &amp; On-Demand Seizure Brakes</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                In severe, drug-resistant epilepsy, hyperactive neural networks fire out of control. Researchers at <a href="https://www.ucsf.edu/news/2024/11/428896/how-optogenetics-can-put-brakes-epilepsy-seizures" target="_blank" rel="noopener noreferrer">UCSF</a> and the <a href="https://epirec.cz/en/nobel-prize-recognises-optogenetics-award-winning-technology-advances-epilepsy-research-at-charles-university/" target="_blank" rel="noopener noreferrer">Prague Epileptology Research Centre (EpiReC)</a> at Charles University use optogenetics to map how seizures initiate and propagate, demonstrating that targeted light pulses can act as an instantaneous "molecular brake" to silence seizure-like activity in human brain tissue models without surgical resection.
+                            </p>
+                        </div>
+
+                        <!-- Card 5: Parkinson's Disease & Movement Disorders -->
+                        <div class="p-5 rounded-xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700/80 space-y-2 md:col-span-2">
+                            <div class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400">Neurodegenerative &amp; Psychiatric Disorders</div>
+                            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Parkinson’s Disease, Depression, Addiction, Chronic Pain &amp; Gut-Brain Signaling</h3>
+                            <p class="text-sm text-slate-600 dark:text-slate-300 !mb-0 leading-relaxed">
+                                Even when light is not delivered directly into a human patient's brain, optogenetic circuit mapping in preclinical models is directly redesigning human neuromodulation therapies. As documented in <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC6941740/" target="_blank" rel="noopener noreferrer">NIH / PMC translational studies</a> and the <a href="https://cordis.europa.eu/article/id/467884-nobel-honours-eu-funded-scientist-ushering-in-new-era-in-neuroscience" target="_blank" rel="noopener noreferrer">European Research Council (CORDIS)</a> report, optogenetics pinpointed the exact basal ganglia pathways responsible for tremors and rigidity in <strong>Parkinson’s disease</strong>, enabling next-generation Deep Brain Stimulation (DBS) protocols with fewer side effects. Simultaneously, optogenetic discoveries have identified distinct neural circuits controlling <strong>depression, schizophrenia, Alzheimer's disease, chronic pain, sleep-wake cycles, and gut-brain nutrient sensing</strong> (<a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">Nobel Popular Information</a>).
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 6: Interactive FAQ Accordion -->
+                <section id="faq" class="bg-white dark:bg-slate-900 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800 shadow-sm">
+                    <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-cyan-600 dark:text-cyan-400 mb-2">
+                        <span>Section 06</span>
+                        <span>&bull;</span>
+                        <span>Patient &amp; Reader Guide</span>
+                    </div>
+                    <h2 class="font-serif text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white mb-6">
+                        Frequently Asked Questions About Optogenetics &amp; Retinitis Pigmentosa
+                    </h2>
+
+                    <div class="space-y-3" id="faqContainer">
+                        <!-- FAQ 1 -->
+                        <div class="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                            <button type="button" class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between font-semibold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+                                <span>Does optogenetic therapy require genetic testing to know my exact RP mutation?</span>
+                                <span class="faq-icon text-cyan-600 font-bold text-lg">+</span>
+                            </button>
+                            <div class="faq-answer hidden px-5 pb-4 pt-1 text-sm text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">
+                                No. Unlike gene-replacement therapies that only work for one specific gene (such as <em>RPE65</em>), optogenetic therapies like <a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">MOGENRY (MCO-010)</a>, <a href="https://www.gensight-biologics.com/pipeline/" target="_blank" rel="noopener noreferrer">GS030</a>, and <a href="https://retinauk.org.uk/news/rtx-015-exploring-optogenetic-gene-therapy-for-rp-and-choroideremia/" target="_blank" rel="noopener noreferrer">RTx-015</a> are <strong>mutation-agnostic</strong>. Because they make surviving inner retinal cells (bipolar or ganglion cells) light-sensitive after rods and cones have degenerated, they are designed to work across all >1,000 genetic mutations causing retinitis pigmentosa.
+                            </div>
+                        </div>
+
+                        <!-- FAQ 2 -->
+                        <div class="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                            <button type="button" class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between font-semibold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+                                <span>How is the treatment administered, and is major eye surgery required?</span>
+                                <span class="faq-icon text-cyan-600 font-bold text-lg">+</span>
+                            </button>
+                            <div class="faq-answer hidden px-5 pb-4 pt-1 text-sm text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">
+                                Leading optogenetic candidates (<a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">MOGENRY</a>, <a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">GS030</a>, and <a href="https://raytherapeutics.com/ray-therapeutics-granted-priority-medicines-prime-designation-from-the-european-medicines-agency-for-rtx-015-in-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">RTx-015</a>) are delivered via a <strong>single, routine intravitreal injection</strong> in an ophthalmologist’s office—similar to standard injections used for macular degeneration—rather than requiring vitrectomy surgery in an operating room.
+                            </div>
+                        </div>
+
+                        <!-- FAQ 3 -->
+                        <div class="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden">
+                            <button type="button" class="faq-toggle w-full px-5 py-4 text-left flex items-center justify-between font-semibold text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800/60 transition">
+                                <span>What kind of vision does optogenetics restore, and who is eligible?</span>
+                                <span class="faq-icon text-cyan-600 font-bold text-lg">+</span>
+                            </button>
+                            <div class="faq-answer hidden px-5 pb-4 pt-1 text-sm text-slate-600 dark:text-slate-300 border-t border-slate-100 dark:border-slate-800">
+                                Optogenetic therapy is currently intended for patients with <strong>advanced or late-stage vision loss</strong> whose photoreceptors have already degenerated (<a href="https://retinauk.org.uk/news/rtx-015-exploring-optogenetic-gene-therapy-for-rp-and-choroideremia/" target="_blank" rel="noopener noreferrer">Retina UK</a>). While it does not restore normal 20/20 vision, clinical trials have shown meaningful functional gains—such as detecting and grasping objects, navigating spaces, and gaining an average of roughly three lines of visual acuity on an eye chart over multi-year follow-up (<a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">R&amp;D World</a>).
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Section 7: Verified Scientific References & Citations -->
+                <section id="references" class="bg-slate-100 dark:bg-slate-900/80 rounded-2xl p-6 sm:p-8 border border-slate-200 dark:border-slate-800">
+                    <h2 class="font-serif text-xl sm:text-2xl font-bold text-slate-900 dark:text-white mb-4">
+                        References &amp; Primary Sources
+                    </h2>
+                    <ol class="list-decimal list-inside space-y-2.5 text-xs sm:text-sm text-slate-600 dark:text-slate-300">
+                        <li>
+                            <strong>Nobel Assembly at Karolinska Institutet (Oct 5, 2026):</strong> <a href="https://www.nobelprize.org/prizes/medicine/2026/press-release/" target="_blank" rel="noopener noreferrer">Press Release: The Nobel Prize in Physiology or Medicine 2026 — Karl Deisseroth, Peter Hegemann, and Georg Nagel</a>.
+                        </li>
+                        <li>
+                            <strong>NobelPrize.org Popular Science Background (2026):</strong> <a href="https://www.nobelprize.org/prizes/medicine/2026/popular-information/" target="_blank" rel="noopener noreferrer">A light-sensitive algal protein energised neuroscience</a>.
+                        </li>
+                        <li>
+                            <strong>Nanoscope Therapeutics Press Release (Sept 9, 2026):</strong> <a href="https://nanostherapeutics.com/2026/09/09/nanoscope-therapeutics-announces-u-s-food-and-drug-administration-acceptance-of-biologics-license-application-for-mogenry-for-the-treatment-of-retinitis-pigmentosa-with-severe-vision-loss/" target="_blank" rel="noopener noreferrer">U.S. FDA Acceptance of Biologics License Application for MOGENRY (sonpiretigene isteparvovec, MCO-010) for Retinitis Pigmentosa</a>.
+                        </li>
+                        <li>
+                            <strong>R&amp;D World (Oct 5, 2026):</strong> <a href="https://www.rdworldonline.com/optogenetics-just-won-the-nobel-prize-its-first-therapy-is-already-under-fda-review/" target="_blank" rel="noopener noreferrer">Optogenetics just won the Nobel Prize, its first therapy is already under FDA review</a>.
+                        </li>
+                        <li>
+                            <strong>GenSight Biologics &amp; 15-20 National Hospital (Oct 8, 2026):</strong> <a href="https://www.gensight-biologics.com/2026/10/08/gensight-biologics-and-the-15-20-national-hospital-announce-nejm-publication-on-gs030-phase-1-2-trial-results-in-late-stage-retinitis-pigmentosa/" target="_blank" rel="noopener noreferrer">NEJM Publication on GS030 PIONEER Phase 1/2 Trial Results in Late-Stage Retinitis Pigmentosa</a>.
+                        </li>
+                        <li>
+                            <strong>Ophthalmology Times (Sept 24 &amp; Oct 11, 2026):</strong> <a href="https://www.ophthalmologytimes.com/view/retina-society-2026-mco-010-optogenetic-therapy-maintains-visual-acuity-gains-through-4-years-in-advanced-rp" target="_blank" rel="noopener noreferrer">Retina Society &amp; AAO 2026: MCO-010 sustains visual acuity gains through 4 years in advanced RP</a>.
+                        </li>
+                        <li>
+                            <strong>Ray Therapeutics (Oct 6, 2026 &amp; Aug 29, 2026):</strong> <a href="https://raytherapeutics.com/ray-therapeutics-celebrates-2026-nobel-prize-for-foundational-discoveries-in-optogenetics/" target="_blank" rel="noopener noreferrer">Ray Therapeutics Celebrates 2026 Nobel Prize</a> &amp; <a href="https://retinauk.org.uk/news/rtx-015-exploring-optogenetic-gene-therapy-for-rp-and-choroideremia/" target="_blank" rel="noopener noreferrer">Retina UK Overview of RTx-015 for RP and Choroideremia</a>.
+                        </li>
+                        <li>
+                            <strong>German Centre for Cardiovascular Research (DZHK) &amp; Göttingen University Medical Centre:</strong> <a href="https://dzhk.de/en/newsroom/news/latest-news/article/licht-als-medizin-neuer-zellschalter-bringt-hoffnung-fuer-seh-hoer-und-herzerkrankungen" target="_blank" rel="noopener noreferrer">Light as medicine: ChReef cell switch brings hope for vision, hearing (optical cochlear implant) and heart diseases</a>.
+                        </li>
+                        <li>
+                            <strong>UCSF &amp; Charles University EpiReC:</strong> <a href="https://www.ucsf.edu/news/2024/11/428896/how-optogenetics-can-put-brakes-epilepsy-seizures" target="_blank" rel="noopener noreferrer">How Optogenetics Can Put the Brakes on Epilepsy Seizures</a> &amp; <a href="https://epirec.cz/en/nobel-prize-recognises-optogenetics-award-winning-technology-advances-epilepsy-research-at-charles-university/" target="_blank" rel="noopener noreferrer">Epilepsy Research at Charles University</a>.
+                        </li>
+                    </ol>
+                </section>
+
+            <!-- Author Signoff & Return to Portfolio -->
+            <footer class="mt-16 pt-8 pb-10 border-t border-slate-200 dark:border-slate-800 text-center space-y-4">
+                <div class="flex items-center justify-center gap-3">
+                    <img src="../assets/images/saroj-photo.png" alt="Saroj Parajuli" class="w-11 h-11 rounded-full border-2 border-cyan-500/50 object-cover shadow-md">
+                    <div class="text-left">
+                        <span class="block text-sm font-bold text-slate-900 dark:text-white">Saroj Parajuli</span>
+                        <span class="block text-xs text-slate-500 dark:text-slate-400">Final-Year B.Sc. Statistics • Tri-Chandra Campus (TU), Kathmandu</span>
+                    </div>
+                </div>
+                <div class="pt-2">
+                    <a href="../#blogs" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-cyan-600/20">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
+                        <span>Back to All Blogs &amp; Publications</span>
+                    </a>
+                </div>
+            </footer>
+            </article>
+        </div>
+    </main>
+
+    <!-- Website Embed / Copy Helper Modal -->
+    <div id="embedModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 glass-card flex items-center justify-center p-4">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 border border-slate-200 dark:border-slate-700 shadow-2xl space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-200 dark:border-slate-800 pb-3">
+                <h3 class="text-lg font-bold text-slate-900 dark:text-white">Upload or Embed This Blog on Your Website</h3>
+                <button id="closeEmbedModalBtn" type="button" class="text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xl font-bold">&times;</button>
+            </div>
+            <p class="text-xs text-slate-600 dark:text-slate-300 leading-relaxed">
+                This HTML file is <strong>100% self-contained</strong> (all 4 custom scientific illustrations are embedded directly inside the file as Base64 data URIs). You can upload this `.html` file directly to your web host or embed it inside an existing webpage using the iframe snippet below:
+            </p>
+            <div class="bg-slate-900 text-cyan-300 p-3 rounded-xl text-xs font-mono overflow-x-auto">
+                <code id="iframeCodeSnippet">&lt;iframe src="/nobel-prize-2026-optogenetics-blog.html" width="100%" height="900" style="border:none; border-radius:16px;" title="2026 Nobel Prize in Medicine Blog"&gt;&lt;/iframe&gt;</code>
+            </div>
+            <div class="flex items-center justify-between pt-2">
+                <span id="copyStatusToast" class="text-xs font-semibold text-emerald-600 dark:text-emerald-400 opacity-0 transition">Copied to clipboard!</span>
+                <div class="flex gap-2">
+                    <button id="copyIframeBtn" type="button" class="px-4 py-2 rounded-lg text-xs font-semibold bg-cyan-600 hover:bg-cyan-500 text-white transition">Copy Iframe Snippet</button>
+                    <button id="closeEmbedModalBtn2" type="button" class="px-4 py-2 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-300 transition">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 border-t border-slate-800 py-10 mt-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs">
+            <div>
+                <p class="font-semibold text-slate-200">2026 Nobel Prize in Physiology or Medicine — Editorial Blog Feature</p>
+                <p>Informational and educational medical journalism grounded in peer-reviewed studies and official Nobel Prize documentation.</p>
+            </div>
+            <a href="#laureates" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 font-semibold transition">
+                &uarr; Back to Top
+            </a>
+        </div>
+    </footer>
+
+    <!-- Interactive Script -->
+    <script>
+        (function() {
+            // 1. Reading Progress Bar
+            const progressBar = document.getElementById('progressBar');
+            window.addEventListener('scroll', function() {
+                const scrollTop = window.scrollY || document.documentElement.scrollTop;
+                const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+                if (progressBar) {
+                    progressBar.style.width = scrolled + '%';
+                }
+            });
+
+            // 2. Dark / Light Theme Toggle & Persistence
+            const savedTheme = localStorage.getItem('saroj_theme') || 'dark';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+            } else {
+                document.documentElement.classList.remove('dark');
+            }
+
+            const themeToggleBtn = document.getElementById('themeToggleBtn');
+            if (themeToggleBtn) {
+                themeToggleBtn.addEventListener('click', function() {
+                    const isDark = document.documentElement.classList.toggle('dark');
+                    localStorage.setItem('saroj_theme', isDark ? 'dark' : 'light');
+                });
+            }
+
+            // 3. Font Size Controls
+            const articleBody = document.getElementById('articleBody');
+            const fontIncreaseBtn = document.getElementById('fontIncreaseBtn');
+            const fontDecreaseBtn = document.getElementById('fontDecreaseBtn');
+            const sizes = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
+            let currentSizeIndex = 1;
+
+            function updateFontSize() {
+                if (!articleBody) return;
+                sizes.forEach(function(cls) { articleBody.classList.remove(cls); });
+                articleBody.classList.add(sizes[currentSizeIndex]);
+            }
+
+            if (fontIncreaseBtn) {
+                fontIncreaseBtn.addEventListener('click', function() {
+                    if (currentSizeIndex < sizes.length - 1) {
+                        currentSizeIndex++;
+                        updateFontSize();
+                    }
+                });
+            }
+            if (fontDecreaseBtn) {
+                fontDecreaseBtn.addEventListener('click', function() {
+                    if (currentSizeIndex > 0) {
+                        currentSizeIndex--;
+                        updateFontSize();
+                    }
+                });
+            }
+
+            // 4. Interactive Retinal Pathway Explorer
+            const stageData = {
+                healthy: {
+                    badge: 'Intact Photoreceptor Cascade',
+                    badgeClass: 'inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-emerald-500/15 text-emerald-600 dark:text-emerald-400',
+                    title: '1. Healthy Retinal Signaling',
+                    desc: 'Light passes through the transparent inner retinal layers to strike outer rods and cones. Photoreceptors convert photons into chemical and electrical signals (taking ≥10 ms), relaying them through bipolar cells to retinal ganglion cells, whose axons form the optic nerve to the brain.'
+                },
+                rp: {
+                    badge: 'Photoreceptor Degeneration',
+                    badgeClass: 'inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-rose-500/15 text-rose-600 dark:text-rose-400',
+                    title: '2. Late-Stage Retinitis Pigmentosa',
+                    desc: 'Mutations in any of >100 genes cause outer rods and cones to degenerate and die. Light entering the eye can no longer be captured, resulting in progressive night blindness and tunnel vision. Crucially, however, the inner bipolar and retinal ganglion cells remain alive and connected to the optic nerve.'
+                },
+                optogenetic: {
+                    badge: 'Mutation-Agnostic Vision Restoration',
+                    badgeClass: 'inline-block px-2 py-0.5 rounded text-[11px] font-bold bg-cyan-500/15 text-cyan-600 dark:text-cyan-400',
+                    title: '3. Optogenetic Bypass Therapy',
+                    desc: 'A single intravitreal injection delivers an AAV vector encoding a light-sensitive opsin (such as MCO-010, ChrimsonR, or RTx-015) directly into surviving inner bipolar or retinal ganglion cells. These cells become direct photoreceptors that fire nerve impulses to the brain when illuminated.'
+                }
+            };
+
+            const stageBtns = document.querySelectorAll('.stage-btn');
+            const stageBadge = document.getElementById('stageBadge');
+            const stageTitle = document.getElementById('stageTitle');
+            const stageDesc = document.getElementById('stageDesc');
+
+            stageBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const key = btn.getAttribute('data-stage');
+                    const info = stageData[key];
+                    if (!info) return;
+
+                    stageBtns.forEach(function(b) {
+                        b.className = 'stage-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-300 transition';
+                    });
+                    btn.className = 'stage-btn px-3 py-1.5 rounded-lg text-xs font-semibold bg-cyan-600 text-white shadow-sm transition';
+
+                    if (stageBadge) {
+                        stageBadge.className = info.badgeClass;
+                        stageBadge.textContent = info.badge;
+                    }
+                    if (stageTitle) stageTitle.textContent = info.title;
+                    if (stageDesc) stageDesc.textContent = info.desc;
+                });
+            });
+
+            // 5. Interactive Clinical Trial Table Filter
+            const filterBtns = document.querySelectorAll('.table-filter-btn');
+            const tableRows = document.querySelectorAll('#therapyTableBody tr');
+
+            filterBtns.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const filter = btn.getAttribute('data-filter');
+                    filterBtns.forEach(function(b) {
+                        b.className = 'table-filter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 transition';
+                    });
+                    btn.className = 'table-filter-btn px-3 py-1 rounded-lg text-xs font-semibold bg-cyan-600 text-white transition';
+
+                    tableRows.forEach(function(row) {
+                        const tags = (row.getAttribute('data-tags') || '').split(' ');
+                        if (filter === 'all' || tags.indexOf(filter) !== -1) {
+                            row.style.display = '';
+                        } else {
+                            row.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // 6. FAQ Accordion
+            const faqToggles = document.querySelectorAll('.faq-toggle');
+            faqToggles.forEach(function(toggle) {
+                toggle.addEventListener('click', function() {
+                    const parent = toggle.parentElement;
+                    const answer = parent.querySelector('.faq-answer');
+                    const icon = toggle.querySelector('.faq-icon');
+                    if (!answer) return;
+                    const isHidden = answer.classList.contains('hidden');
+                    if (isHidden) {
+                        answer.classList.remove('hidden');
+                        if (icon) icon.textContent = '−';
+                    } else {
+                        answer.classList.add('hidden');
+                        if (icon) icon.textContent = '+';
+                    }
+                });
+            });
+
+            // 7. Embed Modal & Copy Helper
+            const embedModal = document.getElementById('embedModal');
+            const openEmbedModalBtn = document.getElementById('openEmbedModalBtn');
+            const closeEmbedModalBtn = document.getElementById('closeEmbedModalBtn');
+            const closeEmbedModalBtn2 = document.getElementById('closeEmbedModalBtn2');
+            const copyIframeBtn = document.getElementById('copyIframeBtn');
+            const iframeCodeSnippet = document.getElementById('iframeCodeSnippet');
+            const copyStatusToast = document.getElementById('copyStatusToast');
+
+            function closeModal() {
+                if (embedModal) embedModal.classList.add('hidden');
+            }
+
+            if (openEmbedModalBtn && embedModal) {
+                openEmbedModalBtn.addEventListener('click', function() {
+                    embedModal.classList.remove('hidden');
+                });
+            }
+            if (closeEmbedModalBtn) closeEmbedModalBtn.addEventListener('click', closeModal);
+            if (closeEmbedModalBtn2) closeEmbedModalBtn2.addEventListener('click', closeModal);
+
+            if (copyIframeBtn && iframeCodeSnippet) {
+                copyIframeBtn.addEventListener('click', function() {
+                    const text = iframeCodeSnippet.textContent || '';
+                    const textarea = document.createElement('textarea');
+                    textarea.value = text;
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand('copy');
+                    } catch (err) {}
+                    document.body.removeChild(textarea);
+                    if (copyStatusToast) {
+                        copyStatusToast.classList.remove('opacity-0');
+                        setTimeout(function() {
+                            copyStatusToast.classList.add('opacity-0');
+                        }, 2500);
+                    }
+                });
+            }
+        })();
+    </script>
+</body>
+</html>

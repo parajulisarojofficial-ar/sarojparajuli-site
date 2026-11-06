@@ -17,7 +17,22 @@
     "linkedin": "",
     "email": "sarojparajuli.personal@outlook.com"
   },
-  "posts": [],
+  "posts": [
+    {
+      "id": "post-1",
+      "sn": "01",
+      "title": "Turning Light Into Sight: How the 2026 Nobel Prize in Optogenetics Is Transforming Treatment for Retinitis Pigmentosa and Beyond",
+      "slug": "optogenetics-retinitis-pigmentosa",
+      "category": "Neuroscience & Ophthalmology",
+      "date": "Nov 6, 2026",
+      "read_time": "12 min read",
+      "summary": "A microscopic green alga gave scientists a molecular light switch for living nerve cells. Recognized with the 2026 Nobel Prize in Physiology or Medicine, optogenetics is bringing landmark vision restoration therapies to patients with late-stage retinitis pigmentosa and opening new frontiers across medicine.",
+      "excerpt": "A microscopic green alga gave scientists a molecular light switch for living nerve cells. Recognized with the 2026 Nobel Prize in Physiology or Medicine, optogenetics is bringing landmark vision restoration therapies to patients with late-stage retinitis pigmentosa and opening new frontiers across medicine.",
+      "url": "blogs/optogenetics-retinitis-pigmentosa.html",
+      "image": "blogs/assets/optogenetics-hero.jpg",
+      "is_published": true
+    }
+  ],
   "musicGallery": [
     {
       "id": "track-1",

@@ -317,7 +317,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // --------------------------------------------------------------------------
-  // 6. BLOGS SECTION (Markdown, Images & Tables Renderer)
+  // 6. BLOGS SECTION (Structured S.N. List View with Full Article Links)
   // --------------------------------------------------------------------------
   function renderBlogs(posts) {
     const container = document.getElementById("blogsContainer");
@@ -333,27 +333,57 @@ document.addEventListener("DOMContentLoaded", async () => {
     emptyState.classList.add("hidden");
     container.innerHTML = "";
 
-    posts.forEach(post => {
-      const card = document.createElement("article");
-      card.className = "p-6 sm:p-8 rounded-2xl glass-card space-y-4";
+    posts.forEach((post, index) => {
+      const sn = post.sn || String(index + 1).padStart(2, "0");
+      const title = post.title || "Untitled Blog Post";
+      const excerpt = post.summary || post.excerpt || post.body || "";
+      const category = post.category || "Neuroscience & Ophthalmology";
+      const date = post.date || "Nov 6, 2026";
+      const readTime = post.read_time || "12 min read";
+      const url = post.url || (post.slug ? `blogs/${post.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html");
 
-      // If markdown parser is present, parse body; else raw text
-      let renderedContent = "";
-      if (typeof marked !== "undefined" && marked.parse) {
-        renderedContent = marked.parse(post.body || post.content || "");
-      } else {
-        renderedContent = `<p>${escapeHTML(post.body || post.content || "")}</p>`;
-      }
+      const card = document.createElement("article");
+      card.className = "p-5 sm:p-7 rounded-2xl glass-card border border-slate-800/80 hover:border-sky-500/40 transition-all duration-200 group flex flex-col md:flex-row items-start md:items-center gap-5 shadow-sm";
 
       card.innerHTML = `
-        <div class="flex items-center justify-between text-xs font-mono text-slate-400 border-b border-slate-800 pb-3">
-          <span class="badge-sky px-2.5 py-0.5 rounded-full uppercase font-bold text-[10px]">${escapeHTML(post.category || "Article")}</span>
-          <span>${escapeHTML(post.date || "Recent")}</span>
+        <!-- Serial Number (S.N.) Badge -->
+        <div class="flex-shrink-0 flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-400 font-mono font-extrabold text-base sm:text-lg shadow-sm">
+          ${sn}
         </div>
-        <h2 class="text-2xl font-bold text-slate-100">${escapeHTML(post.title || "Untitled Article")}</h2>
-        ${post.image ? `<img src="${escapeHTML(post.image)}" alt="${escapeHTML(post.title)}" class="w-full max-h-80 object-cover rounded-xl border border-slate-800 my-4" loading="lazy">` : ""}
-        <div class="blog-prose">${renderedContent}</div>
+
+        <!-- Blog Main Content (Title, Meta, Short Description) -->
+        <div class="flex-grow space-y-2.5 min-w-0">
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <span class="badge-sky px-2.5 py-0.5 rounded-full uppercase font-mono font-bold text-[10px] tracking-wider">${escapeHTML(category)}</span>
+            <span class="text-slate-500 font-mono text-[11px]">•</span>
+            <span class="text-slate-400 font-mono text-[11px]">${escapeHTML(date)}</span>
+            <span class="text-slate-500 font-mono text-[11px]">•</span>
+            <span class="text-slate-400 font-mono text-[11px]">${escapeHTML(readTime)}</span>
+          </div>
+
+          <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-100 group-hover:text-sky-400 transition-colors leading-snug">
+            <a href="${escapeHTML(url)}" class="focus:outline-none hover:underline" title="Read full blog: ${escapeHTML(title)}">
+              ${escapeHTML(title)}
+            </a>
+          </h2>
+
+          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3">
+            ${escapeHTML(excerpt)}
+          </p>
+        </div>
+
+        <!-- Action / Read Full Article -->
+        <div class="flex-shrink-0 w-full md:w-auto pt-3 md:pt-0 border-t border-slate-800/60 md:border-t-0 flex md:flex-col justify-end">
+          <a href="${escapeHTML(url)}" 
+             class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
+            <span>Read Full Blog</span>
+            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+            </svg>
+          </a>
+        </div>
       `;
+
       container.appendChild(card);
     });
   }
