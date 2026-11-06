@@ -1,0 +1,237 @@
+{
+  "goals": [
+    {
+      "id": "goal-1",
+      "title": "Record & Release a 5-Song Acoustic EP",
+      "status": "In Progress",
+      "category": "Musical Journey",
+      "progress": 65,
+      "reflection": "Writing and recording 5 intimate, stripped-back original acoustic and vocal tracks from my home setup."
+    },
+    {
+      "id": "goal-2",
+      "title": "Publish 24 Honest Stories & Vlogs This Year",
+      "status": "In Progress",
+      "category": "Storytelling & Vlogs",
+      "progress": 50,
+      "reflection": "Capturing two meaningful stories, essays, or vlogs every month without worrying about perfection."
+    },
+    {
+      "id": "goal-3",
+      "title": "Launch sarojparajuli.com.np with Live Supabase CMS",
+      "status": "Achieved",
+      "category": "Digital Home",
+      "progress": 100,
+      "reflection": "Claimed my .com.np domain from register.com.np, wired Cloudflare DNS, and built a personal site that reflects my whole life."
+    },
+    {
+      "id": "goal-4",
+      "title": "Acoustic Trek & Travel Documentary in Mustang",
+      "status": "Next Horizon",
+      "category": "Next Horizon",
+      "progress": 20,
+      "reflection": "Travelling with a travel guitar and camera to film an unplugged musical travel story in the mountains."
+    }
+  ],
+  "posts": [
+    {
+      "id": "post-1",
+      "body": "For a long time, almost every personal website I saw followed the same template: giant progress bars for programming languages, corporate buzzwords, and a 'Hire Me' popup.\n\nWhen I claimed sarojparajuli.com.np from register.com.np, I knew I wanted something warmer and more honest. We are so much more than our 9-to-5 roles. I wanted a place where a friend could listen to an acoustic song I recorded at midnight, read a story from a rainy evening in Kathmandu, watch a vlog, or read my thoughts on a new piece of tech.\n\nEverything on this site is wired to Supabase so as my life evolves, the stories here evolve right along with me.",
+      "date": "Nov 2026",
+      "claps": 42,
+      "image": "assets/featured-dispatch.jpg",
+      "title": "Why I Wanted My Own Corner of the Web (Instead of Just Another Resume)",
+      "excerpt": "Claiming sarojparajuli.com.np wasn’t about listing job titles—it was about building a digital home that feels like sitting down for tea and music.",
+      "category": "story",
+      "readTime": "4 min read"
+    },
+    {
+      "id": "post-2",
+      "body": "In this vlog episode, I took my acoustic guitar, a small mirrorless camera, and my notebook up to the terrace just before dusk.\n\nHighlights from the video:\n• 00:45 — Tuning to Eb standard for a warmer vocal register\n• 02:30 — First live take of 'Chasing Monsoon Clouds'\n• 05:15 — Talking about balancing creative hobbies with everyday life\n\nWhenever I upload a new vlog on YouTube or TikTok, I pair it here with the behind-the-scenes story that didn’t fit into the video edit.",
+      "date": "Oct 2026",
+      "claps": 67,
+      "image": "assets/music-session-1.jpg",
+      "title": "Vlog #04: Rooftop Acoustic Jam, Golden Hour & Unplugged Conversations",
+      "excerpt": "Setting up the tripod before sunset, tuning the dreadnought down half a step, and capturing raw takes as the valley lights flicker on.",
+      "category": "vlog",
+      "readTime": "8 min video + notes"
+    },
+    {
+      "id": "post-3",
+      "body": "Every week brings a wave of new tech announcements and AI headlines, but the shift I’m most excited about is how lightweight personal infrastructure has become.\n\nWith register.com.np for local identity, Cloudflare handling global DNS and caching, Vercel serving instant edge deployments, and Supabase giving you a full Postgres database with real-time APIs, anyone can run a fast, independent publication without heavy server maintenance.",
+      "date": "Oct 2026",
+      "claps": 38,
+      "image": "assets/career-tech.jpg",
+      "title": "Tech Pulse: Why Edge Databases & Personal Micro-Publishing Are Winning Again",
+      "excerpt": "A look at how tools like Supabase, Cloudflare, and Vercel make owning your own independent platform simpler and faster than ever.",
+      "category": "tech",
+      "readTime": "5 min read"
+    },
+    {
+      "id": "post-4",
+      "body": "When you only strum chords, singing over the top feels natural. The moment you switch to fingerpicking an independent bassline, your brain wants to lock your voice to your fingers.\n\nWhat helped me break through was humming the melody slowly while playing only the root notes on beats 1 and 3, then gradually adding the treble strings back in. Music rewards patience more than almost anything else.",
+      "date": "Sep 2026",
+      "claps": 54,
+      "image": "assets/music-session-2.jpg",
+      "title": "The Art of Singing While Playing Fingerstyle Guitar",
+      "excerpt": "How I trained my thumb to keep a steady bass pulse while letting the vocal phrasing breathe naturally without rushing the tempo.",
+      "category": "blog",
+      "readTime": "6 min read"
+    }
+  ],
+  "career": [
+    {
+      "id": "car-1",
+      "org": "sarojparajuli.com.np",
+      "role": "Independent Creator, Builder & Technologist",
+      "period": "Present Chapter",
+      "summary": "Building modern web experiences, writing about technology shifts, and blending creative storytelling with clean digital craft."
+    },
+    {
+      "id": "car-2",
+      "org": "Digital Projects & Collaborations",
+      "role": "Web & Product Development Journey",
+      "period": "Previous Chapter",
+      "summary": "Collaborated on full-stack web applications, database architectures with Supabase, and fast edge-deployed interfaces."
+    }
+  ],
+  "profile": {
+    "bio1": "I built sarojparajuli.com.np because social feeds move too fast and traditional portfolios feel too robotic. Life is a blend of late-night guitar strumming, conversations over chiya, wondering where technology is taking us, and writing down stories worth remembering.",
+    "bio2": "Whether I’m learning a new acoustic arrangement, filming a candid vlog, reflecting on a personal milestone, or crafting something thoughtful on the web, this space holds the honest version of my journey.",
+    "badge": "Kathmandu, Nepal • Personal Space & Living Journal",
+    "headline": "Hey, I’m Saroj — a storyteller, acoustic musician, and curious builder sharing my life in chapters.",
+    "subheadline": "Welcome to my corner of the internet. This isn’t a stiff corporate resume—it’s a living home for the melodies I sing and play on my guitar, the personal stories and vlogs I capture, my notes on new technology and world news, and the goals I’m chasing.",
+    "scopedSkills": "Modern Web Architecture, Supabase / PostgreSQL, Cloudflare DNS & Edge, Vercel Workflows, UI/UX Storytelling, Acoustic Audio Production."
+  },
+  "socials": {
+    "github": "https://github.com/sarojparajuli",
+    "tiktok": "https://tiktok.com/@sarojparajuli",
+    "youtube": "https://youtube.com/@sarojparajuli",
+    "facebook": "https://facebook.com/sarojparajuli",
+    "linkedin": "https://linkedin.com/in/sarojparajuli",
+    "whatsapp": "https://wa.me/9779800000000",
+    "instagram": "https://instagram.com/sarojparajuli"
+  },
+  "messages": [
+    {
+      "id": "msg-1793959534993",
+      "date": "Just now",
+      "name": "hello supra",
+      "text": "hello suprabase",
+      "handle": "@check"
+    },
+    {
+      "id": "msg-1",
+      "date": "Recent",
+      "name": "Aarav S.",
+      "text": "Love how warm and personal this site feels compared to normal portfolios! Keep sharing the acoustic sessions.",
+      "handle": "@aarav_ktm"
+    }
+  ],
+  "currently": [
+    {
+      "label": "Playing & Singing",
+      "value": "Working on a stripped-back acoustic arrangement & original Nepali-English folk melody"
+    },
+    {
+      "label": "Writing & Vlogging",
+      "value": "Documenting quiet evenings in the valley & how everyday life is changing with new tech"
+    },
+    {
+      "label": "Building",
+      "value": "Running sarojparajuli.com.np on Supabase + Cloudflare + Vercel with live CMS editing"
+    }
+  ],
+  "portfolio": [
+    {
+      "id": "port-1",
+      "tag": "Supabase + Cloudflare + Vercel",
+      "image": "assets/career-tech.jpg",
+      "title": "sarojparajuli.com.np — Living Personal Platform & CMS",
+      "summary": "A custom-built personal digital home featuring a live Supabase CMS, interactive Web Audio acoustic studio, and editorial dark/light theme."
+    },
+    {
+      "id": "port-2",
+      "tag": "Web Audio & Music Tool",
+      "image": "assets/featured-dispatch.jpg",
+      "title": "Acoustic Chord & Songbook Companion",
+      "summary": "An interactive songbook organizer for tracking capo positions, chord progressions, vocal keys, and acoustic session notes."
+    }
+  ],
+  "musicTracks": [
+    {
+      "id": "track-1",
+      "type": "Original Vocal & Acoustic",
+      "lyric": "“When the rain taps the tin roof in Kathmandu, every chord remembers home...”",
+      "notes": [
+        196,
+        246.94,
+        293.66,
+        392,
+        329.63,
+        293.66,
+        246.94,
+        392
+      ],
+      "tempo": 420,
+      "title": "Chasing Monsoon Clouds (Unplugged)",
+      "chords": "Em7 — Cadd9 — G — D/F#",
+      "subtitle": "Key of G Major • Capo 2nd Fret • 92 BPM"
+    },
+    {
+      "id": "track-2",
+      "type": "Fingerstyle & Humming Session",
+      "lyric": "“Quiet streets below the window, just the warm spruce wood and a soft melody...”",
+      "notes": [
+        220,
+        261.63,
+        329.63,
+        440,
+        349.23,
+        329.63,
+        293.66,
+        261.63
+      ],
+      "tempo": 480,
+      "title": "Midnight Chiya & Six Strings",
+      "chords": "Am7 — Fmaj7 — C — G6",
+      "subtitle": "Key of C Major • Open Tuning • 84 BPM"
+    },
+    {
+      "id": "track-3",
+      "type": "Nepali Indie Folk Session",
+      "lyric": "“Singing the timeless folk melodies that shaped my love for music growing up...”",
+      "notes": [
+        246.94,
+        293.66,
+        369.99,
+        440,
+        392,
+        369.99,
+        293.66,
+        246.94
+      ],
+      "tempo": 390,
+      "title": "Hawa Ko Laya (Acoustic Cover & Vocal)",
+      "chords": "Bm7 — G — D — A",
+      "subtitle": "Key of D Major • Warm Strumming • 96 BPM"
+    }
+  ],
+  "musicTimeline": [
+    {
+      "year": "First Chords",
+      "title": "Picking up my first acoustic guitar",
+      "detail": "Struggling with the F barre chord until my fingertips went numb, then falling in love with the sound of open G and Cadd9."
+    },
+    {
+      "year": "Finding My Voice",
+      "title": "Singing while playing",
+      "detail": "Moving from quiet bedroom practice to singing full acoustic covers and harmonizing with friends."
+    },
+    {
+      "year": "Home Sessions",
+      "title": "Recording originals & unplugged takes",
+      "detail": "Capturing honest, one-take vocal and guitar sessions to share here on sarojparajuli.com.np."
+    }
+  ]
+}

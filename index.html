@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-font-size="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- SEO & Social Meta -->
+  <title>Saroj Parajuli — Statistician, Storyteller & Acoustic Musician | sarojparajuli.com.np</title>
+  <meta name="description" content="Personal website, living journal, and portfolio of Saroj Parajuli — Final-Year B.Sc. Statistics student at Tri-Chandra Campus, specializing in Statistical Modeling, M&E with KoboToolbox, Python, PostgreSQL, and acoustic folk music.">
+  <meta name="keywords" content="Saroj Parajuli, Statistician Nepal, Data Analyst Kathmandu, Tri-Chandra Campus, KoboToolbox, XLSForm, Supabase CMS, Acoustic Guitar Nepal, Retinitis Pigmentosa Accessibility">
+  <meta name="author" content="Saroj Parajuli">
+
+  <meta property="og:title" content="Saroj Parajuli — Statistician, Storyteller & Acoustic Musician">
+  <meta property="og:description" content="Living journal, statistical portfolio, acoustic music studio, and Supabase CMS on sarojparajuli.com.np.">
+  <meta property="og:image" content="assets/saroj_profile.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://sarojparajuli.com.np">
+
+  <!-- CDNs: Tailwind CSS, Supabase JS, Chart.js -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+
+  <!-- Google Fonts: Instrument Serif, Cormorant Garamond, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <!-- Tailwind Configuration Extension -->
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Instrument Serif"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            espresso: {
+              950: '#0e0c0b',
+              900: '#171412',
+              800: '#201b17',
+              700: '#2c2520',
+            },
+            terracotta: {
+              400: '#e07a5f',
+              500: '#d96b43',
+              600: '#c05631',
+            },
+            sage: {
+              400: '#6b9080',
+              500: '#52796f',
+            },
+            parchment: {
+              50: '#fbf8f3',
+              100: '#f5efe6',
+              200: '#e8dec8',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <!-- Custom Master Stylesheet -->
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="selection:bg-terracotta-500 selection:text-white pb-20 md:pb-0">
+
+  <!-- Skip Link for Keyboard / Screen Reader Accessibility -->
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <!-- ARIA Live Announcer for Screen Readers -->
+  <div id="sr-announcer" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Toast Notification Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
+  <!-- =========================================================================
+       TOP HEADER & NAVIGATION
+       ========================================================================= -->
+  <header class="sticky top-0 z-40 px-4 sm:px-8 py-3.5 glass-surface border-b">
+    <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
+
+      <!-- Brand Identity -->
+      <a href="#section-about" data-nav-target="about" class="flex items-center gap-3 text-left group">
+        <div class="w-10 h-10 rounded-full bg-terracotta-500/20 border border-terracotta-400/50 flex items-center justify-center text-terracotta-400 font-serif italic text-xl font-bold group-hover:bg-terracotta-500 group-hover:text-white transition shadow">
+          SP
+        </div>
+        <div>
+          <div class="font-serif text-xl sm:text-2xl font-semibold tracking-wide leading-none text-parchment-50">Saroj Parajuli</div>
+          <div class="font-mono text-[9px] tracking-widest uppercase text-parchment-200/60 mt-1">SAROJPARAJULI.COM.NP</div>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Pills -->
+      <nav aria-label="Main Navigation" class="hidden lg:flex items-center gap-1 bg-espresso-900/90 border border-white/10 rounded-full p-1.5 text-xs">
+        <button type="button" data-nav-target="about" class="nav-pill px-4 py-2 rounded-full font-medium transition bg-terracotta-500 text-white shadow">About Me</button>
+        <button type="button" data-nav-target="stories" class="nav-pill px-4 py-2 rounded-full font-medium transition text-parchment-200/80 hover:text-white">Stories &amp; Vlogs</button>
+        <button type="button" data-nav-target="music" class="nav-pill px-4 py-2 rounded-full font-medium transition text-parchment-200/80 hover:text-white flex items-center gap-1.5">
+          <span>Musical Journey</span>
+          <span class="w-1.5 h-1.5 rounded-full bg-terracotta-400 animate-ping"></span>
+        </button>
+        <button type="button" data-nav-target="portfolio" class="nav-pill px-4 py-2 rounded-full font-medium transition text-parchment-200/80 hover:text-white">Statistics &amp; M&amp;E</button>
+        <button type="button" data-nav-target="goals" class="nav-pill px-4 py-2 rounded-full font-medium transition text-parchment-200/80 hover:text-white">Goals</button>
+        <button type="button" data-nav-target="guestbook" class="nav-pill px-4 py-2 rounded-full font-medium transition text-parchment-200/80 hover:text-white">Guestbook</button>
+      </nav>
+
+      <!-- Right Utility Controls: Accessibility & Supabase Status -->
+      <div class="flex items-center gap-2 sm:gap-3">
+
+        <!-- Accessibility Toolbar (Font Size + Themes + TTS Audio Intro) -->
+        <div class="flex items-center gap-1 bg-espresso-900/90 border border-white/10 rounded-full p-1 text-xs">
+          <!-- Font Size Adjuster -->
+          <div class="flex items-center" role="group" aria-label="Adjust font size">
+            <button type="button" data-font-size-choice="normal" class="px-2 py-1 rounded-full text-[11px] font-mono hover:text-white" title="Normal Font Size">A</button>
+            <button type="button" data-font-size-choice="large" class="px-2 py-1 rounded-full text-[11px] font-mono hover:text-white" title="Large Font Size">A+</button>
+          </div>
+
+          <span class="text-white/20">|</span>
+
+          <!-- Theme Choices -->
+          <button type="button" data-theme-choice="dark" class="p-1.5 rounded-full hover:text-terracotta-400 transition" title="Warm Espresso Dark Mode" aria-label="Dark Mode">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+          </button>
+          <button type="button" data-theme-choice="contrast" class="p-1.5 rounded-full hover:text-yellow-400 transition" title="Low Vision High Contrast Mode (Retinitis Pigmentosa)" aria-label="High Contrast Mode">
+            <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none"></circle><path d="M12 2a10 10 0 000 20z"></path></svg>
+          </button>
+          <button type="button" data-theme-choice="light" class="p-1.5 rounded-full hover:text-amber-400 transition" title="Editorial Light Mode" aria-label="Light Mode">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          </button>
+        </div>
+
+        <!-- Spoken Audio Intro (TTS for Low Vision) -->
+        <button type="button" id="btnAudioIntro" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium bg-espresso-900 border border-white/10 hover:border-terracotta-400/50 text-parchment-100 transition shadow" aria-pressed="false" title="Listen to spoken audio introduction">
+          <svg class="w-3.5 h-3.5 text-terracotta-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>
+          <span>Audio Intro</span>
+        </button>
+
+        <!-- Supabase Cloud Connection Status Badge -->
+        <div class="hidden md:flex items-center gap-2 px-3 py-1 rounded-full bg-espresso-950 border border-white/10 text-[11px] font-mono text-parchment-200/70" title="Connected to Saroj's live Supabase PostgreSQL database">
+          <span id="sbStatusDot" class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="sbStatusText">Supabase Live</span>
+        </div>
+
+        <!-- Dedicated Secure Admin Portal Button -->
+        <a href="admin.html" class="p-2 rounded-full bg-espresso-900 border border-white/10 hover:border-terracotta-400/60 text-terracotta-400 transition" title="Open Secure CMS Studio (/admin.html)" aria-label="CMS Studio">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+        </a>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN CONTENT CONTAINER
+       ========================================================================= -->
+  <main id="main-content" class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-8 py-8 sm:py-12 space-y-16">
+
+    <!-- ---------------------------------------------------------------------
+         SECTION 1: HERO & ABOUT ME (Living Journal Profile)
+         --------------------------------------------------------------------- -->
+    <section id="section-about" class="site-section space-y-10">
+      
+      <!-- Hero Top Row: Text & Portrait Visual -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+        
+        <!-- Text Column -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-mono font-medium bg-terracotta-500/15 text-terracotta-400 border border-terracotta-400/30">
+              <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+              Available for Data &amp; M&amp;E Roles
+            </span>
+            <span id="heroBadgeText" class="inline-flex items-center gap-1 px-3.5 py-1 rounded-full text-xs font-mono bg-espresso-900 border border-white/10 text-parchment-200/80">
+              Kathmandu, Nepal • Tri-Chandra Campus (TU)
+            </span>
+          </div>
+
+          <h1 id="heroHeadline" class="font-serif text-4xl sm:text-6xl font-normal leading-[1.1] text-parchment-50">
+            Hey, I’m <span class="italic text-terracotta-400">Saroj Parajuli</span> — a statistician, acoustic musician, and curious builder.
+          </h1>
+
+          <p id="heroSubhead" class="text-base sm:text-lg text-parchment-200/85 leading-relaxed">
+            Final-Year B.Sc. Statistics Student at <strong class="text-parchment-50 font-semibold">Tri-Chandra Multiple Campus (TU)</strong> specializing in <strong class="text-terracotta-400 font-semibold">Statistical Modeling</strong>, <strong class="text-terracotta-400 font-semibold">Monitoring &amp; Evaluation (M&amp;E)</strong> with KoboToolbox &amp; XLSForm, and <strong class="text-terracotta-400 font-semibold">Data Analytics</strong> with Python &amp; PostgreSQL.
+          </p>
+
+          <div class="space-y-3 text-sm text-parchment-200/75 leading-relaxed pt-2 border-t border-white/10">
+            <p id="bioParagraph1">
+              I built sarojparajuli.com.np because social feeds move too fast and traditional resumes feel too robotic. Life is a blend of late-night guitar strumming, conversations over chiya, wondering where technology is taking us, and writing down stories worth remembering.
+            </p>
+            <p id="bioParagraph2">
+              Living with <strong class="text-parchment-50">Retinitis Pigmentosa</strong> gives me first-hand empathy for universal accessibility. Whether I’m designing a complex survey form, analyzing multi-dimensional datasets, or recording an acoustic folk cover, I design for clarity and real human connection.
+            </p>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-wrap items-center gap-3 pt-4">
+            <button type="button" data-nav-target="portfolio" class="px-5 py-3 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs sm:text-sm transition flex items-center gap-2 shadow-lg">
+              <span>Explore Projects &amp; Analytics</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </button>
+            <button type="button" id="openCvModalBtn" class="px-5 py-3 rounded-full bg-espresso-900 hover:bg-espresso-800 border border-white/15 text-parchment-100 font-medium text-xs sm:text-sm transition flex items-center gap-2 shadow">
+              <svg class="w-4 h-4 text-terracotta-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+              <span>View Resume (PDF)</span>
+            </button>
+            <a href="assets/Saroj_Parajuli_CV.pdf" download class="px-4 py-3 rounded-full bg-espresso-950 hover:bg-espresso-900 border border-white/10 text-parchment-200/80 text-xs sm:text-sm font-medium transition" title="Download CV File">
+              Download CV
+            </a>
+          </div>
+
+          <!-- Quick Metrics Grid -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6">
+            <div class="p-3.5 rounded-2xl bg-espresso-900/80 border border-white/10">
+              <div class="font-serif text-2xl font-bold text-parchment-50">2027</div>
+              <div class="font-mono text-[10px] uppercase text-parchment-200/60 mt-0.5">Expected Graduation</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-espresso-900/80 border border-white/10">
+              <div class="font-serif text-2xl font-bold text-terracotta-400">B.Sc.</div>
+              <div class="font-mono text-[10px] uppercase text-parchment-200/60 mt-0.5">Statistics Major</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-espresso-900/80 border border-white/10">
+              <div class="font-serif text-2xl font-bold text-sage-400">M&amp;E</div>
+              <div class="font-mono text-[10px] uppercase text-parchment-200/60 mt-0.5">KoboToolbox &amp; XLSForm</div>
+            </div>
+            <div class="p-3.5 rounded-2xl bg-espresso-900/80 border border-white/10">
+              <div class="font-serif text-2xl font-bold text-amber-400">100%</div>
+              <div class="font-mono text-[10px] uppercase text-parchment-200/60 mt-0.5">Accessibility Focus</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Visual Portrait Column -->
+        <div class="lg:col-span-5 flex justify-center">
+          <div class="relative w-full max-w-md">
+            <div class="rounded-3xl overflow-hidden border border-white/15 bg-espresso-900 shadow-2xl relative group">
+              <img src="assets/saroj_profile.jpg" alt="Saroj Parajuli portrait photograph" class="w-full aspect-[4/5] object-cover group-hover:scale-105 transition-transform duration-700" loading="eager">
+              <div class="absolute inset-0 bg-gradient-to-t from-espresso-950 via-espresso-950/25 to-transparent"></div>
+              
+              <div class="absolute bottom-5 left-5 right-5 space-y-1">
+                <div class="font-mono text-[10px] tracking-widest uppercase text-terracotta-400">TRI-CHANDRA CAMPUS • KATHMANDU</div>
+                <div class="font-serif text-2xl text-parchment-50 font-semibold">Saroj Parajuli</div>
+                <p class="text-xs text-parchment-200/80">sarojparajuli.personal@outlook.com</p>
+              </div>
+            </div>
+
+            <!-- Soft background decorative blur -->
+            <div class="absolute -inset-4 bg-terracotta-500/10 rounded-[2.5rem] filter blur-2xl -z-10 pointer-events-none"></div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Living "Currently" Activity Status Banner -->
+      <div class="space-y-3 pt-6">
+        <div class="flex items-center justify-between text-xs font-mono text-parchment-200/60">
+          <span class="uppercase tracking-widest text-terracotta-400 font-semibold">✦ CURRENTLY IN MOTION</span>
+          <span>Updated via Supabase PostgreSQL</span>
+        </div>
+        <ul id="currentlyList" class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <!-- Populated dynamically via JS -->
+        </ul>
+      </div>
+
+      <!-- Social Media & Direct Connection Hub -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-4 shadow-xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <div class="space-y-1">
+            <span class="font-mono text-xs uppercase tracking-widest text-terracotta-400 font-semibold">✦ CONNECT &amp; COLLABORATE</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-semibold text-parchment-50">Find Me Online &amp; Drop a Message</h3>
+            <p class="text-xs sm:text-sm text-parchment-200/75">Whether you want to collaborate on statistical modeling, talk about M&amp;E survey tools, jam on acoustic guitar, or discuss new tech—my socials and WhatsApp are always open.</p>
+          </div>
+        </div>
+        <div id="homeSocialButtons" class="flex flex-wrap items-center gap-2.5 pt-2">
+          <!-- Populated dynamically via JS with WhatsApp, GitHub, LinkedIn, YouTube, Instagram, TikTok, Facebook, Email -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         SECTION 2: STORIES, VLOGS & TECH PULSE
+         --------------------------------------------------------------------- -->
+    <section id="section-stories" class="site-section hidden space-y-8">
+      <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 border-b border-white/10 pb-6">
+        <div class="space-y-1.5">
+          <span class="font-mono text-xs uppercase tracking-widest text-terracotta-400">LIVING PUBLICATION</span>
+          <h2 class="font-serif text-3xl sm:text-5xl font-normal text-parchment-50">Stories, Blogs, Vlogs &amp; Tech Pulse</h2>
+          <p class="text-sm text-parchment-200/75 max-w-2xl">Unfiltered essays on life in Kathmandu, acoustic music journeys, travel vlogs, and independent micro-publishing.</p>
+        </div>
+
+        <!-- Category Filters -->
+        <div class="flex flex-wrap items-center gap-1.5 bg-espresso-900/90 border border-white/10 rounded-full p-1 text-xs">
+          <button type="button" data-story-filter="all" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-terracotta-500 text-white shadow">All</button>
+          <button type="button" data-story-filter="story" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-espresso-900 border border-white/10 text-parchment-200">Stories</button>
+          <button type="button" data-story-filter="vlog" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-espresso-900 border border-white/10 text-parchment-200">Vlogs</button>
+          <button type="button" data-story-filter="tech" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-espresso-900 border border-white/10 text-parchment-200">Tech</button>
+          <button type="button" data-story-filter="music" class="filter-btn px-4 py-1.5 rounded-full text-xs font-medium bg-espresso-900 border border-white/10 text-parchment-200">Music</button>
+        </div>
+      </div>
+
+      <!-- Stories Dynamic Grid -->
+      <div id="storiesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         SECTION 3: MUSICAL JOURNEY & ACOUSTIC STUDIO
+         --------------------------------------------------------------------- -->
+    <section id="section-music" class="site-section hidden space-y-10">
+      <div class="space-y-2 border-b border-white/10 pb-6">
+        <span class="font-mono text-xs uppercase tracking-widest text-terracotta-400">UNPLUGGED &amp; RAW</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-parchment-50">Musical Journey &amp; Acoustic Soundboard</h2>
+        <p class="text-sm text-parchment-200/75 max-w-2xl">A collection of acoustic guitar chord progressions, home voice memo demos, and fingerpicking arrangements synthesized live in your browser using the Web Audio API.</p>
+      </div>
+
+      <!-- Interactive Web Audio Acoustic Player Banner -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-terracotta-400/30 shadow-2xl relative overflow-hidden">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+          <div class="space-y-2 max-w-xl">
+            <div class="flex items-center gap-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-terracotta-400 animate-ping"></span>
+              <span class="font-mono text-xs uppercase tracking-widest text-terracotta-400">LIVE ACOUSTIC SYNTHESIZER</span>
+            </div>
+            <h3 id="nowPlayingTitle" class="font-serif text-2xl sm:text-4xl text-parchment-50 font-semibold leading-tight">
+              Select any track below to listen to its acoustic session
+            </h3>
+            <p id="nowPlayingSubtitle" class="text-xs font-mono text-parchment-200/60">
+              Synthesized live in browser via Web Audio API • 44.1kHz Triangle &amp; Sine Overtones
+            </p>
+            <div id="nowPlayingChords" class="font-mono text-xs text-amber-400 font-medium"></div>
+          </div>
+
+          <!-- Visualizer & Stop Control -->
+          <div class="flex items-center gap-4">
+            <!-- Animated EQ bars -->
+            <div id="audioEqVisualizer" class="hidden items-end gap-1.5 h-8 bg-espresso-950/80 px-4 py-1.5 rounded-full border border-white/10">
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+              <span class="eq-bar"></span>
+            </div>
+
+            <button type="button" id="stopAudioBtn" class="hidden px-4 py-2 rounded-full bg-espresso-950 hover:bg-red-900/40 border border-white/15 text-parchment-100 text-xs font-mono transition">
+              ■ Stop Audio
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Acoustic Music Tracks Grid -->
+      <div id="musicTracksGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Populated dynamically via JS -->
+      </div>
+
+      <!-- Acoustic Songwriting Timeline -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/60 border border-white/10 space-y-6">
+        <h3 class="font-serif text-2xl font-semibold text-parchment-50">Acoustic Milestones &amp; Guitar Diary</h3>
+        <div id="musicTimelineList" class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <!-- Populated dynamically via JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         SECTION 4: STATISTICS, M&E & DATA ANALYTICS PORTFOLIO
+         --------------------------------------------------------------------- -->
+    <section id="section-portfolio" class="site-section hidden space-y-12">
+      <div class="space-y-2 border-b border-white/10 pb-6">
+        <span class="font-mono text-xs uppercase tracking-widest text-sage-400">QUANTITATIVE RIGOR &amp; FIELD SURVEYS</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-parchment-50">Statistics, M&amp;E &amp; Data Analytics</h2>
+        <p class="text-sm text-parchment-200/75 max-w-2xl">Theoretical statistics from Tri-Chandra Campus combined with real-world field data collection systems in KoboToolbox, relational SQL pipelines, and interactive analytics.</p>
+      </div>
+
+      <!-- 4 Core Pillars Grid -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div class="p-6 rounded-3xl bg-espresso-900/80 border border-white/10 space-y-2">
+          <div class="w-10 h-10 rounded-2xl bg-terracotta-500/15 border border-terracotta-400/40 flex items-center justify-center text-terracotta-400 font-mono text-lg font-bold">∑</div>
+          <h4 class="font-serif text-xl font-semibold text-parchment-50">Statistical Modeling</h4>
+          <p class="text-xs text-parchment-200/70 leading-relaxed">Regression, Operations Research, Design of Experiments, and hypothesis testing for empirical research.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-espresso-900/80 border border-white/10 space-y-2">
+          <div class="w-10 h-10 rounded-2xl bg-sage-400/15 border border-sage-400/40 flex items-center justify-center text-sage-400 font-mono text-lg font-bold">📋</div>
+          <h4 class="font-serif text-xl font-semibold text-parchment-50">M&amp;E &amp; KoboToolbox</h4>
+          <p class="text-xs text-parchment-200/70 leading-relaxed">Engineering structured XLSForm survey systems with offline validation, skip-logic, and GPS coordinates.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-espresso-900/80 border border-white/10 space-y-2">
+          <div class="w-10 h-10 rounded-2xl bg-amber-400/15 border border-amber-400/40 flex items-center justify-center text-amber-400 font-mono text-lg font-bold">🗄</div>
+          <h4 class="font-serif text-xl font-semibold text-parchment-50">PostgreSQL &amp; Pipelines</h4>
+          <p class="text-xs text-parchment-200/70 leading-relaxed">Relational schema design, aggregation queries, and Supabase database modeling for analytics-ready feeds.</p>
+        </div>
+
+        <div class="p-6 rounded-3xl bg-espresso-900/80 border border-white/10 space-y-2">
+          <div class="w-10 h-10 rounded-2xl bg-cyan-400/15 border border-cyan-400/40 flex items-center justify-center text-cyan-400 font-mono text-lg font-bold">👁</div>
+          <h4 class="font-serif text-xl font-semibold text-parchment-50">Inclusive Tech</h4>
+          <p class="text-xs text-parchment-200/70 leading-relaxed">Designing data interfaces accessible for low-vision and screen-reader users, inspired by Retinitis Pigmentosa.</p>
+        </div>
+      </div>
+
+      <!-- Interactive Chart.js Data Visualization Section (Real iPhone Sales Dataset) -->
+      <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-6 shadow-2xl">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div class="space-y-1">
+            <span class="font-mono text-xs uppercase tracking-widest text-terracotta-400">DATASET ANALYSIS • CHART.JS</span>
+            <h3 class="font-serif text-2xl sm:text-3xl font-semibold text-parchment-50">Exploratory Data Analysis: Mobile Device Valuation &amp; Ratings</h3>
+            <p class="text-xs text-parchment-200/70">Interactive exploration of prices, review counts, and customer ratings using Chart.js on real CSV data.</p>
+          </div>
+
+          <!-- Statistical Metrics Summary -->
+          <div class="flex items-center gap-3 font-mono text-xs">
+            <div class="px-3 py-1.5 rounded-xl bg-espresso-950 border border-white/10">
+              <span class="text-parchment-200/50">Sample: </span>
+              <span id="metricSampleSize" class="text-terracotta-400 font-semibold">Loading...</span>
+            </div>
+            <div class="px-3 py-1.5 rounded-xl bg-espresso-950 border border-white/10">
+              <span class="text-parchment-200/50">Mean Price: </span>
+              <span id="metricAvgPrice" class="text-parchment-50 font-semibold">Loading...</span>
+            </div>
+            <div class="px-3 py-1.5 rounded-xl bg-espresso-950 border border-white/10">
+              <span class="text-parchment-200/50">Mean Rating: </span>
+              <span id="metricAvgRating" class="text-sage-400 font-semibold">Loading...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Chart Canvas -->
+        <div class="relative w-full h-80 sm:h-96">
+          <canvas id="analyticsChartCanvas" aria-label="Interactive Chart showing iPhone sales price versus star rating" role="img"></canvas>
+        </div>
+      </div>
+
+      <!-- Portfolio Projects Grid -->
+      <div id="portfolioProjectsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         SECTION 5: GOALS & MILESTONES TRACKER
+         --------------------------------------------------------------------- -->
+    <section id="section-goals" class="site-section hidden space-y-8">
+      <div class="space-y-2 border-b border-white/10 pb-6">
+        <span class="font-mono text-xs uppercase tracking-widest text-amber-400">PUBLIC ACCOUNTABILITY</span>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-parchment-50">Life Goals &amp; Active Horizons</h2>
+        <p class="text-sm text-parchment-200/75 max-w-2xl">Keeping personal goals in the open—spanning music releases, writing chapters, mountain documentaries, and data projects.</p>
+      </div>
+
+      <!-- Goals Grid -->
+      <div id="goalsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Populated dynamically via JS -->
+      </div>
+    </section>
+
+    <!-- ---------------------------------------------------------------------
+         SECTION 6: LIVE SUPABASE GUESTBOOK & COMMUNITY
+         --------------------------------------------------------------------- -->
+    <section id="section-guestbook" class="site-section hidden space-y-10">
+      <div class="space-y-2 border-b border-white/10 pb-6">
+        <div class="flex items-center gap-2">
+          <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></span>
+          <span class="font-mono text-xs uppercase tracking-widest text-terracotta-400">COMMUNITY MESSAGE BOARD</span>
+        </div>
+        <h2 class="font-serif text-3xl sm:text-5xl font-normal text-parchment-50">Living Guestbook &amp; Notes</h2>
+        <p class="text-sm text-parchment-200/75 max-w-2xl">Leave a thought, a book or song recommendation, or just say hello from wherever in the world you’re reading this. Synced live to Supabase.</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        
+        <!-- Submission Form Column -->
+        <div class="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 shadow-2xl space-y-5">
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-parchment-50">Say Hello to Saroj</h3>
+            <p class="text-xs text-parchment-200/60">Your message is stored securely in Supabase and published live instantly.</p>
+          </div>
+
+          <form id="guestbookSubmitForm" class="space-y-4">
+            <!-- Hidden Honeypot Field (Anti-Spam) -->
+            <input type="text" name="website_hp" id="website_hp" class="hidden" tabindex="-1" autocomplete="off">
+
+            <div>
+              <label for="gbInputName" class="block font-mono text-xs text-parchment-200/70 mb-1">Your Name *</label>
+              <input type="text" id="gbInputName" required maxlength="100" placeholder="e.g. Aarav, Sushmita, Maya" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none transition">
+            </div>
+
+            <div>
+              <label for="gbInputContact" class="block font-mono text-xs text-parchment-200/70 mb-1">Contact / Handle (Optional)</label>
+              <input type="text" id="gbInputContact" maxlength="150" placeholder="@handle, city, or email" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none transition">
+            </div>
+
+            <div>
+              <label for="gbInputMessage" class="block font-mono text-xs text-parchment-200/70 mb-1">Your Message *</label>
+              <textarea id="gbInputMessage" required rows="4" maxlength="2000" placeholder="Write your note, song suggestion, or message..." class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none transition resize-none"></textarea>
+            </div>
+
+            <button type="submit" id="gbSubmitBtn" class="w-full py-3 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs sm:text-sm transition flex items-center justify-center gap-2 shadow-lg">
+              <span>✉</span><span>Publish Note to Guestbook</span>
+            </button>
+          </form>
+        </div>
+
+        <!-- Messages Feed Column -->
+        <div class="lg:col-span-7 space-y-4">
+          <div class="flex items-center justify-between">
+            <span class="font-mono text-xs text-parchment-200/60 uppercase tracking-wider">VISITOR ARCHIVE</span>
+            <span id="gbCountBadge" class="font-mono text-xs px-2.5 py-0.5 rounded-full bg-espresso-900 border border-white/10 text-terracotta-400">Loading notes...</span>
+          </div>
+
+          <div id="guestbookMessagesList" class="space-y-3 max-h-[550px] overflow-y-auto pr-1">
+            <!-- Populated dynamically via JS -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- =========================================================================
+       ACCESSIBLE CV PREVIEW MODAL
+       ========================================================================= -->
+  <div id="cvPreviewModal" class="modal-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="cvModalTitle">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="p-4 sm:p-6 border-b border-white/10 flex items-center justify-between bg-espresso-950">
+        <div>
+          <h3 id="cvModalTitle" class="font-serif text-2xl font-semibold text-parchment-50">Curriculum Vitae — Saroj Parajuli</h3>
+          <p class="font-mono text-xs text-parchment-200/60">B.Sc. Statistics • Tri-Chandra Campus, TU • Kathmandu, Nepal</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <a href="assets/Saroj_Parajuli_CV.pdf" download class="px-3.5 py-1.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white text-xs font-medium transition flex items-center gap-1.5 shadow">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <span>Download PDF</span>
+          </a>
+          <button type="button" id="closeCvModalBtn" class="p-2 rounded-full hover:bg-white/10 text-parchment-200 transition" aria-label="Close CV modal">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- Modal Body (Embedded PDF Viewer) -->
+      <div class="flex-1 p-2 sm:p-4 bg-espresso-900 overflow-hidden">
+        <iframe src="assets/Saroj_Parajuli_CV.pdf" class="w-full h-[65vh] rounded-xl border border-white/10" title="Saroj Parajuli CV Preview"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       FOOTER
+       ========================================================================= -->
+  <footer class="mt-16 border-t border-white/10 bg-espresso-950/90 py-12 px-4 sm:px-8 text-xs text-parchment-200/60">
+    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
+      
+      <div class="space-y-1 text-center md:text-left">
+        <div class="font-serif text-lg font-semibold text-parchment-50">sarojparajuli.com.np</div>
+        <p>A living personal platform powered by Supabase PostgreSQL, Cloudflare DNS, and Vercel.</p>
+        <p class="font-mono text-[11px] text-parchment-200/40">Kathmandu, Nepal • Tri-Chandra Multiple Campus (Tribhuvan University)</p>
+      </div>
+
+      <!-- Dynamic Social Links & CMS Link -->
+      <div class="flex flex-col sm:flex-row items-center gap-4">
+        <div id="footerSocialLinks" class="flex flex-wrap items-center justify-center gap-2 text-xs">
+          <!-- Populated dynamically via JS from Supabase socials -->
+        </div>
+        <a href="admin.html" class="px-3.5 py-1.5 rounded-full bg-espresso-900 border border-white/15 text-terracotta-400 font-mono text-xs hover:border-terracotta-400 transition flex items-center gap-1.5 shadow">
+          <span>⚙</span><span>CMS Studio</span>
+        </a>
+      </div>
+
+    </div>
+  </footer>
+
+  <!-- =========================================================================
+       MOBILE BOTTOM NAVIGATION BAR
+       ========================================================================= -->
+  <nav aria-label="Mobile Navigation" class="lg:hidden fixed bottom-0 inset-x-0 z-40 glass-surface border-t border-white/10 px-2 py-1.5 flex items-center justify-around text-[10px] font-medium text-parchment-200/70">
+    <button type="button" data-mobile-nav="about" class="flex flex-col items-center gap-0.5 py-1 px-2 text-terracotta-400">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+      <span>About</span>
+    </button>
+    <button type="button" data-mobile-nav="stories" class="flex flex-col items-center gap-0.5 py-1 px-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2"/></svg>
+      <span>Stories</span>
+    </button>
+    <button type="button" data-mobile-nav="music" class="flex flex-col items-center gap-0.5 py-1 px-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2z"/></svg>
+      <span>Music</span>
+    </button>
+    <button type="button" data-mobile-nav="portfolio" class="flex flex-col items-center gap-0.5 py-1 px-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+      <span>Stats &amp; M&amp;E</span>
+    </button>
+    <button type="button" data-mobile-nav="goals" class="flex flex-col items-center gap-0.5 py-1 px-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+      <span>Goals</span>
+    </button>
+    <button type="button" data-mobile-nav="guestbook" class="flex flex-col items-center gap-0.5 py-1 px-2">
+      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+      <span>Guestbook</span>
+    </button>
+  </nav>
+
+  <!-- Client Application Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/audio-player.js"></script>
+  <script src="js/analytics-chart.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/main.js"></script>
+
+</body>
+</html>

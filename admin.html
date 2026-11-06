@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Studio &amp; Supabase Hub | sarojparajuli.com.np</title>
+  <meta name="robots" content="noindex, nofollow">
+
+  <!-- CDNs: Tailwind CSS, Supabase JS -->
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.49.1/dist/umd/supabase.min.js"></script>
+
+  <!-- Google Fonts: Instrument Serif, Inter, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            serif: ['"Instrument Serif"', '"Cormorant Garamond"', 'Georgia', 'serif'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            espresso: {
+              950: '#0e0c0b',
+              900: '#171412',
+              800: '#201b17',
+              700: '#2c2520',
+            },
+            terracotta: {
+              400: '#e07a5f',
+              500: '#d96b43',
+              600: '#c05631',
+            },
+            sage: {
+              400: '#6b9080',
+              500: '#52796f',
+            },
+            parchment: {
+              50: '#fbf8f3',
+              100: '#f5efe6',
+              200: '#e8dec8',
+            }
+          }
+        }
+      }
+    };
+  </script>
+
+  <link rel="stylesheet" href="css/main.css">
+</head>
+<body class="bg-espresso-950 text-parchment-100 min-h-screen selection:bg-terracotta-500 selection:text-white">
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2.5 pointer-events-none"></div>
+
+  <!-- =========================================================================
+       1. SECURITY & AUTHENTICATION BARRIER
+       ========================================================================= -->
+  <div id="authBarrier" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-espresso-950/95 backdrop-blur-xl">
+    <div class="w-full max-w-md p-8 rounded-3xl bg-espresso-900 border border-white/15 shadow-2xl space-y-6">
+      
+      <div class="text-center space-y-2">
+        <div class="w-12 h-12 mx-auto rounded-full bg-terracotta-500/20 border border-terracotta-400/50 flex items-center justify-center text-terracotta-400 text-xl font-mono">
+          🔒
+        </div>
+        <h2 class="font-serif text-3xl font-semibold text-parchment-50">CMS Studio Authentication</h2>
+        <p class="text-xs text-parchment-200/60">Restricted to Saroj Parajuli. Enter your Master Passkey to manage live site content.</p>
+      </div>
+
+      <form id="adminLoginForm" class="space-y-4">
+        <div>
+          <label for="adminPassInput" class="block font-mono text-xs text-parchment-200/70 mb-1">Admin Passkey</label>
+          <input type="password" id="adminPassInput" required placeholder="Enter passkey (e.g. saroj_cms_pass_2026)" class="w-full px-4 py-3 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none transition font-mono">
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-sm transition shadow-lg flex items-center justify-center gap-2">
+          <span>Unlock CMS Studio</span>
+          <span>→</span>
+        </button>
+      </form>
+
+      <div class="pt-4 border-t border-white/10 text-center">
+        <a href="index.html" class="font-mono text-xs text-terracotta-400 hover:underline">← Return to Public Website</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- =========================================================================
+       2. SECURE ADMIN DASHBOARD
+       ========================================================================= -->
+  <div id="adminDashboard" class="hidden min-h-screen flex flex-col">
+    
+    <!-- Top Navigation Header -->
+    <header class="sticky top-0 z-40 px-4 sm:px-8 py-3.5 glass-surface border-b">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-4">
+        
+        <div class="flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-terracotta-500/20 border border-terracotta-400/40 flex items-center justify-center text-terracotta-400 font-serif font-bold text-sm">
+            ⚙
+          </div>
+          <div>
+            <div class="font-serif text-xl font-semibold text-parchment-50">Saroj Parajuli — CMS Studio</div>
+            <div class="font-mono text-[9px] uppercase tracking-widest text-parchment-200/50">LIVE SUPABASE CONTROL PANEL</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <!-- Connection status -->
+          <div class="flex items-center gap-2 px-3 py-1 rounded-full bg-espresso-900 border border-white/10 text-xs font-mono">
+            <span id="sbStatusDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="sbStatusText" class="text-parchment-200/80">Supabase Connected</span>
+          </div>
+
+          <a href="index.html" target="_blank" class="px-3.5 py-1.5 rounded-full bg-espresso-900 hover:bg-espresso-800 border border-white/10 text-xs font-medium text-parchment-100 transition flex items-center gap-1.5">
+            <span>View Public Site</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+          </a>
+
+          <button type="button" id="adminLogoutBtn" class="px-3 py-1.5 rounded-full bg-red-900/30 hover:bg-red-900/60 border border-red-500/30 text-xs font-mono text-red-300 transition">
+            Lock / Logout
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Subtab Navigation Bar -->
+    <div class="border-b border-white/10 bg-espresso-900/70 px-4 sm:px-8 py-2.5 overflow-x-auto">
+      <div class="max-w-7xl mx-auto flex items-center gap-2 text-xs">
+        <button type="button" data-admin-tab="profile" class="px-4 py-2 rounded-xl text-xs font-semibold bg-terracotta-500 text-white shadow">Profile &amp; Bio</button>
+        <button type="button" data-admin-tab="stories" class="px-4 py-2 rounded-xl text-xs font-medium text-parchment-200/70 hover:text-white">Stories &amp; Vlogs</button>
+        <button type="button" data-admin-tab="music" class="px-4 py-2 rounded-xl text-xs font-medium text-parchment-200/70 hover:text-white">Acoustic Music</button>
+        <button type="button" data-admin-tab="goals" class="px-4 py-2 rounded-xl text-xs font-medium text-parchment-200/70 hover:text-white">Goals Tracker</button>
+        <button type="button" data-admin-tab="portfolio" class="px-4 py-2 rounded-xl text-xs font-medium text-parchment-200/70 hover:text-white">Portfolio</button>
+        <button type="button" data-admin-tab="guestbook" class="px-4 py-2 rounded-xl text-xs font-medium text-parchment-200/70 hover:text-white">Guestbook Moderation</button>
+        <button type="button" data-admin-tab="supabase" class="px-4 py-2 rounded-xl text-xs font-medium text-terracotta-400 hover:text-terracotta-300 flex items-center gap-1.5">
+          <span>⚡</span><span>Supabase Cloud Sync</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Main Admin Workspace -->
+    <main class="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-8 py-8">
+      
+      <!-- TAB 1: PROFILE & BIO -->
+      <section id="tabPanel-profile" class="admin-tab-panel space-y-6">
+        <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-6">
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-parchment-50">Profile &amp; Identity Settings</h3>
+            <p class="text-xs text-parchment-200/60">Update the core introduction, headline, and bio paragraphs shown on the homepage.</p>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Badge Text</label>
+              <input type="text" id="editProfileBadge" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Hero Headline</label>
+              <textarea id="editProfileHeadline" rows="2" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none"></textarea>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Hero Subheadline</label>
+              <textarea id="editProfileSubhead" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none"></textarea>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label class="block font-mono text-xs text-parchment-200/70 mb-1">Bio Paragraph 1 (Living Platform)</label>
+                <textarea id="editProfileBio1" rows="5" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none"></textarea>
+              </div>
+
+              <div>
+                <label class="block font-mono text-xs text-parchment-200/70 mb-1">Bio Paragraph 2 (Accessibility &amp; Craft)</label>
+                <textarea id="editProfileBio2" rows="5" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none"></textarea>
+              </div>
+            </div>
+
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Core Craft &amp; Skills Line</label>
+              <input type="text" id="editProfileSkills" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+
+            <!-- Social Media & Contact URLs -->
+            <div class="pt-4 border-t border-white/10 space-y-3">
+              <span class="font-mono text-xs uppercase text-terracotta-400 font-semibold tracking-wider">Social Media &amp; Direct Messaging Links</span>
+              <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                <div>
+                  <label class="block font-mono text-[11px] text-parchment-200/70 mb-1">WhatsApp URL or Phone</label>
+                  <input type="text" id="editSocialWhatsApp" placeholder="https://wa.me/9779800000000" class="w-full px-3 py-2 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-xs focus:border-terracotta-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-mono text-[11px] text-parchment-200/70 mb-1">LinkedIn Profile</label>
+                  <input type="text" id="editSocialLinkedIn" placeholder="https://linkedin.com/in/sarojparajuli" class="w-full px-3 py-2 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-xs focus:border-terracotta-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-mono text-[11px] text-parchment-200/70 mb-1">GitHub Profile</label>
+                  <input type="text" id="editSocialGitHub" placeholder="https://github.com/sarojparajuli" class="w-full px-3 py-2 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-xs focus:border-terracotta-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-mono text-[11px] text-parchment-200/70 mb-1">YouTube Channel</label>
+                  <input type="text" id="editSocialYouTube" placeholder="https://youtube.com/@sarojparajuli" class="w-full px-3 py-2 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-xs focus:border-terracotta-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-mono text-[11px] text-parchment-200/70 mb-1">Instagram Profile</label>
+                  <input type="text" id="editSocialInstagram" placeholder="https://instagram.com/sarojparajuli" class="w-full px-3 py-2 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-xs focus:border-terracotta-400 focus:outline-none">
+                </div>
+                <div>
+                  <label class="block font-mono text-[11px] text-parchment-200/70 mb-1">TikTok Profile</label>
+                  <input type="text" id="editSocialTikTok" placeholder="https://tiktok.com/@sarojparajuli" class="w-full px-3 py-2 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-xs focus:border-terracotta-400 focus:outline-none">
+                </div>
+                <div class="sm:col-span-2 md:col-span-1">
+                  <label class="block font-mono text-[11px] text-parchment-200/70 mb-1">Facebook Profile</label>
+                  <input type="text" id="editSocialFacebook" placeholder="https://facebook.com/sarojparajuli" class="w-full px-3 py-2 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-xs focus:border-terracotta-400 focus:outline-none">
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-white/10 flex justify-end">
+            <button type="button" id="saveProfileBtn" class="px-6 py-2.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs sm:text-sm transition shadow-lg">
+              Save Profile Changes &amp; Push to Supabase
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 2: STORIES & BLOGS -->
+      <section id="tabPanel-stories" class="admin-tab-panel hidden space-y-8">
+        
+        <!-- Add New Story -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-5">
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-parchment-50">Publish New Story, Vlog or Tech Post</h3>
+            <p class="text-xs text-parchment-200/60">Create a new post that is saved directly into Supabase PostgreSQL.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="md:col-span-2">
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Post Title *</label>
+              <input type="text" id="newStoryTitle" placeholder="e.g. Quiet Rainy Nights with an Acoustic Dreadnought" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Category</label>
+              <select id="newStoryCategory" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+                <option value="story">Personal Story</option>
+                <option value="vlog">Vlog</option>
+                <option value="tech">Tech &amp; News</option>
+                <option value="music">Music Guide</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Read Time / Media Duration</label>
+              <input type="text" id="newStoryReadTime" placeholder="e.g. 5 min read / 8 min vlog" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Excerpt / Hook</label>
+              <input type="text" id="newStoryExcerpt" placeholder="Short preview snippet" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-parchment-200/70 mb-1">Body Text / Essay Content *</label>
+            <textarea id="newStoryBody" rows="6" placeholder="Write your full story or video reflection here..." class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none"></textarea>
+          </div>
+
+          <button type="button" id="addStoryBtn" class="px-6 py-2.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs sm:text-sm transition shadow-lg">
+            Publish Post to Supabase
+          </button>
+        </div>
+
+        <!-- Manage Existing Stories -->
+        <div class="space-y-3">
+          <h4 class="font-mono text-xs uppercase text-parchment-200/60 tracking-wider">EXISTING DISPATCHES</h4>
+          <div id="adminStoriesList" class="space-y-3"></div>
+        </div>
+
+      </section>
+
+      <!-- TAB 3: ACOUSTIC MUSIC -->
+      <section id="tabPanel-music" class="admin-tab-panel hidden space-y-8">
+        
+        <!-- Add New Music Track -->
+        <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-5">
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-parchment-50">Add Acoustic Music Track</h3>
+            <p class="text-xs text-parchment-200/60">Configure an acoustic session with custom chord voicings playable in the Web Audio synth.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Track Title *</label>
+              <input type="text" id="newMusicTitle" placeholder="e.g. Morning Breeze in Patan" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Subtitle / Key &amp; Tuning</label>
+              <input type="text" id="newMusicSubtitle" placeholder="e.g. Key of C Major • Capo 2nd Fret" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Track Type</label>
+              <input type="text" id="newMusicType" placeholder="e.g. Fingerstyle Guitar • Instrumental" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Chord Progression</label>
+              <input type="text" id="newMusicChords" placeholder="e.g. Cmaj7 — Em7 — Am7 — G" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-parchment-200/70 mb-1">Lyric Line / Liner Note</label>
+            <input type="text" id="newMusicLyric" placeholder="Notable acoustic line or session note" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+          </div>
+
+          <button type="button" id="addMusicBtn" class="px-6 py-2.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs sm:text-sm transition shadow-lg">
+            Save Acoustic Track to Supabase
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="font-mono text-xs uppercase text-parchment-200/60 tracking-wider">TRACKLIST</h4>
+          <div id="adminMusicList" class="space-y-3"></div>
+        </div>
+
+      </section>
+
+      <!-- TAB 4: GOALS TRACKER -->
+      <section id="tabPanel-goals" class="admin-tab-panel hidden space-y-8">
+        
+        <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-5">
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-parchment-50">Track New Life Goal / Milestone</h3>
+            <p class="text-xs text-parchment-200/60">Keep your milestones updated with progress bars and reflections.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div class="md:col-span-2">
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Goal Title *</label>
+              <input type="text" id="newGoalTitle" placeholder="e.g. Master Design of Experiments in R &amp; Python" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Category</label>
+              <input type="text" id="newGoalCategory" placeholder="e.g. Statistics &amp; Career" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Progress Percentage (0 - 100)</label>
+              <input type="number" id="newGoalProgress" min="0" max="100" value="50" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Reflection / Notes</label>
+              <input type="text" id="newGoalReflection" placeholder="Active milestone reflection" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+          </div>
+
+          <button type="button" id="addGoalBtn" class="px-6 py-2.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs sm:text-sm transition shadow-lg">
+            Add Goal to Supabase
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="font-mono text-xs uppercase text-parchment-200/60 tracking-wider">TRACKED MILESTONES</h4>
+          <div id="adminGoalsList" class="space-y-3"></div>
+        </div>
+
+      </section>
+
+      <!-- TAB 5: PORTFOLIO -->
+      <section id="tabPanel-portfolio" class="admin-tab-panel hidden space-y-8">
+        
+        <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-5">
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-parchment-50">Add Portfolio Project</h3>
+            <p class="text-xs text-parchment-200/60">Showcase statistical models, M&amp;E survey tools, or web applications.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Project Title *</label>
+              <input type="text" id="newPortTitle" placeholder="Project name" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+            <div>
+              <label class="block font-mono text-xs text-parchment-200/70 mb-1">Tags / Tech Stack</label>
+              <input type="text" id="newPortTag" placeholder="e.g. KoboToolbox • PostgreSQL • Python" class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none">
+            </div>
+          </div>
+
+          <div>
+            <label class="block font-mono text-xs text-parchment-200/70 mb-1">Summary *</label>
+            <textarea id="newPortSummary" rows="3" placeholder="Explain the project scope and impact..." class="w-full px-4 py-2.5 rounded-xl bg-espresso-950 border border-white/15 text-parchment-50 text-sm focus:border-terracotta-400 focus:outline-none"></textarea>
+          </div>
+
+          <button type="button" id="addPortfolioBtn" class="px-6 py-2.5 rounded-full bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs sm:text-sm transition shadow-lg">
+            Add Project to Supabase
+          </button>
+        </div>
+
+        <div class="space-y-3">
+          <h4 class="font-mono text-xs uppercase text-parchment-200/60 tracking-wider">PORTFOLIO LIST</h4>
+          <div id="adminPortfolioList" class="space-y-3"></div>
+        </div>
+
+      </section>
+
+      <!-- TAB 6: GUESTBOOK MODERATION -->
+      <section id="tabPanel-guestbook" class="admin-tab-panel hidden space-y-6">
+        <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-6">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="space-y-1">
+              <h3 class="font-serif text-2xl font-semibold text-parchment-50">Guestbook Message Moderation</h3>
+              <p class="text-xs text-parchment-200/60">Review live messages stored in Supabase `guestbook_messages` table and delete spam notes.</p>
+            </div>
+            <button type="button" id="refreshGuestbookBtn" class="px-4 py-2 rounded-full bg-espresso-950 border border-white/15 text-xs font-mono text-parchment-100 hover:border-terracotta-400 transition">
+              ↻ Refresh Messages
+            </button>
+          </div>
+
+          <!-- Messages Table -->
+          <div class="overflow-x-auto rounded-2xl border border-white/10">
+            <table class="w-full text-left text-xs">
+              <thead class="bg-espresso-950 text-parchment-200/70 font-mono uppercase tracking-wider border-b border-white/10">
+                <tr>
+                  <th class="p-3">Sender</th>
+                  <th class="p-3">Contact</th>
+                  <th class="p-3">Message</th>
+                  <th class="p-3 text-right">Action</th>
+                </tr>
+              </thead>
+              <tbody id="adminGuestbookTableBody" class="divide-y divide-white/5 font-sans">
+                <!-- Populated dynamically via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- TAB 7: SUPABASE CLOUD SYNC & DATABASE CONFIG -->
+      <section id="tabPanel-supabase" class="admin-tab-panel hidden space-y-6">
+        <div class="p-6 sm:p-8 rounded-3xl bg-espresso-900/90 border border-white/10 space-y-6">
+          <div class="space-y-1">
+            <h3 class="font-serif text-2xl font-semibold text-parchment-50">Supabase Connection &amp; SQL Schema Hub</h3>
+            <p class="text-xs text-parchment-200/60">Manage direct synchronization between your browser state and your Supabase PostgreSQL database.</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+            
+            <!-- Push / Pull Buttons -->
+            <div class="space-y-4 p-5 rounded-2xl bg-espresso-950 border border-white/10">
+              <span class="font-mono text-xs uppercase text-terracotta-400 font-bold">1. ONE-CLICK LIVE SYNC</span>
+              <p class="text-xs text-parchment-200/75 leading-relaxed">
+                Push all modified stories, tracks, and profile data from this studio directly into your Supabase `site_content` row `main`.
+              </p>
+
+              <div class="flex flex-col gap-2.5 pt-2">
+                <button type="button" id="manualPushSbBtn" class="w-full py-3 rounded-xl bg-terracotta-500 hover:bg-terracotta-600 text-white font-medium text-xs transition shadow-lg">
+                  Push Local Data → Supabase
+                </button>
+                <button type="button" id="manualPullSbBtn" class="w-full py-2.5 rounded-xl bg-espresso-900 border border-white/15 hover:border-terracotta-400 text-parchment-100 text-xs transition">
+                  Pull Live Data ← Supabase
+                </button>
+              </div>
+            </div>
+
+            <!-- Database Info -->
+            <div class="space-y-4 p-5 rounded-2xl bg-espresso-950 border border-white/10 text-xs">
+              <span class="font-mono uppercase text-sage-400 font-bold">2. ACTIVE SUPABASE PROJECT</span>
+              <div class="space-y-2 font-mono">
+                <div>
+                  <span class="text-parchment-200/50">Project URL:</span>
+                  <div class="text-parchment-50 break-all select-all mt-0.5">https://qibqrnkvslgvgcowgabp.supabase.co</div>
+                </div>
+                <div>
+                  <span class="text-parchment-200/50">Anon Key:</span>
+                  <div class="text-parchment-50 truncate select-all mt-0.5">sb_publishable_I3_EYP6XFV1gqUC1x4r55w_q4aeYwgn</div>
+                </div>
+                <div>
+                  <span class="text-parchment-200/50">Primary Tables:</span>
+                  <div class="text-parchment-50 mt-0.5">public.site_content, public.guestbook_messages</div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- SQL Schema Code Box -->
+          <div class="space-y-3 pt-4 border-t border-white/10">
+            <div class="flex items-center justify-between">
+              <span class="font-mono text-xs uppercase text-parchment-200/60">POSTGRESQL HARDENED SCHEMA (SQL EDITOR)</span>
+              <button type="button" id="copySqlSchemaBtn" class="px-3 py-1 rounded-full bg-espresso-950 border border-white/15 hover:border-terracotta-400 text-terracotta-400 text-xs font-mono transition">
+                Copy SQL Script
+              </button>
+            </div>
+            <pre id="adminSqlBlock" class="p-4 rounded-2xl bg-espresso-950 border border-white/10 font-mono text-[11px] text-parchment-200/80 overflow-x-auto max-h-56 leading-relaxed">create table if not exists public.site_content (
+  id text primary key default 'main',
+  payload jsonb not null,
+  updated_at timestamptz default now()
+);
+
+create table if not exists public.guestbook_messages (
+  id uuid primary key default gen_random_uuid(),
+  sender_name text not null,
+  sender_contact text,
+  message text not null,
+  status text default 'approved',
+  created_at timestamptz default now()
+);
+
+alter table public.site_content enable row level security;
+alter table public.guestbook_messages enable row level security;
+
+create policy "Public can read site_content"
+  on public.site_content for select using (true);
+
+create policy "Manage site_content"
+  on public.site_content for all using (true) with check (true);
+
+create policy "Visitors can insert guestbook_messages"
+  on public.guestbook_messages for insert with check (length(trim(sender_name)) > 0 and length(trim(message)) > 0);
+
+create policy "Public can read guestbook_messages"
+  on public.guestbook_messages for select using (status = 'approved' or status is null);</pre>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Client Application Scripts -->
+  <script src="js/config.js"></script>
+  <script src="js/supabase-client.js"></script>
+  <script src="js/accessibility.js"></script>
+  <script src="js/admin.js"></script>
+
+</body>
+</html>

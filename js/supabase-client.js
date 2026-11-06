@@ -1,0 +1,284 @@
+/**
+ * ============================================================================
+ * sarojparajuli.com.np — Supabase Client & Cloud Sync Engine
+ * ============================================================================
+ */
+(function() {
+  const cfg = window.SAROJ_CONFIG;
+  let sbClient = null;
+  let realtimeChannel = null;
+
+  window.SarojSupabase = {
+    client: null,
+    isConnected: false,
+
+    /**
+     * Initialize Supabase client
+     */
+    init: async function() {
+      if (!window.supabase) {
+        console.warn("Supabase SDK not loaded; using local fallback.");
+        this.updateStatusBadge(false, "Local Offline");
+        return null;
+      }
+
+      // Check for user-saved custom config or use default
+      let customConfig = null;
+      try {
+        customConfig = JSON.parse(localStorage.getItem(cfg.STORAGE_KEY_SB_CONFIG) || "null");
+      } catch (e) {}
+
+      const activeUrl = (customConfig && customConfig.url) ? customConfig.url : cfg.SUPABASE_URL;
+      const activeKey = (customConfig && customConfig.key) ? customConfig.key : cfg.SUPABASE_KEY;
+
+      try {
+        sbClient = window.supabase.createClient(activeUrl.trim(), activeKey.trim());
+        this.client = sbClient;
+
+        // Test connectivity
+        const { error } = await sbClient.from("site_content").select("id").limit(1);
+        if (!error) {
+          this.isConnected = true;
+          this.updateStatusBadge(true, "Live Connected");
+          this.subscribeToGuestbook();
+        } else {
+          console.warn("Supabase check error:", error.message);
+          this.updateStatusBadge(false, "RLS Restricted / Check SQL");
+        }
+      } catch (err) {
+        console.warn("Could not connect to Supabase:", err.message);
+        this.updateStatusBadge(false, "Local Mode");
+      }
+
+      return sbClient;
+    },
+
+    /**
+     * Update UI status badge if present on page
+     */
+    updateStatusBadge: function(isLive, labelText) {
+      const dot = document.getElementById("sbStatusDot");
+      const label = document.getElementById("sbStatusText");
+      if (dot) {
+        dot.className = isLive
+          ? "w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"
+          : "w-2.5 h-2.5 rounded-full bg-amber-400";
+      }
+      if (label) {
+        label.textContent = labelText;
+      }
+    },
+
+    /**
+     * Fetch site content from Supabase, or fallback to local
+     */
+    fetchContent: async function() {
+      // 1. Try Supabase
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient
+            .from("site_content")
+            .select("payload")
+            .eq("id", "main")
+            .maybeSingle();
+
+          if (!error && data && data.payload) {
+            localStorage.setItem(cfg.STORAGE_KEY_CONTENT, JSON.stringify(data.payload));
+            return { source: "supabase", payload: data.payload };
+          }
+        } catch (e) {
+          console.warn("Error querying Supabase site_content:", e);
+        }
+      }
+
+      // 2. Try localStorage cache
+      try {
+        const cached = localStorage.getItem(cfg.STORAGE_KEY_CONTENT);
+        if (cached) {
+          return { source: "cache", payload: JSON.parse(cached) };
+        }
+      } catch (e) {}
+
+      // 3. Try fetching static fallback JSON
+      try {
+        const res = await fetch("data/default_content.json");
+        if (res.ok) {
+          const defaultData = await res.json();
+          localStorage.setItem(cfg.STORAGE_KEY_CONTENT, JSON.stringify(defaultData));
+          return { source: "local_file", payload: defaultData };
+        }
+      } catch (e) {}
+
+      return { source: "none", payload: null };
+    },
+
+    /**
+     * Save/Upsert site content to Supabase
+     */
+    saveContent: async function(payload, adminKey) {
+      // 1. Always update local storage
+      try {
+        localStorage.setItem(cfg.STORAGE_KEY_CONTENT, JSON.stringify(payload));
+      } catch (e) {}
+
+      // 2. Try server backend endpoint first (if available)
+      try {
+        const response = await fetch(cfg.API_ENDPOINTS.content, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-key": adminKey || cfg.ADMIN_DEFAULT_KEY
+          },
+          body: JSON.stringify({ payload, adminKey })
+        });
+        if (response.ok) {
+          return { success: true, message: "Saved to Supabase via secure backend!" };
+        }
+      } catch (e) {
+        // Fallback to direct client SDK upsert
+      }
+
+      // 3. Fallback to direct Supabase SDK
+      if (!sbClient) {
+        return { success: false, message: "Saved locally only (Supabase not connected)." };
+      }
+
+      try {
+        const { error } = await sbClient.from("site_content").upsert({
+          id: "main",
+          payload: payload,
+          updated_at: new Date().toISOString()
+        });
+
+        if (error) throw error;
+        return { success: true, message: "Successfully synced live to Supabase!" };
+      } catch (err) {
+        return { success: false, message: "Supabase error: " + err.message };
+      }
+    },
+
+    /**
+     * Fetch approved guestbook messages
+     */
+    fetchGuestbook: async function() {
+      if (sbClient) {
+        try {
+          const { data, error } = await sbClient
+            .from("guestbook_messages")
+            .select("id, sender_name, sender_contact, message, created_at")
+            .order("created_at", { ascending: false })
+            .limit(50);
+
+          if (!error && Array.isArray(data)) {
+            return data;
+          }
+        } catch (e) {
+          console.warn("Guestbook fetch error:", e);
+        }
+      }
+
+      // Fallback: try backend API
+      try {
+        const res = await fetch(cfg.API_ENDPOINTS.guestbook);
+        if (res.ok) {
+          const body = await res.json();
+          if (body.messages) return body.messages;
+        }
+      } catch (e) {}
+
+      return [];
+    },
+
+    /**
+     * Submit new guestbook message
+     */
+    submitGuestbook: async function(senderName, senderContact, message) {
+      const cleanName = (senderName || "").trim();
+      const cleanContact = (senderContact || "").trim();
+      const cleanMessage = (message || "").trim();
+
+      if (!cleanName || !cleanMessage) {
+        throw new Error("Please enter both your name and a message.");
+      }
+
+      const newEntry = {
+        sender_name: cleanName,
+        sender_contact: cleanContact || null,
+        message: cleanMessage,
+        created_at: new Date().toISOString()
+      };
+
+      // 1. Try serverless backend route first
+      try {
+        const res = await fetch(cfg.API_ENDPOINTS.guestbook, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(newEntry)
+        });
+        if (res.ok) {
+          const body = await res.json();
+          return body.entry || newEntry;
+        }
+      } catch (e) {}
+
+      // 2. Direct Supabase insert
+      if (sbClient) {
+        const { data, error } = await sbClient
+          .from("guestbook_messages")
+          .insert([newEntry])
+          .select()
+          .single();
+
+        if (error) throw error;
+        return data || newEntry;
+      }
+
+      return newEntry;
+    },
+
+    /**
+     * Delete guestbook message (Admin only)
+     */
+    deleteGuestbookMessage: async function(id, adminKey) {
+      if (sbClient) {
+        const { error } = await sbClient
+          .from("guestbook_messages")
+          .delete()
+          .eq("id", id);
+        if (!error) return true;
+      }
+
+      // Try server endpoint
+      try {
+        const res = await fetch(cfg.API_ENDPOINTS.guestbook + "/" + id, {
+          method: "DELETE",
+          headers: { "x-admin-key": adminKey || cfg.ADMIN_DEFAULT_KEY }
+        });
+        return res.ok;
+      } catch (e) {
+        return false;
+      }
+    },
+
+    /**
+     * Real-time subscription for guestbook messages
+     */
+    subscribeToGuestbook: function() {
+      if (!sbClient || realtimeChannel) return;
+
+      try {
+        realtimeChannel = sbClient
+          .channel("public:guestbook_messages")
+          .on("postgres_changes", { event: "INSERT", schema: "public", table: "guestbook_messages" }, (payload) => {
+            if (payload && payload.new) {
+              const event = new CustomEvent("saroj:new_message", { detail: payload.new });
+              window.dispatchEvent(event);
+            }
+          })
+          .subscribe();
+      } catch (e) {
+        console.warn("Could not set up Supabase realtime channel:", e);
+      }
+    }
+  };
+})();
