@@ -105,13 +105,6 @@
 
       <!-- Right Utility Controls -->
       <div class="flex items-center gap-3">
-        
-        <!-- Live Supabase Status Dot -->
-        <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-midnight-800/80 border border-slate-700/50 text-[11px] font-mono text-slate-300" title="Connected to Supabase PostgreSQL">
-          <span id="sbLiveIndicator" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Supabase Live</span>
-        </div>
-
         <!-- Clean Dark / Light Mode Toggle Button -->
         <button type="button" id="themeToggleBtn" class="p-2.5 rounded-full bg-midnight-800 hover:bg-slate-800 border border-slate-700/60 text-slate-300 hover:text-sky-400 transition" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
           <!-- Moon Icon (for Light Mode active) -->
@@ -336,17 +329,11 @@
       <div class="space-y-4 pt-4">
         <div>
           <h2 class="text-2xl font-bold text-slate-100">Social Media &amp; Profiles</h2>
-          <p class="text-xs sm:text-sm text-slate-400">Connect with me across platforms. Links are synchronized live from your Supabase database.</p>
+          <p class="text-xs sm:text-sm text-slate-400">Connect with me across platforms or reach out directly.</p>
         </div>
 
         <div id="socialLinksGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           <!-- Populated dynamically or defaults via JS -->
-        </div>
-
-        <!-- Note to user on how to update in Supabase -->
-        <div class="p-4 rounded-xl bg-midnight-800/60 border border-slate-800 text-xs text-slate-400 flex items-center gap-3">
-          <svg class="w-5 h-5 text-sky-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          <span>You can update your exact social media URLs anytime directly inside your Supabase Dashboard (<code class="text-sky-300 font-mono">site_content</code> table, row <code class="text-sky-300 font-mono">'main'</code>).</span>
         </div>
       </div>
 
@@ -375,7 +362,7 @@
         </div>
         <h2 class="text-xl font-bold text-slate-100">No blog posts published yet</h2>
         <p class="text-sm text-slate-400 leading-relaxed">
-          The blog engine is fully configured with rich Markdown support. Any articles, survey methodologies, or essays you add to your Supabase database will be formatted here with responsive tables, images, and clean typography.
+          Articles, survey methodologies, case studies, and musical notes will appear here soon.
         </p>
       </div>
 
@@ -799,6 +786,16 @@
               </div>
 
               <div class="flex items-start gap-3">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                  <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/></svg>
+                </div>
+                <div class="space-y-1">
+                  <span class="text-slate-400 text-xs block">WhatsApp</span>
+                  <a href="https://wa.me/parajulisaroj" target="_blank" rel="noopener noreferrer" class="text-slate-100 hover:text-emerald-400 font-mono text-xs font-medium">@parajulisaroj</a>
+                </div>
+              </div>
+
+              <div class="flex items-start gap-3">
                 <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
                 </div>
@@ -824,6 +821,10 @@
           <div class="p-6 rounded-2xl glass-card space-y-3">
             <h3 class="text-sm font-bold text-slate-100">Send Direct Message</h3>
             <div class="flex flex-col gap-2">
+              <a href="https://wa.me/parajulisaroj" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs flex items-center justify-center gap-2 transition shadow">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/></svg>
+                <span>Chat on WhatsApp (@parajulisaroj)</span>
+              </a>
               <a href="mailto:sarojparajuli.personal@outlook.com" class="w-full py-2.5 px-4 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium text-xs flex items-center justify-center gap-2 transition shadow">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 <span>Compose Email</span>
@@ -840,9 +841,9 @@
         <div class="lg:col-span-7 space-y-6">
           <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-6">
             <div class="space-y-1">
-              <span class="badge-sky text-[10px] font-mono px-2.5 py-0.5 rounded-full uppercase font-bold">Supabase Live Guestbook</span>
+              <span class="badge-sky text-[10px] font-mono px-2.5 py-0.5 rounded-full uppercase font-bold">Community Guestbook</span>
               <h2 class="text-xl font-bold text-slate-100">Leave a Note for Saroj</h2>
-              <p class="text-xs text-slate-400">Notes are saved directly to my live Supabase PostgreSQL database.</p>
+              <p class="text-xs text-slate-400">Have a thought, question, or note? Feel free to write here.</p>
             </div>
 
             <!-- Form -->
@@ -901,7 +902,7 @@
         <span>Tri-Chandra Multiple Campus (TU), Kathmandu, Nepal</span>
       </div>
       <div>
-        <span>Domain registered via <strong class="text-slate-300">register.com.np</strong> • Cloudflare Edge • Vercel</span>
+        <span>&copy; 2026 Saroj Parajuli. All rights reserved.</span>
       </div>
     </div>
   </footer>
@@ -913,9 +914,9 @@
   </div>
 
   <!-- Client-side Scripts (Cache-Busted for Immediate Update) -->
-  <script src="js/config.js?v=20261106_v5"></script>
-  <script src="js/supabase-client.js?v=20261106_v5"></script>
-  <script src="js/analytics-chart.js?v=20261106_v5"></script>
-  <script src="js/main.js?v=20261106_v5"></script>
+  <script src="js/config.js?v=20261106_v6"></script>
+  <script src="js/supabase-client.js?v=20261106_v6"></script>
+  <script src="js/analytics-chart.js?v=20261106_v6"></script>
+  <script src="js/main.js?v=20261106_v6"></script>
 </body>
 </html>

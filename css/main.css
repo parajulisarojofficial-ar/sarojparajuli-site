@@ -21,7 +21,7 @@
   --blue-accent: #2563eb;
   --border: rgba(148, 163, 184, 0.12);
   --border-hover: rgba(56, 189, 248, 0.45);
-  --glass-bg: rgba(8, 12, 20, 0.85);
+  --glass-bg: #080c14;
   --glass-border: rgba(56, 189, 248, 0.15);
   --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
@@ -40,7 +40,7 @@ html[data-theme="light"] {
   --blue-accent: #1d4ed8;
   --border: rgba(15, 23, 42, 0.1);
   --border-hover: rgba(2, 132, 199, 0.5);
-  --glass-bg: rgba(248, 250, 252, 0.9);
+  --glass-bg: #ffffff;
   --glass-border: rgba(2, 132, 199, 0.2);
   --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
 }
@@ -58,7 +58,7 @@ html[data-theme="light"] {
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem;
+  scroll-padding-top: 6rem;
   font-family: var(--font-sans);
 }
 
