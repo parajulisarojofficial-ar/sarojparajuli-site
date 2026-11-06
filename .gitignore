@@ -8,3 +8,5 @@ yarn-error.log*
 .vercel
 
 .vercel
+supabase/.temp/
+.env*.local

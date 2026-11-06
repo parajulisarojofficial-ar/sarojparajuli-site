@@ -73,7 +73,9 @@
      * Fetch site content from Supabase, or fallback to local
      */
     fetchContent: async function() {
-      // 1. Try Supabase
+      let payload = null;
+
+      // 1. Query Supabase
       if (sbClient) {
         try {
           const { data, error } = await sbClient
@@ -83,11 +85,69 @@
             .maybeSingle();
 
           if (!error && data && data.payload) {
-            localStorage.setItem(cfg.STORAGE_KEY_CONTENT, JSON.stringify(data.payload));
-            return { source: "supabase", payload: data.payload };
+            payload = data.payload;
           }
         } catch (e) {
           console.warn("Error querying Supabase site_content:", e);
+        }
+
+        // Check dedicated 'blogs' table
+        try {
+          const { data: blogsData, error: blogsErr } = await sbClient
+            .from("blogs")
+            .select("*")
+            .eq("is_published", true)
+            .order("created_at", { ascending: false });
+
+          if (!blogsErr && blogsData && blogsData.length > 0) {
+            if (!payload) payload = {};
+            payload.posts = blogsData.map(b => ({
+              id: b.id,
+              title: b.title,
+              category: b.category,
+              date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "",
+              image: b.cover_image,
+              body: b.content,
+              excerpt: b.excerpt
+            }));
+          }
+        } catch (e) {}
+
+        // Check dedicated 'music_gallery' table
+        try {
+          const { data: musicData, error: musicErr } = await sbClient
+            .from("music_gallery")
+            .select("*")
+            .eq("is_published", true)
+            .order("display_order", { ascending: true });
+
+          if (!musicErr && musicData && musicData.length > 0) {
+            if (!payload) payload = {};
+            payload.musicGallery = musicData;
+          }
+        } catch (e) {}
+
+        // Check dedicated 'social_links' table
+        try {
+          const { data: socialData, error: socialErr } = await sbClient
+            .from("social_links")
+            .select("platform, url")
+            .eq("is_active", true);
+
+          if (!socialErr && socialData && socialData.length > 0) {
+            if (!payload) payload = {};
+            if (!payload.socials) payload.socials = {};
+            socialData.forEach(row => {
+              if (row.url && row.url.trim()) {
+                payload.socials[row.platform] = row.url.trim();
+              }
+            });
+          }
+        } catch (e) {}
+
+        if (payload) {
+          localStorage.setItem(cfg.STORAGE_KEY_CONTENT, JSON.stringify(payload));
+          return { source: "supabase", payload };
         }
       }
 
