@@ -1,7 +1,7 @@
 /**
  * ============================================================================
  * sarojparajuli.com.np — Interactive Statistical Analytics Engine (Chart.js)
- * Showcasing Saroj's Statistical Modeling & Data Analytics Expertise
+ * Modern Sky Blue & Deep Blue Palette
  * ============================================================================
  */
 (function() {
@@ -10,7 +10,7 @@
 
   window.SarojAnalytics = {
     init: async function() {
-      const canvas = document.getElementById("analyticsChartCanvas");
+      const canvas = document.getElementById("salesDatasetChart") || document.getElementById("analyticsChartCanvas");
       if (!canvas || !window.Chart) return;
 
       try {
@@ -18,7 +18,7 @@
         if (!response.ok) throw new Error("Could not load CSV dataset");
         const csvText = await response.text();
         this.parseCSV(csvText);
-        this.renderChart("price_vs_rating");
+        this.renderChart();
         this.renderSummaryMetrics();
       } catch (err) {
         console.warn("Analytics dataset load notice:", err.message);
@@ -32,7 +32,6 @@
     parseCSV: function(csvText) {
       const lines = csvText.trim().split("\n");
       if (lines.length < 2) return;
-      const headers = lines[0].split(",").map(h => h.trim().replace(/^"|"$/g, ''));
 
       parsedDataset = [];
       for (let i = 1; i < lines.length; i++) {
@@ -59,116 +58,125 @@
     renderSummaryMetrics: function() {
       if (!parsedDataset.length) return;
 
-      const prices = parsedDataset.map(d => d.salePrice);
       const ratings = parsedDataset.map(d => d.starRating);
+      const reviews = parsedDataset.map(d => d.numberReviews);
+      const discounts = parsedDataset.map(d => d.discountPercentage);
 
-      // Mean calculations
-      const avgPrice = Math.round(prices.reduce((a, b) => a + b, 0) / prices.length);
       const avgRating = (ratings.reduce((a, b) => a + b, 0) / ratings.length).toFixed(2);
-      const sampleSize = parsedDataset.length;
+      const maxReviews = Math.max(...reviews);
+      const maxDiscount = Math.max(...discounts);
 
-      const elSampleSize = document.getElementById("metricSampleSize");
-      const elAvgPrice = document.getElementById("metricAvgPrice");
-      const elAvgRating = document.getElementById("metricAvgRating");
+      const elRecords = document.getElementById("csvMetricRecords");
+      const elAvgRating = document.getElementById("csvMetricAvgRating");
+      const elTopReviews = document.getElementById("csvMetricTopReviews");
+      const elMaxDiscount = document.getElementById("csvMetricMaxDiscount");
 
-      if (elSampleSize) elSampleSize.textContent = sampleSize + " Models";
-      if (elAvgPrice) elAvgPrice.textContent = "₹" + avgPrice.toLocaleString();
+      if (elRecords) elRecords.textContent = parsedDataset.length + " Models";
       if (elAvgRating) elAvgRating.textContent = avgRating + " / 5.0";
+      if (elTopReviews) elTopReviews.textContent = maxReviews.toLocaleString();
+      if (elMaxDiscount) elMaxDiscount.textContent = maxDiscount + "% Off";
     },
 
     /**
      * Render dynamic Chart.js
      */
-    renderChart: function(chartType) {
-      const canvas = document.getElementById("analyticsChartCanvas");
+    renderChart: function() {
+      const canvas = document.getElementById("salesDatasetChart") || document.getElementById("analyticsChartCanvas");
       if (!canvas || !window.Chart) return;
 
       if (salesChartInstance) {
         salesChartInstance.destroy();
       }
 
-      // Sample first 12 items for clear readable mobile visualization
-      const sample = parsedDataset.slice(0, 10);
+      // Sample first 8 models for clean readable layout
+      const sample = parsedDataset.slice(0, 8);
       const labels = sample.map(d => {
-        return d.productName.replace("APPLE ", "").replace(" (", "\n(").slice(0, 22);
+        return d.productName.replace("APPLE ", "").replace(" (", "\n(").slice(0, 20);
       });
 
       const ctx = canvas.getContext("2d");
 
-      if (chartType === "price_vs_rating") {
-        salesChartInstance = new Chart(ctx, {
-          type: "bar",
-          data: {
-            labels: labels,
-            datasets: [
-              {
-                label: "Sale Price (INR)",
-                data: sample.map(d => d.salePrice),
-                backgroundColor: "rgba(217, 107, 67, 0.75)",
-                borderColor: "#d96b43",
-                borderWidth: 1,
-                yAxisID: "y"
-              },
-              {
-                label: "Star Rating (x10k Scale)",
-                data: sample.map(d => Math.round(d.starRating * 15000)),
-                type: "line",
-                borderColor: "#6b9080",
-                backgroundColor: "rgba(107, 144, 128, 0.3)",
-                borderWidth: 2,
-                pointRadius: 4,
-                yAxisID: "y"
-              }
-            ]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-              legend: {
-                labels: { color: "#d1c7bc", font: { family: "Inter", size: 12 } }
-              },
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    if (context.dataset.label.includes("Sale Price")) {
-                      return "Sale Price: ₹" + context.raw.toLocaleString();
-                    }
-                    return "Star Rating: " + (context.raw / 15000).toFixed(2) + " ★";
-                  }
-                }
+      salesChartInstance = new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: labels,
+          datasets: [
+            {
+              label: "Sale Price (INR)",
+              data: sample.map(d => d.salePrice),
+              backgroundColor: "rgba(14, 165, 233, 0.65)", // Sky Blue
+              borderColor: "#38bdf8",
+              borderWidth: 1.5,
+              borderRadius: 6,
+              yAxisID: "y"
+            },
+            {
+              label: "Star Rating (x10k Scale)",
+              data: sample.map(d => Math.round(d.starRating * 15000)),
+              type: "line",
+              borderColor: "#60a5fa", // Deep Blue Accent
+              backgroundColor: "rgba(96, 165, 250, 0.2)",
+              borderWidth: 2,
+              tension: 0.3,
+              pointBackgroundColor: "#38bdf8",
+              pointRadius: 4,
+              yAxisID: "y"
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              labels: {
+                color: "#94a3b8",
+                font: { family: "Inter", size: 11 }
               }
             },
-            scales: {
-              x: {
-                ticks: { color: "#968c82", font: { size: 10 } },
-                grid: { color: "rgba(255, 255, 255, 0.05)" }
-              },
-              y: {
-                ticks: { color: "#968c82" },
-                grid: { color: "rgba(255, 255, 255, 0.05)" }
+            tooltip: {
+              backgroundColor: "#0d1527",
+              titleColor: "#f8fafc",
+              bodyColor: "#38bdf8",
+              borderColor: "rgba(56, 189, 248, 0.3)",
+              borderWidth: 1,
+              callbacks: {
+                label: function(context) {
+                  if (context.dataset.label.includes("Sale Price")) {
+                    return "Sale Price: ₹" + context.raw.toLocaleString();
+                  }
+                  return "Star Rating: " + (context.raw / 15000).toFixed(2) + " ★";
+                }
               }
             }
+          },
+          scales: {
+            x: {
+              ticks: { color: "#64748b", font: { size: 10 } },
+              grid: { color: "rgba(148, 163, 184, 0.06)" }
+            },
+            y: {
+              ticks: { color: "#64748b", font: { size: 10 } },
+              grid: { color: "rgba(148, 163, 184, 0.06)" }
+            }
           }
-        });
-      }
+        }
+      });
     },
 
-    /**
-     * Fallback chart if dataset fails to load
-     */
     renderFallbackChart: function() {
-      const canvas = document.getElementById("analyticsChartCanvas");
+      const canvas = document.getElementById("salesDatasetChart") || document.getElementById("analyticsChartCanvas");
       if (!canvas || !window.Chart) return;
       const ctx = canvas.getContext("2d");
       new Chart(ctx, {
         type: "bar",
         data: {
-          labels: ["iPhone 11", "iPhone 12", "iPhone 13", "iPhone 14", "iPhone 15"],
+          labels: ["iPhone 12", "iPhone 13", "iPhone 14", "iPhone 15"],
           datasets: [{
             label: "Average Rating",
-            data: [4.6, 4.7, 4.8, 4.7, 4.9],
-            backgroundColor: "#d96b43"
+            data: [4.6, 4.7, 4.8, 4.9],
+            backgroundColor: "#0ea5e9",
+            borderRadius: 6
           }]
         },
         options: { responsive: true, maintainAspectRatio: false }

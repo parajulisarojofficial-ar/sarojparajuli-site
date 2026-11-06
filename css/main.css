@@ -1,86 +1,51 @@
 /* ==========================================================================
-   sarojparajuli.com.np — Master Stylesheet
-   Designed for High Aesthetic Polish, Responsiveness & Universal Accessibility
+   sarojparajuli.com.np — Modern Tech Stylesheet
+   Palette: Black, Deep Midnight Navy, Deep Blue & Sky Blue
+   Clean, Minimalist Sans-Serif Typography & Responsive Layout
    ========================================================================== */
 
-/* --------------------------------------------------------------------------
-   1. CSS Custom Properties & Theming (Dark / Light / High-Contrast RP)
-   -------------------------------------------------------------------------- */
 :root {
-  --font-serif: 'Instrument Serif', 'Cormorant Garamond', Georgia, serif;
-  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
-  /* Base Typography Scale */
-  --base-font-size: 16px;
-
-  /* Theme: Dark (Warm Espresso) */
-  --bg-primary: #0e0c0b;
-  --bg-secondary: #171412;
-  --bg-card: #201b17;
-  --bg-elevated: #2c2520;
-  --text-primary: #f8f4ed;
-  --text-secondary: #d1c7bc;
-  --text-muted: #968c82;
-  --accent: #d96b43;
-  --accent-hover: #e07a5f;
-  --accent-light: rgba(217, 107, 67, 0.15);
-  --border: rgba(255, 255, 255, 0.1);
-  --border-focus: #e07a5f;
-  --glass-bg: rgba(14, 12, 11, 0.88);
-  --tag-bg: #2a221c;
-  --tag-text: #e07a5f;
+  /* Dark Theme (Default) */
+  --bg-primary: #080c14;
+  --bg-secondary: #0d1527;
+  --bg-card: #111a30;
+  --bg-elevated: #16223f;
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --sky-accent: #38bdf8;
+  --sky-hover: #0ea5e9;
+  --blue-accent: #2563eb;
+  --border: rgba(148, 163, 184, 0.12);
+  --border-hover: rgba(56, 189, 248, 0.45);
+  --glass-bg: rgba(8, 12, 20, 0.85);
+  --glass-border: rgba(56, 189, 248, 0.15);
+  --card-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
 }
 
-/* Light Mode: Editorial Parchment */
+/* Light Theme */
 html[data-theme="light"] {
-  --bg-primary: #fcf9f4;
-  --bg-secondary: #f4eee3;
+  --bg-primary: #f8fafc;
+  --bg-secondary: #f1f5f9;
   --bg-card: #ffffff;
-  --bg-elevated: #eadecc;
-  --text-primary: #1e1915;
-  --text-secondary: #4a4037;
-  --text-muted: #7d7063;
-  --accent: #c05631;
-  --accent-hover: #a64522;
-  --accent-light: rgba(192, 86, 49, 0.12);
-  --border: rgba(0, 0, 0, 0.08);
-  --border-focus: #c05631;
-  --glass-bg: rgba(252, 249, 244, 0.92);
-  --tag-bg: #faede6;
-  --tag-text: #c05631;
+  --bg-elevated: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #64748b;
+  --sky-accent: #0284c7;
+  --sky-hover: #0369a1;
+  --blue-accent: #1d4ed8;
+  --border: rgba(15, 23, 42, 0.1);
+  --border-hover: rgba(2, 132, 199, 0.5);
+  --glass-bg: rgba(248, 250, 252, 0.9);
+  --glass-border: rgba(2, 132, 199, 0.2);
+  --card-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08);
 }
 
-/* High-Contrast Accessible Mode (Specially tuned for Retinitis Pigmentosa) */
-html[data-theme="contrast"] {
-  --bg-primary: #000000;
-  --bg-secondary: #0a0a0a;
-  --bg-card: #121212;
-  --bg-elevated: #1e1e1e;
-  --text-primary: #ffffff;
-  --text-secondary: #ffff55;
-  --text-muted: #00ffff;
-  --accent: #ffff00;
-  --accent-hover: #ffffff;
-  --accent-light: rgba(255, 255, 0, 0.25);
-  --border: #ffff00;
-  --border-focus: #00ffff;
-  --glass-bg: #000000;
-  --tag-bg: #1e1e00;
-  --tag-text: #ffff00;
-}
-
-/* Font Size Scales */
-html[data-font-size="large"] {
-  --base-font-size: 18px;
-}
-html[data-font-size="xlarge"] {
-  --base-font-size: 20px;
-}
-
-/* --------------------------------------------------------------------------
-   2. Global Reset & Base Setup
-   -------------------------------------------------------------------------- */
+/* Base Reset & Typography */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -88,176 +53,251 @@ html[data-font-size="xlarge"] {
 }
 
 html {
-  font-size: var(--base-font-size);
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
+  font-family: var(--font-sans);
 }
 
 body {
-  font-family: var(--font-sans);
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  line-height: 1.65;
-  transition: background-color 0.25s ease, color 0.25s ease;
+  line-height: 1.6;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+  overflow-x: hidden;
 }
 
-/* Typography Helpers */
-.font-editorial {
-  font-family: var(--font-serif);
+/* Glass Surface Navigation & Cards */
+.glass-nav {
+  background: var(--glass-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
 }
 
-.font-mono {
-  font-family: var(--font-mono);
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
-/* Skip link for screen-reader & keyboard users */
-.skip-link {
-  position: absolute;
-  top: -100px;
-  left: 1rem;
-  background: var(--accent);
-  color: #fff;
-  padding: 0.75rem 1.25rem;
-  font-weight: 600;
-  border-radius: 0.5rem;
-  z-index: 100;
-  transition: top 0.2s ease;
-  text-decoration: none;
-}
-.skip-link:focus {
-  top: 1rem;
+.glass-card:hover {
+  border-color: var(--border-hover);
 }
 
-/* Screen reader only */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
+/* Sky-Blue Glow Badges & Accents */
+.badge-sky {
+  background: rgba(56, 189, 248, 0.1);
+  color: var(--sky-accent);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.text-gradient-sky {
+  background: linear-gradient(135deg, #f8fafc 30%, #38bdf8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+html[data-theme="light"] .text-gradient-sky {
+  background: linear-gradient(135deg, #0f172a 40%, #0284c7 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Interactive Navigation Tabs */
+.nav-tab-btn {
+  position: relative;
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+.nav-tab-btn.active {
+  color: #ffffff;
+  background-color: #0284c7;
+}
+
+html[data-theme="dark"] .nav-tab-btn.active {
+  background-color: #0284c7;
+  color: #ffffff;
+  box-shadow: 0 0 15px rgba(14, 165, 233, 0.4);
+}
+
+/* Sub-Tab Navigation for Career & Portfolio */
+.subtab-pill {
+  transition: all 0.2s ease;
+}
+
+.subtab-pill.active {
+  background: linear-gradient(135deg, #0284c7, #2563eb);
+  color: #ffffff;
+  box-shadow: 0 4px 14px rgba(14, 165, 233, 0.35);
+}
+
+/* Responsive YouTube Video Player Container */
+.video-responsive-container {
+  position: relative;
+  width: 100%;
+  padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+  height: 0;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
+  border-radius: 1rem;
+  background: #000000;
+}
+
+.video-responsive-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
   border: 0;
 }
 
-/* Focus outline for accessibility */
-a:focus-visible,
-button:focus-visible,
-input:focus-visible,
-textarea:focus-visible,
-select:focus-visible {
-  outline: 2px solid var(--border-focus);
-  outline-offset: 3px;
+/* Rich Blog Prose Styling (Markdown Support) */
+.blog-prose {
+  color: var(--text-primary);
+  line-height: 1.8;
+  font-size: 1.05rem;
 }
 
-/* Glassmorphism Surface */
-.glass-surface {
-  background-color: var(--glass-bg);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border-color: var(--border);
+.blog-prose h1, .blog-prose h2, .blog-prose h3 {
+  color: var(--text-primary);
+  font-weight: 700;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
+  line-height: 1.3;
 }
 
-/* Custom Scrollbar */
+.blog-prose h1 { font-size: 2rem; }
+.blog-prose h2 { font-size: 1.5rem; color: var(--sky-accent); }
+.blog-prose h3 { font-size: 1.25rem; }
+
+.blog-prose p {
+  margin-bottom: 1.25rem;
+  color: var(--text-secondary);
+}
+
+.blog-prose a {
+  color: var(--sky-accent);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.blog-prose blockquote {
+  border-left: 4px solid var(--sky-accent);
+  padding-left: 1.25rem;
+  margin: 1.5rem 0;
+  color: var(--text-secondary);
+  font-style: italic;
+  background: rgba(56, 189, 248, 0.05);
+  padding: 1rem;
+  border-radius: 0 0.75rem 0.75rem 0;
+}
+
+.blog-prose ul, .blog-prose ol {
+  margin: 1.25rem 0 1.25rem 1.75rem;
+  color: var(--text-secondary);
+}
+
+.blog-prose li {
+  margin-bottom: 0.5rem;
+}
+
+.blog-prose img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 1rem;
+  margin: 1.5rem 0;
+  border: 1px solid var(--border);
+  box-shadow: var(--card-shadow);
+}
+
+/* Responsive Tables inside Blogs */
+.blog-prose table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.75rem 0;
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  font-size: 0.925rem;
+}
+
+.blog-prose th {
+  background: var(--bg-elevated);
+  color: var(--sky-accent);
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  border-bottom: 2px solid var(--border);
+}
+
+.blog-prose td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+}
+
+.blog-prose tr:hover td {
+  background: rgba(56, 189, 248, 0.04);
+}
+
+.blog-prose code {
+  font-family: var(--font-mono);
+  font-size: 0.875em;
+  background: var(--bg-elevated);
+  color: var(--sky-accent);
+  padding: 0.2rem 0.4rem;
+  border-radius: 0.35rem;
+  border: 1px solid var(--border);
+}
+
+.blog-prose pre {
+  background: #030712;
+  border: 1px solid var(--border);
+  padding: 1.25rem;
+  border-radius: 0.75rem;
+  overflow-x: auto;
+  margin: 1.5rem 0;
+}
+
+.blog-prose pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #38bdf8;
+}
+
+/* Custom Scrollbars */
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-secondary);
+  background: var(--bg-primary);
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--bg-elevated);
+  background: #1e293b;
   border-radius: 4px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent);
+  background: #38bdf8;
 }
 
-/* --------------------------------------------------------------------------
-   3. Equalizer Audio Visualizer Animation
-   -------------------------------------------------------------------------- */
-@keyframes eqPulse {
-  0%, 100% {
-    transform: scaleY(0.2);
-  }
-  50% {
-    transform: scaleY(1);
-  }
+/* Section visibility transitions */
+.site-section {
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.eq-bar {
-  animation: eqPulse 1s ease-in-out infinite;
-  transform-origin: bottom;
-  display: inline-block;
-  width: 3px;
-  background-color: var(--accent);
-  border-radius: 2px;
-}
-.eq-bar:nth-child(1) { animation-delay: 0.0s; height: 16px; }
-.eq-bar:nth-child(2) { animation-delay: 0.2s; height: 22px; }
-.eq-bar:nth-child(3) { animation-delay: 0.4s; height: 14px; }
-.eq-bar:nth-child(4) { animation-delay: 0.1s; height: 26px; }
-.eq-bar:nth-child(5) { animation-delay: 0.3s; height: 18px; }
-
-/* --------------------------------------------------------------------------
-   4. CV Modal Styles
-   -------------------------------------------------------------------------- */
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background-color: rgba(0, 0, 0, 0.75);
-  backdrop-filter: blur(8px);
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 1rem;
-}
-
-.modal-content {
-  background-color: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 1.5rem;
-  width: 100%;
-  max-width: 900px;
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-  overflow: hidden;
-}
-
-/* --------------------------------------------------------------------------
-   5. Toast Notification
-   -------------------------------------------------------------------------- */
-.toast-item {
-  background-color: var(--bg-card);
-  color: var(--text-primary);
-  border: 1px solid var(--accent);
-  padding: 0.85rem 1.25rem;
-  border-radius: 0.75rem;
-  font-size: 0.85rem;
-  font-weight: 500;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  animation: slideInRight 0.25s ease-out;
-}
-
-@keyframes slideInRight {
+@keyframes fadeIn {
   from {
     opacity: 0;
-    transform: translateX(30px);
+    transform: translateY(6px);
   }
   to {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
 }
