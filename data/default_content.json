@@ -69,6 +69,17 @@
       "description": "Emotional acoustic guitar solo cover of \"Maa\" from Taare Zameen Par. Expressive fingerpicking melodic phrasing and gentle dynamics.",
       "display_order": 2,
       "is_published": true
+    },
+    {
+      "id": "track-3",
+      "title": "John Rai – Nihta (Acoustic Guitar Cover)",
+      "type": "Acoustic Cover",
+      "youtube_url": "https://youtu.be/7nqF-bNIdaM?si=GpLEMU-P4o40mr54",
+      "youtube_id": "7nqF-bNIdaM",
+      "chords": "Am • F • C • G",
+      "description": "Acoustic guitar and vocal cover of the soulful melody \"Nihta\" by John Rai. Featuring expressive fingerstyle chords and gentle acoustic dynamics.",
+      "display_order": 3,
+      "is_published": true
     }
   ],
   "musicTracks": [],
