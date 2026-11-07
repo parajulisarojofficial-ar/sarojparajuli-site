@@ -69,14 +69,14 @@
   </script>
 
   <!-- Master Stylesheet (Sky Blue, Deep Blue, Midnight Obsidian) -->
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/main.css?v=20261107_v9">
 </head>
 <body class="selection:bg-sky-500 selection:text-white pb-16 md:pb-0">
 
   <!-- =========================================================================
        FIXED / STICKY HEADER & CLEAN NAVIGATION TABS
        ========================================================================= -->
-  <header class="sticky top-0 z-50 glass-nav border-b border-slate-800/80 px-4 sm:px-8 py-3.5">
+  <header class="sticky top-0 z-50 glass-nav border-b border-slate-200 dark:border-slate-800/80 px-4 sm:px-8 py-3.5">
     <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
 
       <!-- Brand Identity -->
@@ -85,28 +85,28 @@
           <img src="assets/passport_photo.jpg" alt="Saroj Parajuli" class="w-full h-full object-cover rounded-[9px]" onerror="this.onerror=null; this.src='assets/saroj_profile.jpg';">
         </div>
         <div>
-          <div class="font-bold text-base sm:text-lg text-slate-100 group-hover:text-sky-400 transition-colors leading-none tracking-tight">Saroj Parajuli</div>
-          <div class="font-mono text-[10px] text-slate-400 mt-1 uppercase tracking-wider">Kathmandu, Nepal • TU</div>
+          <div class="font-bold text-base sm:text-lg text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-none tracking-tight">Saroj Parajuli</div>
+          <div class="font-mono text-[10px] text-slate-500 dark:text-slate-400 mt-1 uppercase tracking-wider">Kathmandu, Nepal • TU</div>
         </div>
       </a>
 
       <!-- Desktop Navigation (The 6 Fixed Tabs) -->
-      <nav aria-label="Main Navigation" class="hidden md:flex items-center gap-1 bg-midnight-800/90 border border-slate-700/60 rounded-full p-1.5 text-xs shadow-inner">
+      <nav aria-label="Main Navigation" class="hidden md:flex items-center gap-1 nav-tab-container rounded-full p-1.5 text-xs shadow-sm">
         <a href="#home" data-nav="home" data-nav-target="home" class="nav-tab-btn px-4 py-2 rounded-full font-medium active flex items-center gap-2">
           <img src="assets/passport_photo.jpg" alt="" class="w-4 h-4 rounded-full object-cover border border-sky-400/50">
           <span>Home</span>
         </a>
-        <a href="#about" data-nav="about" data-nav-target="about" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">About Me</a>
-        <a href="#blogs" data-nav="blogs" data-nav-target="blogs" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Blogs</a>
-        <a href="#music" data-nav="music" data-nav-target="music" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Music Gallery</a>
-        <a href="#career" data-nav="career" data-nav-target="career" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Career &amp; Portfolio</a>
-        <a href="#contact" data-nav="contact" data-nav-target="contact" class="nav-tab-btn px-4 py-2 rounded-full font-medium text-slate-300 hover:text-white">Contact Me</a>
+        <a href="#about" data-nav="about" data-nav-target="about" class="nav-tab-btn px-4 py-2 rounded-full font-medium">About Me</a>
+        <a href="#blogs" data-nav="blogs" data-nav-target="blogs" class="nav-tab-btn px-4 py-2 rounded-full font-medium">Blogs</a>
+        <a href="#music" data-nav="music" data-nav-target="music" class="nav-tab-btn px-4 py-2 rounded-full font-medium">Music Gallery</a>
+        <a href="#career" data-nav="career" data-nav-target="career" class="nav-tab-btn px-4 py-2 rounded-full font-medium">Career &amp; Portfolio</a>
+        <a href="#contact" data-nav="contact" data-nav-target="contact" class="nav-tab-btn px-4 py-2 rounded-full font-medium">Contact Me</a>
       </nav>
 
       <!-- Right Utility Controls -->
       <div class="flex items-center gap-3">
         <!-- Clean Dark / Light Mode Toggle Button -->
-        <button type="button" id="themeToggleBtn" class="p-2.5 rounded-full bg-midnight-800 hover:bg-slate-800 border border-slate-700/60 text-slate-300 hover:text-sky-400 transition" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+        <button type="button" id="themeToggleBtn" class="p-2.5 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-midnight-800 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300 hover:text-sky-600 dark:hover:text-sky-400 transition shadow-sm" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
           <!-- Moon Icon (for Light Mode active) -->
           <svg id="themeMoonIcon" class="w-4 h-4 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
           <!-- Sun Icon (for Dark Mode active) -->
@@ -114,7 +114,7 @@
         </button>
 
         <!-- Mobile Menu Toggle Button -->
-        <button type="button" id="mobileMenuBtn" class="md:hidden p-2.5 rounded-full bg-midnight-800 border border-slate-700/60 text-slate-300" aria-label="Toggle Mobile Menu">
+        <button type="button" id="mobileMenuBtn" class="md:hidden p-2.5 rounded-full bg-slate-100 dark:bg-midnight-800 border border-slate-300 dark:border-slate-700/60 text-slate-700 dark:text-slate-300" aria-label="Toggle Mobile Menu">
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
       </div>
@@ -122,13 +122,13 @@
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobileMenuDrawer" class="hidden md:hidden pt-3 pb-2 border-t border-slate-800 mt-3 flex flex-col gap-1">
-      <a href="#home" data-nav="home" data-nav-target="home" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Home</a>
-      <a href="#about" data-nav="about" data-nav-target="about" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">About Me</a>
-      <a href="#blogs" data-nav="blogs" data-nav-target="blogs" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Blogs</a>
-      <a href="#music" data-nav="music" data-nav-target="music" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Music Gallery</a>
-      <a href="#career" data-nav="career" data-nav-target="career" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Career &amp; Portfolio</a>
-      <a href="#contact" data-nav="contact" data-nav-target="contact" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800">Contact Me</a>
+    <div id="mobileMenuDrawer" class="hidden md:hidden pt-3 pb-2 border-t border-slate-200 dark:border-slate-800 mt-3 flex flex-col gap-1">
+      <a href="#home" data-nav="home" data-nav-target="home" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold bg-sky-600 text-white shadow-sm">Home</a>
+      <a href="#about" data-nav="about" data-nav-target="about" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">About Me</a>
+      <a href="#blogs" data-nav="blogs" data-nav-target="blogs" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">Blogs</a>
+      <a href="#music" data-nav="music" data-nav-target="music" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">Music Gallery</a>
+      <a href="#career" data-nav="career" data-nav-target="career" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">Career &amp; Portfolio</a>
+      <a href="#contact" data-nav="contact" data-nav-target="contact" class="mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800">Contact Me</a>
     </div>
   </header>
 
@@ -153,16 +153,16 @@
             <span>Available for Data Analytics &amp; M&amp;E Roles</span>
           </div>
 
-          <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-100 tracking-tight leading-[1.15]">
+          <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15]">
             Hey, I’m <span class="text-gradient-sky">Saroj Parajuli</span>
           </h1>
 
-          <p class="text-lg sm:text-xl font-medium text-sky-400">
+          <p class="text-lg sm:text-xl font-semibold text-sky-600 dark:text-sky-400">
             Statistician • Data &amp; M&amp;E Analyst • Acoustic Musician
           </p>
 
-          <p class="text-base text-slate-300 leading-relaxed max-w-2xl">
-            Final-Year B.Sc. Statistics student at <strong class="text-slate-100 font-semibold">Tri-Chandra Multiple Campus (TU)</strong>, Kathmandu. Specializing in <strong class="text-sky-300 font-semibold">Statistical Modeling</strong>, quantitative survey design with <strong class="text-sky-300 font-semibold">KoboToolbox &amp; XLSForm</strong>, and data analysis using Python and PostgreSQL.
+          <p class="text-base text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl">
+            Final-Year B.Sc. Statistics student at <strong class="text-slate-900 dark:text-slate-100 font-semibold">Tri-Chandra Multiple Campus (TU)</strong>, Kathmandu. Specializing in <strong class="text-sky-600 dark:text-sky-300 font-semibold">Statistical Modeling</strong>, quantitative survey design with <strong class="text-sky-600 dark:text-sky-300 font-semibold">KoboToolbox &amp; XLSForm</strong>, and data analysis using Python and PostgreSQL.
           </p>
 
           <!-- Action CTA Buttons -->
@@ -171,32 +171,32 @@
               <span>View Career &amp; Portfolio</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
-            <button type="button" data-nav="contact" class="px-6 py-3 rounded-xl bg-midnight-800 hover:bg-midnight-700 border border-slate-700 text-slate-200 font-medium text-sm transition">
+            <button type="button" data-nav="contact" class="px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-midnight-800 dark:hover:bg-midnight-700 border border-slate-300 dark:border-slate-700 text-slate-800 dark:text-slate-200 font-medium text-sm transition shadow-sm">
               Contact Me
             </button>
-            <a href="assets/Saroj_Parajuli_CV.pdf" download class="px-5 py-3 rounded-xl bg-midnight-900 hover:bg-midnight-800 border border-slate-800 text-slate-300 text-sm font-medium transition flex items-center gap-1.5" title="Download Resume File">
-              <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            <a href="assets/Saroj_Parajuli_CV.pdf" download class="px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-midnight-900 dark:hover:bg-midnight-800 border border-slate-300 dark:border-slate-800 text-slate-700 dark:text-slate-300 text-sm font-medium transition flex items-center gap-1.5 shadow-sm" title="Download Resume File">
+              <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Download CV</span>
             </a>
           </div>
 
           <!-- Quick Highlight Metrics -->
-          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-800/80">
-            <div class="p-3.5 rounded-xl bg-midnight-800/60 border border-slate-800">
-              <div class="font-bold text-xl text-slate-100">B.Sc.</div>
-              <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Statistics Major</div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-6 border-t border-slate-200 dark:border-slate-800/80">
+            <div class="p-3.5 rounded-xl bg-slate-100/90 dark:bg-midnight-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="font-bold text-xl text-slate-900 dark:text-slate-100">B.Sc.</div>
+              <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase mt-0.5">Statistics Major</div>
             </div>
-            <div class="p-3.5 rounded-xl bg-midnight-800/60 border border-slate-800">
-              <div class="font-bold text-xl text-sky-400">2027</div>
-              <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Expected Grad</div>
+            <div class="p-3.5 rounded-xl bg-slate-100/90 dark:bg-midnight-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="font-bold text-xl text-sky-600 dark:text-sky-400">2027</div>
+              <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase mt-0.5">Expected Grad</div>
             </div>
-            <div class="p-3.5 rounded-xl bg-midnight-800/60 border border-slate-800">
-              <div class="font-bold text-xl text-slate-100">M&amp;E</div>
-              <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">KoboToolbox &amp; XLS</div>
+            <div class="p-3.5 rounded-xl bg-slate-100/90 dark:bg-midnight-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="font-bold text-xl text-slate-900 dark:text-slate-100">M&amp;E</div>
+              <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase mt-0.5">KoboToolbox &amp; XLS</div>
             </div>
-            <div class="p-3.5 rounded-xl bg-midnight-800/60 border border-slate-800">
-              <div class="font-bold text-xl text-sky-400">TU</div>
-              <div class="text-[11px] font-mono text-slate-400 uppercase mt-0.5">Tri-Chandra Campus</div>
+            <div class="p-3.5 rounded-xl bg-slate-100/90 dark:bg-midnight-800/60 border border-slate-200 dark:border-slate-800">
+              <div class="font-bold text-xl text-sky-600 dark:text-sky-400">TU</div>
+              <div class="text-[11px] font-mono text-slate-500 dark:text-slate-400 uppercase mt-0.5">Tri-Chandra Campus</div>
             </div>
           </div>
 
@@ -210,7 +210,7 @@
             <div class="absolute -inset-2 bg-gradient-to-r from-sky-500/20 to-deepblue-600/20 rounded-[2rem] filter blur-xl -z-10"></div>
 
             <!-- Portrait Frame -->
-            <div class="rounded-3xl overflow-hidden border border-slate-700/80 bg-midnight-900 shadow-2xl relative group">
+            <div class="rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700/80 bg-slate-100 dark:bg-midnight-900 shadow-xl relative group">
               <img id="homeProfileImg" src="assets/passport_photo.jpg" alt="Saroj Parajuli portrait photograph" class="w-full aspect-[4/5] object-cover group-hover:scale-[1.02] transition-transform duration-500" loading="eager" onerror="this.onerror=null; this.src='assets/saroj_profile.jpg';">
               
               <!-- Subtle overlay info banner -->
@@ -229,31 +229,31 @@
       <!-- Clean 3-Pillar Capability Ribbon -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-6">
         <div class="p-6 rounded-2xl glass-card space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
           </div>
-          <h2 class="text-base font-bold text-slate-100">Statistical Analysis &amp; Modeling</h2>
-          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">Statistical Analysis &amp; Modeling</h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
             Hypothesis testing, probability distributions, regression modeling, and translating raw data into interpretable statistical insights.
           </p>
         </div>
 
         <div class="p-6 rounded-2xl glass-card space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
           </div>
-          <h2 class="text-base font-bold text-slate-100">Monitoring &amp; Evaluation (M&amp;E)</h2>
-          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">Monitoring &amp; Evaluation (M&amp;E)</h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
             Digital survey architecture using KoboToolbox, complex XLSForm logic, indicator tracking, and data quality validation.
           </p>
         </div>
 
         <div class="p-6 rounded-2xl glass-card space-y-3">
-          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
+          <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
           </div>
-          <h2 class="text-base font-bold text-slate-100">Acoustic Music &amp; Voice</h2>
-          <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+          <h2 class="text-base font-bold text-slate-900 dark:text-slate-100">Acoustic Music &amp; Voice</h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
             Acoustic guitar chord arrangements, Nepali folk covers, fingerpicking sessions, and creative creative voice memo demos.
           </p>
         </div>
@@ -266,28 +266,28 @@
          ======================================================================= -->
     <section id="section-about" class="site-section hidden space-y-10">
       
-      <div class="border-b border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-400 font-semibold">Background &amp; Profile</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">About Saroj Parajuli</h1>
-        <p class="text-sm text-slate-400 max-w-2xl">A deeper look at my academic roots, statistical journey, acoustic music, and social handles.</p>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Background &amp; Profile</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">About Saroj Parajuli</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">A deeper look at my academic roots, statistical journey, acoustic music, and social handles.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
         
         <!-- Biography Story Column -->
-        <div class="lg:col-span-8 space-y-6 text-slate-300 leading-relaxed text-sm sm:text-base">
+        <div class="lg:col-span-8 space-y-6 text-slate-700 dark:text-slate-300 leading-relaxed text-sm sm:text-base">
           <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-4">
-            <h2 class="text-xl font-bold text-slate-100">Journey in Statistics &amp; Numbers</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">Journey in Statistics &amp; Numbers</h2>
             <p>
-              I am currently in my final year of Bachelor of Science in Statistics at <strong>Tri-Chandra Multiple Campus</strong>, affiliated with Tribhuvan University (TU), in Kathmandu, Nepal. My academic journey revolves around probability theory, inferential modeling, sampling methodologies, and data analysis.
+              I am currently in my final year of Bachelor of Science in Statistics at <strong class="text-slate-900 dark:text-white">Tri-Chandra Multiple Campus</strong>, affiliated with Tribhuvan University (TU), in Kathmandu, Nepal. My academic journey revolves around probability theory, inferential modeling, sampling methodologies, and data analysis.
             </p>
             <p>
-              Rather than viewing statistics purely through dry formulas, I view data as a lens for genuine storytelling and decision-making. Whether building structured questionnaires with <strong>KoboToolbox &amp; XLSForm</strong> or cleaning datasets in <strong>Python and PostgreSQL</strong>, I focus on accuracy, methodology, and practical applicability.
+              Rather than viewing statistics purely through dry formulas, I view data as a lens for genuine storytelling and decision-making. Whether building structured questionnaires with <strong class="text-sky-600 dark:text-sky-300">KoboToolbox &amp; XLSForm</strong> or cleaning datasets in <strong class="text-sky-600 dark:text-sky-300">Python and PostgreSQL</strong>, I focus on accuracy, methodology, and practical applicability.
             </p>
           </div>
 
           <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-4">
-            <h2 class="text-xl font-bold text-slate-100">Acoustic Music &amp; Creative Life</h2>
+            <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">Acoustic Music &amp; Creative Life</h2>
             <p>
               Beyond datasets and research forms, my creative sanctuary is the acoustic guitar. Late-night chord progressions, Nepali folk melodies, and fingerstyle recordings keep me grounded and curious. This website serves as a living home for both my technical aspirations and my musical explorations.
             </p>
@@ -297,27 +297,27 @@
         <!-- Right Quick Info Card -->
         <div class="lg:col-span-4 space-y-6">
           <div class="p-6 rounded-2xl glass-card space-y-4">
-            <h2 class="text-sm font-mono uppercase tracking-wider text-sky-400 font-bold">Fast Facts</h2>
+            <h2 class="text-sm font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400 font-bold">Fast Facts</h2>
             <ul class="space-y-3 text-xs sm:text-sm">
-              <li class="flex items-start justify-between pb-2 border-b border-slate-800">
-                <span class="text-slate-400">Institution:</span>
-                <span class="text-slate-100 font-medium text-right">Tri-Chandra Campus (TU)</span>
+              <li class="flex items-start justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400">Institution:</span>
+                <span class="text-slate-900 dark:text-slate-100 font-medium text-right">Tri-Chandra Campus (TU)</span>
               </li>
-              <li class="flex items-start justify-between pb-2 border-b border-slate-800">
-                <span class="text-slate-400">Current Program:</span>
-                <span class="text-slate-100 font-medium text-right">B.Sc. Statistics (4-Year)</span>
+              <li class="flex items-start justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400">Current Program:</span>
+                <span class="text-slate-900 dark:text-slate-100 font-medium text-right">B.Sc. Statistics (4-Year)</span>
               </li>
-              <li class="flex items-start justify-between pb-2 border-b border-slate-800">
-                <span class="text-slate-400">Location:</span>
-                <span class="text-slate-100 font-medium text-right">Kathmandu, Nepal</span>
+              <li class="flex items-start justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400">Location:</span>
+                <span class="text-slate-900 dark:text-slate-100 font-medium text-right">Kathmandu, Nepal</span>
               </li>
-              <li class="flex items-start justify-between pb-2 border-b border-slate-800">
-                <span class="text-slate-400">Focus Areas:</span>
-                <span class="text-slate-100 font-medium text-right">M&amp;E, Survey Design, Data</span>
+              <li class="flex items-start justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+                <span class="text-slate-500 dark:text-slate-400">Focus Areas:</span>
+                <span class="text-slate-900 dark:text-slate-100 font-medium text-right">M&amp;E, Survey Design, Data</span>
               </li>
               <li class="flex items-start justify-between">
-                <span class="text-slate-400">Email:</span>
-                <span class="text-sky-400 font-mono text-xs break-all">sarojparajuli.personal@outlook.com</span>
+                <span class="text-slate-500 dark:text-slate-400">Email:</span>
+                <span class="text-sky-600 dark:text-sky-400 font-mono text-xs break-all font-medium">sarojparajuli.personal@outlook.com</span>
               </li>
             </ul>
           </div>
@@ -328,8 +328,8 @@
       <!-- Social Media Handles Hub -->
       <div class="space-y-4 pt-4">
         <div>
-          <h2 class="text-2xl font-bold text-slate-100">Social Media &amp; Profiles</h2>
-          <p class="text-xs sm:text-sm text-slate-400">Connect with me across platforms or reach out directly.</p>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100">Social Media &amp; Profiles</h2>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">Connect with me across platforms or reach out directly.</p>
         </div>
 
         <div id="socialLinksGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
@@ -344,15 +344,15 @@
          ======================================================================= -->
     <section id="section-blogs" class="site-section hidden space-y-8">
       
-      <div class="border-b border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-400 font-semibold">Articles &amp; Research</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Blogs &amp; Publications</h1>
-        <p class="text-sm text-slate-400 max-w-2xl">Essays, statistics tutorials, field notes, and tech reflections. Supports rich text, Markdown, responsive tables, and images.</p>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Articles &amp; Research</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Blogs &amp; Publications</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Essays, statistics tutorials, field notes, and tech reflections. Supports rich text, Markdown, responsive tables, and images.</p>
       </div>
 
       <!-- Dynamic Blogs Container -->
       <!-- List Columns Bar (Desktop) -->
-      <div class="hidden md:flex items-center justify-between px-6 py-2.5 rounded-xl bg-slate-900/60 border border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-400">
+      <div class="hidden md:flex items-center justify-between px-6 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">
         <div class="flex items-center gap-6">
           <span class="w-12 text-center font-bold">S.N.</span>
           <span class="w-24 text-center font-bold">Date</span>
@@ -367,11 +367,11 @@
 
       <!-- Clean Empty State (Shown when no blogs are in DB yet) -->
       <div id="blogsEmptyState" class="p-12 rounded-3xl glass-card text-center max-w-2xl mx-auto space-y-4 my-8">
-        <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center mx-auto">
+        <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
         </div>
-        <h2 class="text-xl font-bold text-slate-100">No blog posts published yet</h2>
-        <p class="text-sm text-slate-400 leading-relaxed">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">No blog posts published yet</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
           Articles, survey methodologies, case studies, and musical notes will appear here soon.
         </p>
       </div>
@@ -383,10 +383,10 @@
          ======================================================================= -->
     <section id="section-music" class="site-section hidden space-y-8">
       
-      <div class="border-b border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-400 font-semibold">Acoustic Journey</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Music Gallery</h1>
-        <p class="text-sm text-slate-400 max-w-2xl">Acoustic guitar takes, original chord progressions, and YouTube video performances.</p>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Acoustic Journey</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Music Gallery</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Acoustic guitar takes, original chord progressions, and YouTube video performances.</p>
       </div>
 
       <!-- Dynamic Music Container -->
@@ -396,11 +396,11 @@
 
       <!-- Clean Empty State (Shown when empty) -->
       <div id="musicEmptyState" class="p-12 rounded-3xl glass-card text-center max-w-2xl mx-auto space-y-4 my-8">
-        <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center mx-auto">
+        <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto">
           <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
         </div>
-        <h2 class="text-xl font-bold text-slate-100">Music gallery is tuned and ready</h2>
-        <p class="text-sm text-slate-400 leading-relaxed">
+        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">Music gallery is tuned and ready</h2>
+        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
           I will be adding acoustic sessions, fingerpicking takes, and embedded YouTube video links here soon. You will be able to watch embedded videos directly without leaving the page.
         </p>
       </div>
@@ -412,65 +412,65 @@
          ======================================================================= -->
     <section id="section-career" class="site-section hidden space-y-8">
       
-      <div class="border-b border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-400 font-semibold">Professional Profile</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Career &amp; Portfolio</h1>
-        <p class="text-sm text-slate-400 max-w-2xl">Academic milestones, technical proficiencies, research projects, and target career paths.</p>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Professional Profile</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Career &amp; Portfolio</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Academic milestones, technical proficiencies, research projects, and target career paths.</p>
       </div>
 
       <!-- Sub-Navigation Pills (The 5 Core Sub-Sections) -->
-      <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-midnight-800/80 border border-slate-800 text-xs shadow-inner">
+      <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-slate-100/90 dark:bg-midnight-800/80 border border-slate-200 dark:border-slate-800 text-xs shadow-inner">
         <button type="button" data-subtab="academic" class="subtab-pill px-4 py-2 rounded-xl font-semibold active">Academic Career</button>
-        <button type="button" data-subtab="summary" class="subtab-pill px-4 py-2 rounded-xl font-semibold text-slate-300 hover:text-white">Professional Summary</button>
-        <button type="button" data-subtab="skills" class="subtab-pill px-4 py-2 rounded-xl font-semibold text-slate-300 hover:text-white">Technical Skills</button>
-        <button type="button" data-subtab="projects" class="subtab-pill px-4 py-2 rounded-xl font-semibold text-slate-300 hover:text-white">Projects &amp; Datasets</button>
-        <button type="button" data-subtab="future" class="subtab-pill px-4 py-2 rounded-xl font-semibold text-slate-300 hover:text-white">Targeted Positions &amp; Future Career</button>
+        <button type="button" data-subtab="summary" class="subtab-pill px-4 py-2 rounded-xl font-semibold">Professional Summary</button>
+        <button type="button" data-subtab="skills" class="subtab-pill px-4 py-2 rounded-xl font-semibold">Technical Skills</button>
+        <button type="button" data-subtab="projects" class="subtab-pill px-4 py-2 rounded-xl font-semibold">Projects &amp; Datasets</button>
+        <button type="button" data-subtab="future" class="subtab-pill px-4 py-2 rounded-xl font-semibold">Targeted Positions &amp; Future Career</button>
       </div>
 
       <!-- SUB-TAB 1: ACADEMIC CAREER -->
       <div id="subtab-content-academic" class="career-subtab-pane space-y-6">
         <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-4">
             <div>
               <span class="badge-sky text-xs font-mono px-3 py-1 rounded-full uppercase font-semibold">Undergraduate Degree</span>
-              <h2 class="text-2xl font-bold text-slate-100 mt-2">Bachelor of Science (B.Sc.) in Statistics</h2>
-              <p class="text-sm text-sky-400">Tri-Chandra Multiple Campus — Tribhuvan University (TU), Kathmandu</p>
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2">Bachelor of Science (B.Sc.) in Statistics</h2>
+              <p class="text-sm text-sky-600 dark:text-sky-400 font-medium">Tri-Chandra Multiple Campus — Tribhuvan University (TU), Kathmandu</p>
             </div>
-            <div class="text-xs font-mono text-slate-400 bg-midnight-900 px-3 py-1.5 rounded-lg border border-slate-800 self-start sm:self-auto">
+            <div class="text-xs font-mono text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-midnight-900 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 self-start sm:self-auto">
               2023 — 2027 (Expected)
             </div>
           </div>
 
-          <div class="space-y-3 text-sm text-slate-300 leading-relaxed">
+          <div class="space-y-3 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
             <p>
               Four-year intensive Bachelor’s program with an emphasis on both theoretical statistical distributions and applied computational data modeling.
             </p>
             <div class="space-y-1">
-              <strong class="text-slate-100 font-semibold">Core Coursework &amp; Mathematical Rigor:</strong>
+              <strong class="text-slate-900 dark:text-slate-100 font-semibold">Core Coursework &amp; Mathematical Rigor:</strong>
               <div class="flex flex-wrap gap-2 pt-1.5">
-                <span class="px-3 py-1 rounded-lg bg-midnight-900 border border-slate-800 text-xs text-slate-300">Probability &amp; Distribution Theory</span>
-                <span class="px-3 py-1 rounded-lg bg-midnight-900 border border-slate-800 text-xs text-slate-300">Inferential Statistics &amp; Hypothesis Testing</span>
-                <span class="px-3 py-1 rounded-lg bg-midnight-900 border border-slate-800 text-xs text-slate-300">Sampling Techniques &amp; Survey Design</span>
-                <span class="px-3 py-1 rounded-lg bg-midnight-900 border border-slate-800 text-xs text-slate-300">Linear Models &amp; Regression Analysis</span>
-                <span class="px-3 py-1 rounded-lg bg-midnight-900 border border-slate-800 text-xs text-slate-300">Time Series &amp; Index Numbers</span>
-                <span class="px-3 py-1 rounded-lg bg-midnight-900 border border-slate-800 text-xs text-slate-300">Biostatistics &amp; Vital Statistics</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">Probability &amp; Distribution Theory</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">Inferential Statistics &amp; Hypothesis Testing</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">Sampling Techniques &amp; Survey Design</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">Linear Models &amp; Regression Analysis</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">Time Series &amp; Index Numbers</span>
+                <span class="px-3 py-1 rounded-lg bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-xs text-slate-700 dark:text-slate-300">Biostatistics &amp; Vital Statistics</span>
               </div>
             </div>
           </div>
         </div>
 
         <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-4">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-800 pb-3">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-200 dark:border-slate-800 pb-3">
             <div>
-              <span class="text-xs font-mono text-slate-400 uppercase font-semibold">Higher Secondary Education</span>
-              <h2 class="text-xl font-bold text-slate-100 mt-1">+2 Science (Physics, Chemistry &amp; Mathematics)</h2>
-              <p class="text-xs text-slate-400">National Examination Board (NEB), Nepal</p>
+              <span class="text-xs font-mono text-slate-500 dark:text-slate-400 uppercase font-semibold">Higher Secondary Education</span>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-1">+2 Science (Physics, Chemistry &amp; Mathematics)</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400">National Examination Board (NEB), Nepal</p>
             </div>
-            <div class="text-xs font-mono text-slate-400 bg-midnight-900 px-3 py-1.5 rounded-lg border border-slate-800 self-start sm:self-auto">
+            <div class="text-xs font-mono text-slate-600 dark:text-slate-400 bg-slate-100 dark:bg-midnight-900 px-3 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 self-start sm:self-auto">
               Completed
             </div>
           </div>
-          <p class="text-sm text-slate-300 leading-relaxed">
+          <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
             Solid foundations in advanced mathematics, analytical problem-solving, calculus, and scientific inquiry that catalyzed my passion for statistics.
           </p>
         </div>
@@ -479,32 +479,32 @@
       <!-- SUB-TAB 2: PROFESSIONAL SUMMARY -->
       <div id="subtab-content-summary" class="career-subtab-pane hidden space-y-6">
         <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-6">
-          <h2 class="text-2xl font-bold text-slate-100 border-b border-slate-800 pb-4">Professional Overview</h2>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 border-b border-slate-200 dark:border-slate-800 pb-4">Professional Overview</h2>
           
-          <div class="space-y-4 text-sm sm:text-base text-slate-300 leading-relaxed">
+          <div class="space-y-4 text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed">
             <p>
-              I am an analytical thinker and aspiring Monitoring &amp; Evaluation (M&amp;E) / Data Analyst with a rigorous foundation in quantitative methodology. My core expertise sits at the intersection of <strong class="text-slate-100">survey design, data quality verification, and statistical analysis</strong>.
+              I am an analytical thinker and aspiring Monitoring &amp; Evaluation (M&amp;E) / Data Analyst with a rigorous foundation in quantitative methodology. My core expertise sits at the intersection of <strong class="text-slate-900 dark:text-slate-100">survey design, data quality verification, and statistical analysis</strong>.
             </p>
             <p>
-              During my academic journey at Tri-Chandra Multiple Campus (TU), I have developed hands-on capabilities in designing digitized questionnaires using <strong class="text-sky-300">KoboToolbox and XLSForm syntax</strong> (including complex skip logic, regex validations, calculate fields, and repeat groups). I believe that clean data at the collection stage is the bedrock of trustworthy statistical inference.
+              During my academic journey at Tri-Chandra Multiple Campus (TU), I have developed hands-on capabilities in designing digitized questionnaires using <strong class="text-sky-600 dark:text-sky-300">KoboToolbox and XLSForm syntax</strong> (including complex skip logic, regex validations, calculate fields, and repeat groups). I believe that clean data at the collection stage is the bedrock of trustworthy statistical inference.
             </p>
             <p>
-              Technically, I work comfortably with <strong class="text-sky-300">Python (Pandas, NumPy, Matplotlib)</strong> for data munging and exploratory analysis, <strong class="text-sky-300">SQL and PostgreSQL</strong> for relational database querying, and advanced <strong class="text-sky-300">Excel</strong> for quick reporting and pivot analyses.
+              Technically, I work comfortably with <strong class="text-sky-600 dark:text-sky-300">Python (Pandas, NumPy, Matplotlib)</strong> for data munging and exploratory analysis, <strong class="text-sky-600 dark:text-sky-300">SQL and PostgreSQL</strong> for relational database querying, and advanced <strong class="text-sky-600 dark:text-sky-300">Excel</strong> for quick reporting and pivot analyses.
             </p>
           </div>
 
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-800">
-            <div class="p-4 rounded-xl bg-midnight-900 border border-slate-800">
-              <div class="text-xs font-mono uppercase text-sky-400 font-bold">Data Integrity</div>
-              <p class="text-xs text-slate-300 mt-1">Focus on minimizing non-sampling errors, field validation, and clean survey logic.</p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-slate-200 dark:border-slate-800">
+            <div class="p-4 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800">
+              <div class="text-xs font-mono uppercase text-sky-600 dark:text-sky-400 font-bold">Data Integrity</div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Focus on minimizing non-sampling errors, field validation, and clean survey logic.</p>
             </div>
-            <div class="p-4 rounded-xl bg-midnight-900 border border-slate-800">
-              <div class="text-xs font-mono uppercase text-sky-400 font-bold">Practical M&amp;E</div>
-              <p class="text-xs text-slate-300 mt-1">Structuring indicators, baseline-endline comparisons, and verifiable tracking.</p>
+            <div class="p-4 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800">
+              <div class="text-xs font-mono uppercase text-sky-600 dark:text-sky-400 font-bold">Practical M&amp;E</div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Structuring indicators, baseline-endline comparisons, and verifiable tracking.</p>
             </div>
-            <div class="p-4 rounded-xl bg-midnight-900 border border-slate-800">
-              <div class="text-xs font-mono uppercase text-sky-400 font-bold">Reproducible Code</div>
-              <p class="text-xs text-slate-300 mt-1">Scripted pipelines with Python, PostgreSQL, and Git version control.</p>
+            <div class="p-4 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800">
+              <div class="text-xs font-mono uppercase text-sky-600 dark:text-sky-400 font-bold">Reproducible Code</div>
+              <p class="text-xs text-slate-600 dark:text-slate-300 mt-1">Scripted pipelines with Python, PostgreSQL, and Git version control.</p>
             </div>
           </div>
         </div>
@@ -516,29 +516,29 @@
           
           <!-- Category 1 -->
           <div class="p-6 rounded-2xl glass-card space-y-4">
-            <div class="flex items-center gap-2.5 text-sky-400">
+            <div class="flex items-center gap-2.5 text-sky-600 dark:text-sky-400">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"/></svg>
-              <h2 class="text-lg font-bold text-slate-100">Statistical Methods &amp; Theory</h2>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Statistical Methods &amp; Theory</h2>
             </div>
-            <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Hypothesis Testing (t-tests, Z-tests, Chi-square, ANOVA)</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Simple &amp; Multiple Linear Regression Modeling</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Sampling Designs (Simple Random, Stratified, Cluster, Systematic)</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Descriptive Statistics, Variance &amp; Correlation Analysis</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Time Series Trend Analysis &amp; Moving Averages</span>
               </li>
             </ul>
@@ -546,29 +546,29 @@
 
           <!-- Category 2 -->
           <div class="p-6 rounded-2xl glass-card space-y-4">
-            <div class="flex items-center gap-2.5 text-sky-400">
+            <div class="flex items-center gap-2.5 text-sky-600 dark:text-sky-400">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg>
-              <h2 class="text-lg font-bold text-slate-100">M&amp;E &amp; Mobile Data Collection</h2>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">M&amp;E &amp; Mobile Data Collection</h2>
             </div>
-            <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>KoboToolbox &amp; KoboCollect Form Deployment</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Advanced XLSForm Syntax (Skip logic, relevancies, constraints, regex)</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>ODK (Open Data Kit) Protocols &amp; GPS Geopoint Surveys</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Data Quality Assurance &amp; Enumerator Validation Rules</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Indicator Tracking &amp; Logical Framework (Logframe) Support</span>
               </li>
             </ul>
@@ -576,25 +576,25 @@
 
           <!-- Category 3 -->
           <div class="p-6 rounded-2xl glass-card space-y-4">
-            <div class="flex items-center gap-2.5 text-sky-400">
+            <div class="flex items-center gap-2.5 text-sky-600 dark:text-sky-400">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-              <h2 class="text-lg font-bold text-slate-100">Programming, Databases &amp; Tools</h2>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Programming, Databases &amp; Tools</h2>
             </div>
-            <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Python (Pandas, NumPy, Matplotlib, Seaborn)</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>SQL &amp; PostgreSQL (Joins, aggregations, schema design)</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Microsoft Excel (Formulas, Pivot Tables, Power Query)</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Git &amp; GitHub (Version control, code repositories)</span>
               </li>
             </ul>
@@ -602,25 +602,25 @@
 
           <!-- Category 4 -->
           <div class="p-6 rounded-2xl glass-card space-y-4">
-            <div class="flex items-center gap-2.5 text-sky-400">
+            <div class="flex items-center gap-2.5 text-sky-600 dark:text-sky-400">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 00-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
-              <h2 class="text-lg font-bold text-slate-100">Database &amp; Cloud Infrastructure</h2>
+              <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Database &amp; Cloud Infrastructure</h2>
             </div>
-            <ul class="space-y-2 text-xs sm:text-sm text-slate-300">
+            <ul class="space-y-2 text-xs sm:text-sm text-slate-700 dark:text-slate-300">
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Supabase (PostgreSQL, Row Level Security, RESTful APIs)</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Cloudflare DNS, SSL/TLS Encryption &amp; Edge Rules</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Vercel Edge Deployments &amp; Continuous Integration</span>
               </li>
               <li class="flex items-center gap-2">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400"></span>
+                <span class="w-1.5 h-1.5 rounded-full bg-sky-500"></span>
                 <span>Web Audio API &amp; Modern Semantic HTML5/CSS3</span>
               </li>
             </ul>
@@ -634,13 +634,13 @@
         
         <!-- Interactive Dataset Analytics Banner -->
         <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-6">
-          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-4">
+          <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-4">
             <div>
               <span class="badge-sky text-xs font-mono px-3 py-1 rounded-full uppercase font-semibold">Live Dataset Analysis</span>
-              <h2 class="text-2xl font-bold text-slate-100 mt-2">Quantitative Sales &amp; Price Discount Modeling</h2>
-              <p class="text-xs sm:text-sm text-slate-400">Analyzed from physical CSV dataset: <code class="text-sky-300 font-mono">iphone_sales_dataset.csv</code></p>
+              <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 mt-2">Quantitative Sales &amp; Price Discount Modeling</h2>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400">Analyzed from physical CSV dataset: <code class="text-sky-600 dark:text-sky-300 font-mono">iphone_sales_dataset.csv</code></p>
             </div>
-            <a href="assets/iphone_sales_dataset.csv" download class="self-start sm:self-auto px-4 py-2 rounded-xl bg-midnight-900 hover:bg-slate-800 border border-slate-700 text-xs font-mono text-sky-400 transition flex items-center gap-2">
+            <a href="assets/iphone_sales_dataset.csv" download class="self-start sm:self-auto px-4 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-midnight-900 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700 text-xs font-mono text-sky-600 dark:text-sky-400 transition flex items-center gap-2 shadow-sm">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
               <span>Download CSV</span>
             </a>
@@ -648,29 +648,29 @@
 
           <!-- Fast Summary Metrics -->
           <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <div class="p-3.5 rounded-xl bg-midnight-900 border border-slate-800">
-              <div class="text-[10px] font-mono text-slate-400 uppercase">Total Records</div>
-              <div id="csvMetricRecords" class="text-xl font-bold text-slate-100 mt-0.5">62 Products</div>
+            <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800">
+              <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase">Total Records</div>
+              <div id="csvMetricRecords" class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">62 Products</div>
             </div>
-            <div class="p-3.5 rounded-xl bg-midnight-900 border border-slate-800">
-              <div class="text-[10px] font-mono text-slate-400 uppercase">Avg Rating</div>
-              <div id="csvMetricAvgRating" class="text-xl font-bold text-sky-400 mt-0.5">4.58 / 5.0</div>
+            <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800">
+              <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase">Avg Rating</div>
+              <div id="csvMetricAvgRating" class="text-xl font-bold text-sky-600 dark:text-sky-400 mt-0.5">4.58 / 5.0</div>
             </div>
-            <div class="p-3.5 rounded-xl bg-midnight-900 border border-slate-800">
-              <div class="text-[10px] font-mono text-slate-400 uppercase">Top Review Count</div>
-              <div id="csvMetricTopReviews" class="text-xl font-bold text-slate-100 mt-0.5">149,709</div>
+            <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800">
+              <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase">Top Review Count</div>
+              <div id="csvMetricTopReviews" class="text-xl font-bold text-slate-900 dark:text-slate-100 mt-0.5">149,709</div>
             </div>
-            <div class="p-3.5 rounded-xl bg-midnight-900 border border-slate-800">
-              <div class="text-[10px] font-mono text-slate-400 uppercase">Max Discount</div>
-              <div id="csvMetricMaxDiscount" class="text-xl font-bold text-emerald-400 mt-0.5">29% Off</div>
+            <div class="p-3.5 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800">
+              <div class="text-[10px] font-mono text-slate-500 dark:text-slate-400 uppercase">Max Discount</div>
+              <div id="csvMetricMaxDiscount" class="text-xl font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">29% Off</div>
             </div>
           </div>
 
           <!-- Interactive Chart.js Canvas -->
-          <div class="p-4 rounded-xl bg-midnight-950/80 border border-slate-800">
-            <div class="flex items-center justify-between mb-3 text-xs font-mono text-slate-400">
+          <div class="p-4 rounded-xl bg-slate-50 dark:bg-midnight-950/80 border border-slate-200 dark:border-slate-800">
+            <div class="flex items-center justify-between mb-3 text-xs font-mono text-slate-500 dark:text-slate-400">
               <span>Sales Volume vs. Star Ratings (Top Models)</span>
-              <span class="text-sky-400">Chart.js Visualizer</span>
+              <span class="text-sky-600 dark:text-sky-400">Chart.js Visualizer</span>
             </div>
             <div class="h-64 sm:h-72 w-full">
               <canvas id="salesDatasetChart"></canvas>
@@ -683,28 +683,28 @@
           
           <div class="p-6 rounded-2xl glass-card space-y-4">
             <span class="badge-sky text-[10px] font-mono px-2.5 py-1 rounded-full uppercase font-bold">M&amp;E &amp; Survey Engineering</span>
-            <h3 class="text-xl font-bold text-slate-100">KoboToolbox &amp; XLSForm Multi-Level Survey Architecture</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">KoboToolbox &amp; XLSForm Multi-Level Survey Architecture</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               Designed field-ready survey instruments implementing complex skip routines, multi-criteria constraints, repeat groups for household rosters, and multilingual labels in XLSForm format for ODK/KoboCollect.
             </p>
             <div class="flex flex-wrap gap-1.5 pt-2">
-              <span class="px-2.5 py-1 rounded-md bg-midnight-900 text-[11px] font-mono text-slate-300">XLSForm</span>
-              <span class="px-2.5 py-1 rounded-md bg-midnight-900 text-[11px] font-mono text-slate-300">KoboToolbox</span>
-              <span class="px-2.5 py-1 rounded-md bg-midnight-900 text-[11px] font-mono text-slate-300">Data Validation</span>
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">XLSForm</span>
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">KoboToolbox</span>
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">Data Validation</span>
             </div>
           </div>
 
           <div class="p-6 rounded-2xl glass-card space-y-4">
             <span class="badge-sky text-[10px] font-mono px-2.5 py-1 rounded-full uppercase font-bold">Web &amp; Database Architecture</span>
-            <h3 class="text-xl font-bold text-slate-100">sarojparajuli.com.np — Custom Cloud Platform</h3>
-            <p class="text-sm text-slate-400 leading-relaxed">
+            <h3 class="text-xl font-bold text-slate-900 dark:text-slate-100">sarojparajuli.com.np — Custom Cloud Platform</h3>
+            <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
               Engineered my personal digital platform powered by Supabase PostgreSQL, automated Vercel CI/CD pipelines, Cloudflare DNS edge caching, and real-time live message board persistence.
             </p>
             <div class="flex flex-wrap gap-1.5 pt-2">
-              <span class="px-2.5 py-1 rounded-md bg-midnight-900 text-[11px] font-mono text-slate-300">Supabase</span>
-              <span class="px-2.5 py-1 rounded-md bg-midnight-900 text-[11px] font-mono text-slate-300">PostgreSQL</span>
-              <span class="px-2.5 py-1 rounded-md bg-midnight-900 text-[11px] font-mono text-slate-300">Vercel</span>
-              <span class="px-2.5 py-1 rounded-md bg-midnight-900 text-[11px] font-mono text-slate-300">Cloudflare</span>
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">Supabase</span>
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">PostgreSQL</span>
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">Vercel</span>
+              <span class="px-2.5 py-1 rounded-md bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-[11px] font-mono text-slate-700 dark:text-slate-300">Cloudflare</span>
             </div>
           </div>
 
@@ -715,47 +715,47 @@
       <!-- SUB-TAB 5: TARGETED POSITIONS & FUTURE CAREER -->
       <div id="subtab-content-future" class="career-subtab-pane hidden space-y-6">
         <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-6">
-          <h2 class="text-2xl font-bold text-slate-100 border-b border-slate-800 pb-4">Targeted Roles &amp; Professional Trajectory</h2>
+          <h2 class="text-2xl font-bold text-slate-900 dark:text-slate-100 border-b border-slate-200 dark:border-slate-800 pb-4">Targeted Roles &amp; Professional Trajectory</h2>
           
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             
-            <div class="p-5 rounded-xl bg-midnight-900/80 border border-slate-800 space-y-2">
-              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm">01</div>
-              <h3 class="text-base font-bold text-slate-100">Monitoring &amp; Evaluation (M&amp;E) Officer / Assistant</h3>
-              <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <div class="p-5 rounded-xl bg-slate-100/90 dark:bg-midnight-900/80 border border-slate-200 dark:border-slate-800 space-y-2">
+              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-sm">01</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">Monitoring &amp; Evaluation (M&amp;E) Officer / Assistant</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Contributing to development organizations and research bodies by designing baseline/endline data collection systems, logical frameworks, and survey validation routines.
               </p>
             </div>
 
-            <div class="p-5 rounded-xl bg-midnight-900/80 border border-slate-800 space-y-2">
-              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm">02</div>
-              <h3 class="text-base font-bold text-slate-100">Data Analyst / Quantitative Researcher</h3>
-              <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <div class="p-5 rounded-xl bg-slate-100/90 dark:bg-midnight-900/80 border border-slate-200 dark:border-slate-800 space-y-2">
+              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-sm">02</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">Data Analyst / Quantitative Researcher</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Analyzing demographic, agricultural, or socioeconomic data using statistical inference, multivariate regression, and Python visualization to extract reliable conclusions.
               </p>
             </div>
 
-            <div class="p-5 rounded-xl bg-midnight-900/80 border border-slate-800 space-y-2">
-              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm">03</div>
-              <h3 class="text-base font-bold text-slate-100">Statistical Officer &amp; Survey Field Coordinator</h3>
-              <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <div class="p-5 rounded-xl bg-slate-100/90 dark:bg-midnight-900/80 border border-slate-200 dark:border-slate-800 space-y-2">
+              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-sm">03</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">Statistical Officer &amp; Survey Field Coordinator</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Overseeing sampling strategies, training field enumerators on KoboCollect, managing data quality protocols, and auditing incoming response sets.
               </p>
             </div>
 
-            <div class="p-5 rounded-xl bg-midnight-900/80 border border-slate-800 space-y-2">
-              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-400 flex items-center justify-center font-bold text-sm">04</div>
-              <h3 class="text-base font-bold text-slate-100">Management Information Systems (MIS) Analyst</h3>
-              <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+            <div class="p-5 rounded-xl bg-slate-100/90 dark:bg-midnight-900/80 border border-slate-200 dark:border-slate-800 space-y-2">
+              <div class="w-8 h-8 rounded-lg bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center font-bold text-sm">04</div>
+              <h3 class="text-base font-bold text-slate-900 dark:text-slate-100">Management Information Systems (MIS) Analyst</h3>
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
                 Managing relational databases with PostgreSQL, maintaining data dashboards, and streamlining organizational data pipelines.
               </p>
             </div>
 
           </div>
 
-          <div class="p-6 rounded-xl bg-midnight-900 border border-slate-800 space-y-3">
-            <h3 class="text-lg font-bold text-slate-100">Future Research &amp; Academic Vision</h3>
-            <p class="text-sm text-slate-300 leading-relaxed">
+          <div class="p-6 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 space-y-3">
+            <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100">Future Research &amp; Academic Vision</h3>
+            <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
               Following the completion of my B.Sc. Statistics at Tri-Chandra Multiple Campus (TU), my ambition is to pursue graduate studies in <strong>Applied Statistics &amp; Data Science</strong>. My long-term goal is to bridge empirical statistical methods with public policy and community development in Nepal, using verified data to drive meaningful social impact.
             </p>
           </div>
@@ -770,10 +770,10 @@
          ======================================================================= -->
     <section id="section-contact" class="site-section hidden space-y-10">
       
-      <div class="border-b border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-400 font-semibold">Get in Touch</span>
-        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-100">Contact Me</h1>
-        <p class="text-sm text-slate-400 max-w-2xl">Have a data project, research collaboration, or just want to chat about music and numbers? Send me a message or leave a note.</p>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Get in Touch</span>
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Contact Me</h1>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Have a data project, research collaboration, or just want to chat about music and numbers? Send me a message or leave a note.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -782,46 +782,46 @@
         <div class="lg:col-span-5 space-y-4">
           
           <div class="p-6 rounded-2xl glass-card space-y-4">
-            <h2 class="text-lg font-bold text-slate-100">Direct Contact Information</h2>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-slate-100">Direct Contact Information</h2>
             
             <div class="space-y-4 text-xs sm:text-sm">
               <div class="flex items-start gap-3">
-                <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
+                <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 </div>
                 <div class="space-y-1">
-                  <span class="text-slate-400 text-xs block">Email Address</span>
-                  <a href="mailto:sarojparajuli.personal@outlook.com" class="text-slate-100 hover:text-sky-400 font-mono text-xs font-medium break-all">sarojparajuli.personal@outlook.com</a>
+                  <span class="text-slate-500 dark:text-slate-400 text-xs block">Email Address</span>
+                  <a href="mailto:sarojparajuli.personal@outlook.com" class="text-slate-900 dark:text-slate-100 hover:text-sky-600 dark:hover:text-sky-400 font-mono text-xs font-medium break-all">sarojparajuli.personal@outlook.com</a>
                 </div>
               </div>
 
               <div class="flex items-start gap-3">
-                <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0">
+                <div class="w-9 h-9 rounded-xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center shrink-0">
                   <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/></svg>
                 </div>
                 <div class="space-y-1">
-                  <span class="text-slate-400 text-xs block">WhatsApp</span>
-                  <a href="https://wa.me/parajulisaroj" target="_blank" rel="noopener noreferrer" class="text-slate-100 hover:text-emerald-400 font-mono text-xs font-medium">@parajulisaroj</a>
+                  <span class="text-slate-500 dark:text-slate-400 text-xs block">WhatsApp</span>
+                  <a href="https://wa.me/parajulisaroj" target="_blank" rel="noopener noreferrer" class="text-slate-900 dark:text-slate-100 hover:text-emerald-600 dark:hover:text-emerald-400 font-mono text-xs font-medium">@parajulisaroj</a>
                 </div>
               </div>
 
               <div class="flex items-start gap-3">
-                <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
+                <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
                 </div>
                 <div class="space-y-1">
-                  <span class="text-slate-400 text-xs block">Location</span>
-                  <span class="text-slate-100 font-medium">Kathmandu, Nepal</span>
+                  <span class="text-slate-500 dark:text-slate-400 text-xs block">Location</span>
+                  <span class="text-slate-900 dark:text-slate-100 font-medium">Kathmandu, Nepal</span>
                 </div>
               </div>
 
               <div class="flex items-start gap-3">
-                <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-400 flex items-center justify-center shrink-0">
+                <div class="w-9 h-9 rounded-xl bg-sky-500/10 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0">
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>
                 </div>
                 <div class="space-y-1">
-                  <span class="text-slate-400 text-xs block">Campus</span>
-                  <span class="text-slate-100 font-medium">Tri-Chandra Multiple Campus (TU)</span>
+                  <span class="text-slate-500 dark:text-slate-400 text-xs block">Campus</span>
+                  <span class="text-slate-900 dark:text-slate-100 font-medium">Tri-Chandra Multiple Campus (TU)</span>
                 </div>
               </div>
             </div>
@@ -829,7 +829,7 @@
 
           <!-- Quick Connect Buttons -->
           <div class="p-6 rounded-2xl glass-card space-y-3">
-            <h3 class="text-sm font-bold text-slate-100">Send Direct Message</h3>
+            <h3 class="text-sm font-bold text-slate-900 dark:text-slate-100">Send Direct Message</h3>
             <div class="flex flex-col gap-2">
               <a href="https://wa.me/parajulisaroj" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs flex items-center justify-center gap-2 transition shadow">
                 <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0012.04 2m.01 1.67c2.2 0 4.26.86 5.82 2.42a8.225 8.225 0 012.41 5.83c0 4.54-3.7 8.24-8.24 8.24-1.48 0-2.93-.4-4.2-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.196 8.196 0 01-1.26-4.38c0-4.54 3.7-8.24 8.25-8.24m4.52 11.66c-.25-.13-1.47-.72-1.7-.81-.23-.08-.39-.13-.56.13-.17.25-.64.81-.79.97-.14.17-.29.19-.54.06-.25-.13-1.06-.39-2.03-1.25-.75-.67-1.26-1.5-1.41-1.75-.14-.25-.02-.38.11-.51.11-.11.25-.29.37-.44.13-.14.17-.25.25-.42.08-.17.04-.31-.02-.44-.06-.13-.56-1.34-.76-1.84-.2-.48-.41-.42-.56-.43h-.48c-.17 0-.44.06-.67.31-.23.25-.88.86-.88 2.1 0 1.24.9 2.44 1.03 2.61.13.17 1.77 2.7 4.29 3.79.6.26 1.07.41 1.44.53.6.19 1.15.16 1.59.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.15-1.18-.06-.12-.22-.19-.47-.32z"/></svg>
@@ -839,7 +839,7 @@
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                 <span>Compose Email</span>
               </a>
-              <button type="button" id="copyEmailBtn" class="w-full py-2.5 px-4 rounded-xl bg-midnight-900 hover:bg-slate-800 border border-slate-700 text-slate-300 font-mono text-xs flex items-center justify-center gap-2 transition">
+              <button type="button" id="copyEmailBtn" class="w-full py-2.5 px-4 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-midnight-900 dark:hover:bg-slate-800 border border-slate-300 dark:border-slate-700 text-slate-700 dark:text-slate-300 font-mono text-xs flex items-center justify-center gap-2 transition shadow-sm">
                 <span>Copy Email Address</span>
               </button>
             </div>
@@ -852,8 +852,8 @@
           <div class="p-6 sm:p-8 rounded-2xl glass-card space-y-6">
             <div class="space-y-1">
               <span class="badge-sky text-[10px] font-mono px-2.5 py-0.5 rounded-full uppercase font-bold">Community Guestbook</span>
-              <h2 class="text-xl font-bold text-slate-100">Leave a Note for Saroj</h2>
-              <p class="text-xs text-slate-400">Have a thought, question, or note? Feel free to write here.</p>
+              <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">Leave a Note for Saroj</h2>
+              <p class="text-xs text-slate-500 dark:text-slate-400">Have a thought, question, or note? Feel free to write here.</p>
             </div>
 
             <!-- Form -->
@@ -863,18 +863,18 @@
 
               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div class="space-y-1">
-                  <label for="senderNameInput" class="block text-xs font-medium text-slate-300">Your Name *</label>
-                  <input type="text" id="senderNameInput" required maxlength="80" placeholder="e.g. Aarav Sharma" class="w-full px-3.5 py-2.5 rounded-xl bg-midnight-900 border border-slate-800 text-slate-100 text-sm focus:outline-none focus:border-sky-500 transition">
+                  <label for="senderNameInput" class="block text-xs font-medium text-slate-700 dark:text-slate-300">Your Name *</label>
+                  <input type="text" id="senderNameInput" required maxlength="80" placeholder="e.g. Aarav Sharma" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-midnight-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-sky-500 transition">
                 </div>
                 <div class="space-y-1">
-                  <label for="senderContactInput" class="block text-xs font-medium text-slate-300">Contact / Email / Handle (Optional)</label>
-                  <input type="text" id="senderContactInput" maxlength="100" placeholder="e.g. @aarav or email" class="w-full px-3.5 py-2.5 rounded-xl bg-midnight-900 border border-slate-800 text-slate-100 text-sm focus:outline-none focus:border-sky-500 transition">
+                  <label for="senderContactInput" class="block text-xs font-medium text-slate-700 dark:text-slate-300">Contact / Email / Handle (Optional)</label>
+                  <input type="text" id="senderContactInput" maxlength="100" placeholder="e.g. @aarav or email" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-midnight-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-sky-500 transition">
                 </div>
               </div>
 
               <div class="space-y-1">
-                <label for="senderMessageInput" class="block text-xs font-medium text-slate-300">Message / Note *</label>
-                <textarea id="senderMessageInput" required rows="3" maxlength="1500" placeholder="Write a note, question, or feedback..." class="w-full px-3.5 py-2.5 rounded-xl bg-midnight-900 border border-slate-800 text-slate-100 text-sm focus:outline-none focus:border-sky-500 transition"></textarea>
+                <label for="senderMessageInput" class="block text-xs font-medium text-slate-700 dark:text-slate-300">Message / Note *</label>
+                <textarea id="senderMessageInput" required rows="3" maxlength="1500" placeholder="Write a note, question, or feedback..." class="w-full px-3.5 py-2.5 rounded-xl bg-slate-50 dark:bg-midnight-900 border border-slate-300 dark:border-slate-800 text-slate-900 dark:text-slate-100 text-sm focus:outline-none focus:border-sky-500 transition"></textarea>
               </div>
 
               <button type="submit" id="guestbookSubmitBtn" class="px-6 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs transition shadow flex items-center gap-2">
@@ -883,8 +883,8 @@
             </form>
 
             <!-- Message List -->
-            <div class="space-y-3 pt-4 border-t border-slate-800">
-              <h3 class="text-xs font-mono uppercase tracking-wider text-slate-400 font-bold">Recent Notes from Visitors</h3>
+            <div class="space-y-3 pt-4 border-t border-slate-200 dark:border-slate-800">
+              <h3 class="text-xs font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">Recent Notes from Visitors</h3>
               <div id="guestbookMessagesContainer" class="space-y-3 max-h-80 overflow-y-auto pr-1">
                 <!-- Dynamically populated from Supabase -->
                 <div class="text-center py-6 text-xs text-slate-500">Loading guestbook notes...</div>
@@ -903,12 +903,12 @@
   <!-- =========================================================================
        CLEAN MINIMAL FOOTER
        ========================================================================= -->
-  <footer class="border-t border-slate-800/80 py-8 px-4 sm:px-8 bg-midnight-900/60 mt-12 text-center text-xs text-slate-400">
+  <footer class="border-t border-slate-200 dark:border-slate-800/80 py-8 px-4 sm:px-8 bg-slate-100/70 dark:bg-midnight-900/60 mt-12 text-center text-xs text-slate-500 dark:text-slate-400">
     <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-        <span class="text-slate-200 font-medium">Saroj Parajuli</span>
-        <span class="text-slate-500">•</span>
+        <span class="w-2 h-2 rounded-full bg-sky-500"></span>
+        <span class="text-slate-800 dark:text-slate-200 font-medium">Saroj Parajuli</span>
+        <span class="text-slate-400 dark:text-slate-500">•</span>
         <span>Tri-Chandra Multiple Campus (TU), Kathmandu, Nepal</span>
       </div>
       <div>
@@ -918,15 +918,15 @@
   </footer>
 
   <!-- Toast Notification Container -->
-  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-slate-900 border border-sky-500/40 text-slate-100 text-xs shadow-2xl flex items-center gap-2.5 pointer-events-none">
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-slate-900 dark:bg-slate-900 border border-sky-500/40 text-slate-100 text-xs shadow-2xl flex items-center gap-2.5 pointer-events-none">
     <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
     <span id="toastMessage">Notification</span>
   </div>
 
   <!-- Client-side Scripts (Cache-Busted for Immediate Update) -->
-  <script src="js/config.js?v=20261106_v7"></script>
-  <script src="js/supabase-client.js?v=20261106_v7"></script>
-  <script src="js/analytics-chart.js?v=20261106_v7"></script>
-  <script src="js/main.js?v=20261106_v7"></script>
+  <script src="js/config.js?v=20261107_v9"></script>
+  <script src="js/supabase-client.js?v=20261107_v9"></script>
+  <script src="js/analytics-chart.js?v=20261107_v9"></script>
+  <script src="js/main.js?v=20261107_v9"></script>
 </body>
 </html>

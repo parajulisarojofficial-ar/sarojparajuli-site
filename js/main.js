@@ -74,10 +74,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       const btnTab = btn.getAttribute("data-nav") || btn.getAttribute("data-nav-target") || (btn.getAttribute("href") || "").replace(/^#/, "");
       if (btnTab === targetTab) {
         btn.classList.add("active");
-        btn.classList.remove("text-slate-300");
+        btn.setAttribute("aria-current", "page");
       } else {
         btn.classList.remove("active");
-        btn.classList.add("text-slate-300");
+        btn.removeAttribute("aria-current");
       }
     });
 
@@ -85,9 +85,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.querySelectorAll(".mobile-nav-btn").forEach(btn => {
       const btnTab = btn.getAttribute("data-nav") || btn.getAttribute("data-nav-target") || (btn.getAttribute("href") || "").replace(/^#/, "");
       if (btnTab === targetTab) {
-        btn.className = "mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold bg-sky-600 text-white";
+        btn.className = "mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-semibold bg-sky-600 text-white shadow-sm";
       } else {
-        btn.className = "mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-200 hover:bg-slate-800";
+        btn.className = "mobile-nav-btn text-left px-4 py-2.5 rounded-xl text-sm font-medium text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition";
       }
     });
 
@@ -302,15 +302,15 @@ document.addEventListener("DOMContentLoaded", async () => {
 
       card.innerHTML = `
         <div class="flex items-center gap-3.5">
-          <div class="w-10 h-10 rounded-xl bg-midnight-900 border border-slate-800 text-sky-400 flex items-center justify-center shrink-0 group-hover:border-sky-500/50 transition">
+          <div class="w-10 h-10 rounded-xl bg-slate-100 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 text-sky-600 dark:text-sky-400 flex items-center justify-center shrink-0 group-hover:border-sky-500/50 transition">
             ${p.icon}
           </div>
           <div>
-            <div class="text-sm font-bold text-slate-100">${escapeHTML(p.name)}</div>
-            <div class="text-xs text-slate-400 mt-0.5">${escapeHTML(p.desc)}</div>
+            <div class="text-sm font-bold text-slate-900 dark:text-slate-100">${escapeHTML(p.name)}</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${escapeHTML(p.desc)}</div>
           </div>
         </div>
-        <a href="${escapeHTML(p.url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sky-600/15 hover:bg-sky-600 text-sky-400 hover:text-white border border-sky-500/30 text-xs font-semibold transition">Open</a>
+        <a href="${escapeHTML(p.url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sky-600/15 hover:bg-sky-600 text-sky-600 dark:text-sky-400 hover:text-white border border-sky-500/30 text-xs font-semibold transition">Open</a>
       `;
       container.appendChild(card);
     });
@@ -343,20 +343,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       const url = post.url || (post.slug ? `blogs/${post.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html");
 
       const card = document.createElement("article");
-      card.className = "p-5 sm:p-6 rounded-2xl glass-card border border-slate-800/80 hover:border-sky-500/40 transition-all duration-200 group flex flex-col md:flex-row items-start md:items-center gap-5 shadow-sm";
+      card.className = "p-5 sm:p-6 rounded-2xl glass-card border border-slate-200 dark:border-slate-800/80 hover:border-sky-500/40 transition-all duration-200 group flex flex-col md:flex-row items-start md:items-center gap-5 shadow-sm";
 
       card.innerHTML = `
         <!-- Left: S.N. Badge & Dedicated Date Column (Desktop) -->
         <div class="flex-shrink-0 flex items-center gap-3">
           <!-- Serial Number (S.N.) Badge -->
-          <div class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-400 font-mono font-extrabold text-base sm:text-lg shadow-sm" title="Serial Number">
+          <div class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 font-mono font-extrabold text-base sm:text-lg shadow-sm" title="Serial Number">
             ${sn}
           </div>
 
           <!-- Dedicated Date Column (Visible on Tablet & Desktop) -->
-          <div class="hidden sm:flex flex-col items-center justify-center px-3.5 py-2 rounded-2xl bg-slate-800/80 border border-slate-700/80 text-center min-w-[95px] shadow-sm">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-400 font-bold">Posted</span>
-            <span class="text-xs font-mono font-bold text-sky-300 whitespace-nowrap">${escapeHTML(date)}</span>
+          <div class="hidden sm:flex flex-col items-center justify-center px-3.5 py-2 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center min-w-[95px] shadow-sm">
+            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">Posted</span>
+            <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-300 whitespace-nowrap">${escapeHTML(date)}</span>
           </div>
         </div>
 
@@ -366,30 +366,30 @@ document.addEventListener("DOMContentLoaded", async () => {
             <span class="badge-sky px-2.5 py-0.5 rounded-full uppercase font-mono font-bold text-[10px] tracking-wider">${escapeHTML(category)}</span>
             
             <!-- Mobile Date Badge (Shown on mobile when left date block is hidden) -->
-            <span class="sm:hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-800 border border-slate-700 text-sky-300 font-mono text-[11px] font-medium">
-              <svg class="w-3 h-3 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <span class="sm:hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-600 dark:text-sky-300 font-mono text-[11px] font-medium">
+              <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
               </svg>
               <span>${escapeHTML(date)}</span>
             </span>
 
-            <span class="text-slate-500 font-mono text-[11px]">•</span>
-            <span class="text-slate-400 font-mono text-[11px]">${escapeHTML(readTime)}</span>
+            <span class="text-slate-400 dark:text-slate-500 font-mono text-[11px]">•</span>
+            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">${escapeHTML(readTime)}</span>
           </div>
 
-          <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-100 group-hover:text-sky-400 transition-colors leading-snug">
+          <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-snug">
             <a href="${escapeHTML(url)}" class="focus:outline-none hover:underline" title="Read full blog: ${escapeHTML(title)}">
               ${escapeHTML(title)}
             </a>
           </h2>
 
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed line-clamp-3">
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
             ${escapeHTML(excerpt)}
           </p>
         </div>
 
         <!-- Right: Action / Read Full Article Button -->
-        <div class="flex-shrink-0 w-full md:w-auto pt-3 md:pt-0 border-t border-slate-800/60 md:border-t-0 flex md:flex-col justify-end">
+        <div class="flex-shrink-0 w-full md:w-auto pt-3 md:pt-0 border-t border-slate-200 dark:border-slate-800/60 md:border-t-0 flex md:flex-col justify-end">
           <a href="${escapeHTML(url)}" 
              class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
             <span>Read Full Blog</span>
@@ -459,18 +459,18 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.innerHTML = `
         <div class="space-y-3.5">
           ${mediaHtml}
-          <div class="flex items-center justify-between text-xs font-mono text-slate-400 pt-1">
+          <div class="flex items-center justify-between text-xs font-mono text-slate-500 dark:text-slate-400 pt-1">
             <span class="badge-sky px-2.5 py-0.5 rounded-full text-[10px] uppercase font-bold tracking-wider">${escapeHTML(track.type || "Acoustic Take")}</span>
-            ${track.chords ? `<span class="text-xs font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">${escapeHTML(track.chords)}</span>` : ""}
+            ${track.chords ? `<span class="text-xs font-mono text-sky-600 dark:text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded border border-sky-500/20">${escapeHTML(track.chords)}</span>` : ""}
           </div>
-          <h3 class="text-lg font-bold text-slate-100 group-hover:text-sky-300 transition">${escapeHTML(track.title)}</h3>
-          <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">${escapeHTML(track.description || track.lyric || track.subtitle || "")}</p>
+          <h3 class="text-lg font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-300 transition">${escapeHTML(track.title)}</h3>
+          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed">${escapeHTML(track.description || track.lyric || track.subtitle || "")}</p>
         </div>
         ${
           watchUrl
             ? `
-            <div class="pt-3 border-t border-slate-800/80 flex items-center justify-between">
-              <a href="${escapeHTML(watchUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-400 hover:text-sky-300 transition">
+            <div class="pt-3 border-t border-slate-200 dark:border-slate-800/80 flex items-center justify-between">
+              <a href="${escapeHTML(watchUrl)}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-xs font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition">
                 <svg class="w-4 h-4 text-red-500" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
                 <span>Watch on YouTube</span>
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
@@ -503,17 +503,17 @@ document.addEventListener("DOMContentLoaded", async () => {
       guestbookContainer.innerHTML = "";
       messages.forEach(msg => {
         const item = document.createElement("div");
-        item.className = "p-3.5 rounded-xl bg-midnight-900 border border-slate-800 space-y-1.5";
+        item.className = "p-3.5 rounded-xl bg-slate-50 dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 space-y-1.5";
         
         const dateStr = msg.created_at ? new Date(msg.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Recent";
 
         item.innerHTML = `
           <div class="flex items-center justify-between text-xs">
-            <span class="font-bold text-slate-100">${escapeHTML(msg.sender_name)}</span>
+            <span class="font-bold text-slate-900 dark:text-slate-100">${escapeHTML(msg.sender_name)}</span>
             <span class="text-[11px] font-mono text-slate-500">${escapeHTML(dateStr)}</span>
           </div>
-          ${msg.sender_contact ? `<div class="text-[11px] font-mono text-sky-400">${escapeHTML(msg.sender_contact)}</div>` : ""}
-          <p class="text-xs text-slate-300 leading-relaxed">${escapeHTML(msg.message)}</p>
+          ${msg.sender_contact ? `<div class="text-[11px] font-mono text-sky-600 dark:text-sky-400">${escapeHTML(msg.sender_contact)}</div>` : ""}
+          <p class="text-xs text-slate-700 dark:text-slate-300 leading-relaxed">${escapeHTML(msg.message)}</p>
         `;
         guestbookContainer.appendChild(item);
       });
