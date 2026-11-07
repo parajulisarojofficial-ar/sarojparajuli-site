@@ -103,11 +103,12 @@
             if (!payload) payload = {};
             payload.posts = blogsData.map((b, idx) => ({
               id: b.id,
-              sn: String(idx + 1).padStart(2, "0"),
+              sn: String(blogsData.length - idx).padStart(2, "0"),
               title: b.title,
               slug: b.slug,
               category: b.category,
-              date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Nov 6, 2026",
+              date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Nov 7, 2026",
+              read_time: b.slug === "optogenetics-retinitis-pigmentosa" ? "12 min read" : "4 min read",
               image: b.cover_image,
               body: b.content,
               excerpt: b.excerpt,

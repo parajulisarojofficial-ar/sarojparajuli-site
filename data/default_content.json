@@ -19,6 +19,20 @@
   },
   "posts": [
     {
+      "id": "post-2",
+      "sn": "02",
+      "title": "How Nepali Citizens Can Claim a Free .com.np Domain",
+      "slug": "how-to-claim-free-com-np-domain-nepal",
+      "category": "Web & Digital Identity",
+      "date": "Nov 7, 2026",
+      "read_time": "4 min read",
+      "summary": "Every Nepali citizen can claim a lifetime free .com.np domain through Mercantile Communication's official portal. Learn how to verify availability, configure DNS nameservers, and prepare the required citizenship documents and cover letter.",
+      "excerpt": "Every Nepali citizen can claim a lifetime free .com.np domain through Mercantile Communication's official portal. Learn how to verify availability, configure DNS nameservers, and prepare the required citizenship documents and cover letter.",
+      "url": "blogs/how-to-claim-free-com-np-domain-nepal.html",
+      "image": "",
+      "is_published": true
+    },
+    {
       "id": "post-1",
       "sn": "01",
       "title": "Turning Light Into Sight: How the 2026 Nobel Prize in Optogenetics Is Transforming Treatment for Retinitis Pigmentosa and Beyond",
