@@ -163,9 +163,9 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     subtabButtons.forEach(btn => {
       if (btn.getAttribute("data-subtab") === subtabId) {
-        btn.className = "subtab-pill px-4 py-2 rounded-xl font-semibold active";
+        btn.classList.add("active");
       } else {
-        btn.className = "subtab-pill px-4 py-2 rounded-xl font-semibold text-slate-300 hover:text-white";
+        btn.classList.remove("active");
       }
     });
 
@@ -180,6 +180,35 @@ document.addEventListener("DOMContentLoaded", async () => {
     btn.addEventListener("click", () => {
       const subtab = btn.getAttribute("data-subtab");
       switchSubtab(subtab);
+    });
+  });
+
+  // --------------------------------------------------------------------------
+  // 3B. SUB-TAB CONTROLLER FOR BLOGS & PUBLICATIONS (Tech vs Personal)
+  // --------------------------------------------------------------------------
+  const blogTabButtons = document.querySelectorAll("[data-blog-tab]");
+  const blogPanes = document.querySelectorAll(".blog-subtab-pane");
+
+  function switchBlogTab(tabId) {
+    blogPanes.forEach(pane => pane.classList.add("hidden"));
+    const activePane = document.getElementById("blogPane-" + tabId);
+    if (activePane) {
+      activePane.classList.remove("hidden");
+    }
+
+    blogTabButtons.forEach(btn => {
+      if (btn.getAttribute("data-blog-tab") === tabId) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+  }
+
+  blogTabButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      const tabId = btn.getAttribute("data-blog-tab");
+      switchBlogTab(tabId);
     });
   });
 
@@ -317,91 +346,232 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // --------------------------------------------------------------------------
-  // 6. BLOGS SECTION (Structured S.N. List View with Full Article Links)
+  // 6. BLOGS SECTION (Dual Categories: Tech Updates & Personal Stories)
   // --------------------------------------------------------------------------
-  function renderBlogs(posts) {
-    const container = document.getElementById("blogsContainer");
-    const emptyState = document.getElementById("blogsEmptyState");
-    if (!container || !emptyState) return;
+  const currentStoriesMap = {};
 
-    if (!posts || posts.length === 0) {
-      container.innerHTML = "";
-      emptyState.classList.remove("hidden");
-      return;
+  function openStoryModal(story) {
+    const modal = document.getElementById("personalStoryModal");
+    if (!modal || !story) return;
+
+    const titleEl = document.getElementById("modalStoryTitle");
+    const dateEl = document.getElementById("modalStoryDate");
+    const catEl = document.getElementById("modalStoryCategory");
+    const readEl = document.getElementById("modalStoryReadTime");
+    const contentEl = document.getElementById("modalStoryContent");
+
+    if (titleEl) titleEl.textContent = story.title || "Personal Story";
+    if (dateEl) dateEl.textContent = story.date || "Recent";
+    if (catEl) catEl.textContent = story.category || "Personal";
+    if (readEl) readEl.textContent = story.read_time || "3 min read";
+
+    const rawContent = story.content || story.body || story.summary || story.excerpt || "";
+    if (contentEl) {
+      if (window.marked && typeof window.marked.parse === "function") {
+        contentEl.innerHTML = window.marked.parse(rawContent);
+      } else {
+        contentEl.innerHTML = `<p class="whitespace-pre-wrap">${escapeHTML(rawContent)}</p>`;
+      }
     }
 
-    emptyState.classList.add("hidden");
-    container.innerHTML = "";
+    modal.classList.remove("hidden");
+    document.body.classList.add("overflow-hidden");
+  }
 
-    posts.forEach((post, index) => {
-      const sn = post.sn || String(index + 1).padStart(2, "0");
-      const title = post.title || "Untitled Blog Post";
-      const excerpt = post.summary || post.excerpt || post.body || "";
-      const category = post.category || "General Article";
-      const date = post.date || "Nov 2026";
-      const readTime = post.read_time || "5 min read";
-      const url = post.url || (post.slug ? `blogs/${post.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html");
+  function closeStoryModal() {
+    const modal = document.getElementById("personalStoryModal");
+    if (!modal) return;
+    modal.classList.add("hidden");
+    document.body.classList.remove("overflow-hidden");
+  }
 
-      const card = document.createElement("article");
-      card.className = "p-5 sm:p-6 rounded-2xl glass-card border border-slate-200 dark:border-slate-800/80 hover:border-sky-500/40 transition-all duration-200 group flex flex-col md:flex-row items-start md:items-center gap-5 shadow-sm";
+  // Bind modal close buttons once DOM is loaded
+  const closeStoryBtn = document.getElementById("closeStoryModalBtn");
+  const closeStoryBottomBtn = document.getElementById("closeStoryModalBottomBtn");
+  const storyModalEl = document.getElementById("personalStoryModal");
 
-      card.innerHTML = `
-        <!-- Left: S.N. Badge & Dedicated Date Column (Desktop) -->
-        <div class="flex-shrink-0 flex items-center gap-3">
-          <!-- Serial Number (S.N.) Badge -->
-          <div class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 font-mono font-extrabold text-base sm:text-lg shadow-sm" title="Serial Number">
-            ${sn}
-          </div>
-
-          <!-- Dedicated Date Column (Visible on Tablet & Desktop) -->
-          <div class="hidden sm:flex flex-col items-center justify-center px-3.5 py-2 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center min-w-[95px] shadow-sm">
-            <span class="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">Posted</span>
-            <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-300 whitespace-nowrap">${escapeHTML(date)}</span>
-          </div>
-        </div>
-
-        <!-- Middle: Blog Main Content (Category, Meta, Title, Short Description) -->
-        <div class="flex-grow space-y-2.5 min-w-0">
-          <div class="flex flex-wrap items-center gap-2 text-xs">
-            <span class="badge-sky px-2.5 py-0.5 rounded-full uppercase font-mono font-bold text-[10px] tracking-wider">${escapeHTML(category)}</span>
-            
-            <!-- Mobile Date Badge (Shown on mobile when left date block is hidden) -->
-            <span class="sm:hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-600 dark:text-sky-300 font-mono text-[11px] font-medium">
-              <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-              </svg>
-              <span>${escapeHTML(date)}</span>
-            </span>
-
-            <span class="text-slate-400 dark:text-slate-500 font-mono text-[11px]">•</span>
-            <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">${escapeHTML(readTime)}</span>
-          </div>
-
-          <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-snug">
-            <a href="${escapeHTML(url)}" class="focus:outline-none hover:underline" title="Read full blog: ${escapeHTML(title)}">
-              ${escapeHTML(title)}
-            </a>
-          </h2>
-
-          <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
-            ${escapeHTML(excerpt)}
-          </p>
-        </div>
-
-        <!-- Right: Action / Read Full Article Button -->
-        <div class="flex-shrink-0 w-full md:w-auto pt-3 md:pt-0 border-t border-slate-200 dark:border-slate-800/60 md:border-t-0 flex md:flex-col justify-end">
-          <a href="${escapeHTML(url)}" 
-             class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
-            <span>Read Full Blog</span>
-            <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-            </svg>
-          </a>
-        </div>
-      `;
-
-      container.appendChild(card);
+  if (closeStoryBtn) closeStoryBtn.addEventListener("click", closeStoryModal);
+  if (closeStoryBottomBtn) closeStoryBottomBtn.addEventListener("click", closeStoryModal);
+  if (storyModalEl) {
+    storyModalEl.addEventListener("click", (e) => {
+      if (e.target === storyModalEl) closeStoryModal();
     });
+  }
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && storyModalEl && !storyModalEl.classList.contains("hidden")) {
+      closeStoryModal();
+    }
+  });
+
+  function renderBlogs(posts) {
+    const techContainer = document.getElementById("techBlogsContainer");
+    const personalContainer = document.getElementById("personalBlogsContainer");
+    const techEmpty = document.getElementById("techBlogsEmptyState");
+    const personalEmpty = document.getElementById("personalBlogsEmptyState");
+    const techBadge = document.getElementById("techBlogsBadge");
+    const personalBadge = document.getElementById("personalBlogsBadge");
+
+    if (!posts || !Array.isArray(posts)) posts = [];
+
+    // Separate into Tech Updates and Personal Blogs
+    const personalPosts = [];
+    const techPosts = [];
+
+    posts.forEach(post => {
+      const isPersonal = post.blog_type === "personal" || 
+                         (post.category && post.category.toLowerCase() === "personal") ||
+                         (!post.url && (post.content || post.body));
+      if (isPersonal) {
+        personalPosts.push(post);
+      } else {
+        techPosts.push(post);
+      }
+    });
+
+    if (techBadge) techBadge.textContent = String(techPosts.length);
+    if (personalBadge) personalBadge.textContent = String(personalPosts.length);
+
+    // 1. Render Tech Blogs
+    if (techContainer) {
+      techContainer.innerHTML = "";
+      if (techPosts.length === 0) {
+        if (techEmpty) techEmpty.classList.remove("hidden");
+      } else {
+        if (techEmpty) techEmpty.classList.add("hidden");
+        techPosts.forEach((post, index) => {
+          const sn = post.sn || String(index + 1).padStart(2, "0");
+          const title = post.title || "Untitled Article";
+          const excerpt = post.summary || post.excerpt || post.body || "";
+          const category = post.category || "Tech & Science";
+          const date = post.date || "Nov 2026";
+          const readTime = post.read_time || "5 min read";
+          const url = post.url || (post.slug ? `blogs/${post.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html");
+
+          const card = document.createElement("article");
+          card.className = "p-5 sm:p-6 rounded-2xl glass-card border border-slate-200 dark:border-slate-800/80 hover:border-sky-500/40 transition-all duration-200 group flex flex-col md:flex-row items-start md:items-center gap-5 shadow-sm";
+
+          card.innerHTML = `
+            <div class="flex-shrink-0 flex items-center gap-3">
+              <div class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 font-mono font-extrabold text-base sm:text-lg shadow-sm" title="Serial Number">
+                ${sn}
+              </div>
+              <div class="hidden sm:flex flex-col items-center justify-center px-3.5 py-2 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center min-w-[95px] shadow-sm">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">Posted</span>
+                <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-300 whitespace-nowrap">${escapeHTML(date)}</span>
+              </div>
+            </div>
+
+            <div class="flex-grow space-y-2.5 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="badge-sky px-2.5 py-0.5 rounded-full uppercase font-mono font-bold text-[10px] tracking-wider">${escapeHTML(category)}</span>
+                <span class="sm:hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-600 dark:text-sky-300 font-mono text-[11px] font-medium">
+                  <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  <span>${escapeHTML(date)}</span>
+                </span>
+                <span class="text-slate-400 dark:text-slate-500 font-mono text-[11px]">•</span>
+                <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">${escapeHTML(readTime)}</span>
+              </div>
+
+              <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-snug">
+                <a href="${escapeHTML(url)}" class="focus:outline-none hover:underline" title="Read full blog: ${escapeHTML(title)}">
+                  ${escapeHTML(title)}
+                </a>
+              </h2>
+
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
+                ${escapeHTML(excerpt)}
+              </p>
+            </div>
+
+            <div class="flex-shrink-0 w-full md:w-auto pt-3 md:pt-0 border-t border-slate-200 dark:border-slate-800/60 md:border-t-0 flex md:flex-col justify-end">
+              <a href="${escapeHTML(url)}" 
+                 class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
+                <span>Read Full Blog</span>
+                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                </svg>
+              </a>
+            </div>
+          `;
+          techContainer.appendChild(card);
+        });
+      }
+    }
+
+    // 2. Render Personal Stories (Synced from Google Drive / Docs)
+    if (personalContainer) {
+      personalContainer.innerHTML = "";
+      if (personalPosts.length === 0) {
+        if (personalEmpty) personalEmpty.classList.remove("hidden");
+      } else {
+        if (personalEmpty) personalEmpty.classList.add("hidden");
+        personalPosts.forEach((story, index) => {
+          const sn = story.sn || String(index + 1).padStart(2, "0");
+          const title = story.title || "Untitled Personal Story";
+          const excerpt = story.summary || story.excerpt || story.content || story.body || "";
+          const category = story.category || "Personal";
+          const date = story.date || "Nov 2026";
+          const readTime = story.read_time || "3 min read";
+          const storyId = story.id || `story-${index}`;
+          currentStoriesMap[storyId] = story;
+
+          const card = document.createElement("article");
+          card.className = "p-5 sm:p-6 rounded-2xl glass-card border border-slate-200 dark:border-slate-800/80 hover:border-sky-500/40 transition-all duration-200 group flex flex-col md:flex-row items-start md:items-center gap-5 shadow-sm";
+
+          card.innerHTML = `
+            <div class="flex-shrink-0 flex items-center gap-3">
+              <div class="flex items-center justify-center w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-br from-sky-500/10 to-blue-600/15 border border-sky-500/20 text-sky-600 dark:text-sky-400 font-mono font-extrabold text-base sm:text-lg shadow-sm" title="Serial Number">
+                ${sn}
+              </div>
+              <div class="hidden sm:flex flex-col items-center justify-center px-3.5 py-2 rounded-2xl bg-slate-100 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-center min-w-[95px] shadow-sm">
+                <span class="text-[10px] font-mono uppercase tracking-wider text-slate-500 dark:text-slate-400 font-bold">Written</span>
+                <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-300 whitespace-nowrap">${escapeHTML(date)}</span>
+              </div>
+            </div>
+
+            <div class="flex-grow space-y-2.5 min-w-0">
+              <div class="flex flex-wrap items-center gap-2 text-xs">
+                <span class="badge-sky px-2.5 py-0.5 rounded-full uppercase font-mono font-bold text-[10px] tracking-wider">${escapeHTML(category)}</span>
+                <span class="sm:hidden inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-sky-600 dark:text-sky-300 font-mono text-[11px] font-medium">
+                  <svg class="w-3 h-3 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                  <span>${escapeHTML(date)}</span>
+                </span>
+                <span class="text-slate-400 dark:text-slate-500 font-mono text-[11px]">•</span>
+                <span class="text-slate-500 dark:text-slate-400 font-mono text-[11px]">${escapeHTML(readTime)}</span>
+              </div>
+
+              <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-snug cursor-pointer read-story-title" data-story-id="${escapeHTML(storyId)}">
+                ${escapeHTML(title)}
+              </h2>
+
+              <p class="text-xs sm:text-sm text-slate-600 dark:text-slate-300 leading-relaxed line-clamp-3">
+                ${escapeHTML(excerpt)}
+              </p>
+            </div>
+
+            <div class="flex-shrink-0 w-full md:w-auto pt-3 md:pt-0 border-t border-slate-200 dark:border-slate-800/60 md:border-t-0 flex md:flex-col justify-end">
+              <button type="button" 
+                      data-story-id="${escapeHTML(storyId)}"
+                      class="read-story-btn w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 to-deepblue-600 hover:from-sky-500 hover:to-deepblue-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                <span>Read Story</span>
+              </button>
+            </div>
+          `;
+          personalContainer.appendChild(card);
+        });
+
+        // Attach click handlers to open modal
+        personalContainer.querySelectorAll(".read-story-btn, .read-story-title").forEach(btn => {
+          btn.addEventListener("click", () => {
+            const sId = btn.getAttribute("data-story-id");
+            if (sId && currentStoriesMap[sId]) {
+              openStoryModal(currentStoriesMap[sId]);
+            }
+          });
+        });
+      }
+    }
   }
 
   // --------------------------------------------------------------------------

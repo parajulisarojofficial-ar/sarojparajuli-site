@@ -69,7 +69,7 @@
   </script>
 
   <!-- Master Stylesheet (Sky Blue, Deep Blue, Midnight Obsidian) -->
-  <link rel="stylesheet" href="css/main.css?v=20261107_v10">
+  <link rel="stylesheet" href="css/main.css?v=20261109_v1">
 </head>
 <body class="selection:bg-sky-500 selection:text-white pb-16 md:pb-0">
 
@@ -340,43 +340,133 @@
     </section>
 
     <!-- =======================================================================
-         TAB 3: BLOGS SECTION (Markdown, Images & Tables Ready)
+         TAB 3: BLOGS SECTION (Dual Categories: Tech Updates & Personal Stories)
          ======================================================================= -->
     <section id="section-blogs" class="site-section hidden space-y-8">
       
       <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Articles &amp; Research</span>
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Articles, Research &amp; Personal Notes</span>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Blogs &amp; Publications</h1>
-        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Essays, statistics tutorials, field notes, and tech reflections. Supports rich text, Markdown, responsive tables, and images.</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Divided into technical scientific guides and personal essays automatically synced from Google Docs &amp; Google Drive.</p>
       </div>
 
-      <!-- Dynamic Blogs Container -->
-      <!-- List Columns Bar (Desktop) -->
-      <div class="hidden md:flex items-center justify-between px-6 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">
-        <div class="flex items-center gap-6">
-          <span class="w-12 text-center font-bold">S.N.</span>
-          <span class="w-24 text-center font-bold">Date</span>
-          <span class="font-bold">Article Details</span>
+      <!-- Blog Category Sub-Navigation Pills -->
+      <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-slate-100/90 dark:bg-midnight-800/80 border border-slate-200 dark:border-slate-800 text-xs shadow-inner">
+        <button type="button" data-blog-tab="tech" class="blog-subtab-btn subtab-pill px-5 py-2.5 rounded-xl font-semibold active flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          <span>Tech Updates &amp; Research</span>
+          <span id="techBlogsBadge" class="ml-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-white/20 text-white font-bold">2</span>
+        </button>
+        <button type="button" data-blog-tab="personal" class="blog-subtab-btn subtab-pill px-5 py-2.5 rounded-xl font-semibold flex items-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          <span>Personal Blogs &amp; Stories</span>
+          <span id="personalBlogsBadge" class="ml-1 px-2 py-0.5 rounded-full text-[10px] font-mono bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 font-bold">1</span>
+        </button>
+      </div>
+
+      <!-- SUB-PANE 1: TECH UPDATES & RESEARCH (Standalone .html files) -->
+      <div id="blogPane-tech" class="blog-subtab-pane space-y-4">
+        <!-- List Columns Bar (Desktop) -->
+        <div class="hidden md:flex items-center justify-between px-6 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">
+          <div class="flex items-center gap-6">
+            <span class="w-12 text-center font-bold">S.N.</span>
+            <span class="w-24 text-center font-bold">Date</span>
+            <span class="font-bold">Technical Article Details</span>
+          </div>
+          <span class="font-bold pr-6">Action</span>
         </div>
-        <span class="font-bold pr-6">Action</span>
-      </div>
 
-      <div id="blogsContainer" class="space-y-4">
-        <!-- Rendered via JS. If empty, the clean empty state below is shown. -->
-      </div>
-
-      <!-- Clean Empty State (Shown when no blogs are in DB yet) -->
-      <div id="blogsEmptyState" class="p-12 rounded-3xl glass-card text-center max-w-2xl mx-auto space-y-4 my-8">
-        <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto">
-          <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+        <div id="techBlogsContainer" class="space-y-4">
+          <!-- Populated via JS -->
         </div>
-        <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">No blog posts published yet</h2>
-        <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
-          Articles, survey methodologies, case studies, and musical notes will appear here soon.
-        </p>
+
+        <!-- Tech Empty State -->
+        <div id="techBlogsEmptyState" class="hidden p-12 rounded-3xl glass-card text-center max-w-2xl mx-auto space-y-4 my-8">
+          <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">No technical updates published yet</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            Technical tutorials, research papers, and data methods will appear here.
+          </p>
+        </div>
+      </div>
+
+      <!-- SUB-PANE 2: PERSONAL BLOGS & STORIES (Google Drive Sync & Dynamic Modal Reader) -->
+      <div id="blogPane-personal" class="blog-subtab-pane hidden space-y-4">
+        <div class="p-4 rounded-2xl bg-sky-500/5 border border-sky-500/15 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+          <div class="flex items-center gap-2.5 text-xs text-sky-700 dark:text-sky-300">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>
+            <span>Automated pipeline: saving a Google Doc in your Drive folder pushes stories directly here.</span>
+          </div>
+          <span class="text-[11px] font-mono text-slate-500 dark:text-slate-400">Folder: <strong>Saroj Blogs - Personal</strong></span>
+        </div>
+
+        <!-- List Columns Bar (Desktop) -->
+        <div class="hidden md:flex items-center justify-between px-6 py-2.5 rounded-xl bg-slate-100 dark:bg-slate-900/60 border border-slate-200 dark:border-slate-800 text-[11px] font-mono uppercase tracking-wider text-slate-600 dark:text-slate-400">
+          <div class="flex items-center gap-6">
+            <span class="w-12 text-center font-bold">S.N.</span>
+            <span class="w-24 text-center font-bold">Date</span>
+            <span class="font-bold">Story &amp; Reflection Details</span>
+          </div>
+          <span class="font-bold pr-6">Read Online</span>
+        </div>
+
+        <div id="personalBlogsContainer" class="space-y-4">
+          <!-- Populated via JS -->
+        </div>
+
+        <!-- Personal Empty State -->
+        <div id="personalBlogsEmptyState" class="hidden p-12 rounded-3xl glass-card text-center max-w-2xl mx-auto space-y-4 my-8">
+          <div class="w-14 h-14 rounded-2xl bg-sky-500/10 border border-sky-500/20 text-sky-600 dark:text-sky-400 flex items-center justify-center mx-auto">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+          </div>
+          <h2 class="text-xl font-bold text-slate-900 dark:text-slate-100">No personal stories published yet</h2>
+          <p class="text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            Personal stories, reflections, and musical journals saved in Google Drive will appear here automatically.
+          </p>
+        </div>
       </div>
 
     </section>
+
+    <!-- Personal Story Reader Modal -->
+    <div id="personalStoryModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-3 sm:p-6 bg-slate-950/80 backdrop-blur-md transition-opacity">
+      <div class="relative w-full max-w-3xl max-h-[90vh] bg-white dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl flex flex-col overflow-hidden">
+        <!-- Modal Header -->
+        <div class="p-5 sm:p-6 border-b border-slate-200 dark:border-slate-800 flex items-center justify-between gap-4 bg-slate-50/80 dark:bg-midnight-800/50">
+          <div class="flex items-center gap-3 min-w-0">
+            <img src="assets/passport_photo.jpg" alt="Saroj Parajuli" class="w-10 h-10 rounded-full border border-sky-500/50 object-cover shrink-0">
+            <div class="min-w-0">
+              <span class="text-[11px] font-mono uppercase tracking-wider text-sky-600 dark:text-sky-400 font-bold block">Personal Essay • Saroj Parajuli</span>
+              <div id="modalStoryDate" class="text-xs text-slate-500 dark:text-slate-400 font-mono">Nov 2026</div>
+            </div>
+          </div>
+          <button type="button" id="closeStoryModalBtn" class="p-2 rounded-xl text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-800 transition" aria-label="Close Story">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+          </button>
+        </div>
+
+        <!-- Modal Body (Scrollable Markdown Reader) -->
+        <div class="p-6 sm:p-8 overflow-y-auto flex-1 space-y-4">
+          <h1 id="modalStoryTitle" class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-slate-100 leading-tight"></h1>
+          <div class="flex items-center gap-2 pt-1 pb-4 border-b border-slate-200 dark:border-slate-800 text-xs font-mono text-slate-500">
+            <span id="modalStoryCategory" class="badge-sky px-2.5 py-0.5 rounded-full uppercase font-bold text-[10px]">Personal</span>
+            <span>•</span>
+            <span id="modalStoryReadTime">3 min read</span>
+          </div>
+          <div id="modalStoryContent" class="blog-prose pt-2"></div>
+        </div>
+
+        <!-- Modal Footer -->
+        <div class="p-4 px-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-midnight-800/50 text-xs">
+          <span class="text-slate-500 font-mono text-[11px]">Synced via Google Drive &bull; Supabase Live</span>
+          <button type="button" id="closeStoryModalBottomBtn" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition">
+            Close Story
+          </button>
+        </div>
+      </div>
+    </div>
 
     <!-- =======================================================================
          TAB 4: MUSIC GALLERY SECTION (YouTube Embeds & Direct Audio Ready)
@@ -924,9 +1014,9 @@
   </div>
 
   <!-- Client-side Scripts (Cache-Busted for Immediate Update) -->
-  <script src="js/config.js?v=20261107_v10"></script>
-  <script src="js/supabase-client.js?v=20261107_v10"></script>
-  <script src="js/analytics-chart.js?v=20261107_v10"></script>
-  <script src="js/main.js?v=20261107_v10"></script>
+  <script src="js/config.js?v=20261109_v1"></script>
+  <script src="js/supabase-client.js?v=20261109_v1"></script>
+  <script src="js/analytics-chart.js?v=20261109_v1"></script>
+  <script src="js/main.js?v=20261109_v1"></script>
 </body>
 </html>

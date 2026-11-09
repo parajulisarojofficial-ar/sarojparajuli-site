@@ -53,7 +53,8 @@ html[data-theme="light"] {
 }
 
 .site-section.hidden,
-.career-subtab-pane.hidden {
+.career-subtab-pane.hidden,
+.blog-subtab-pane.hidden {
   display: none !important;
 }
 

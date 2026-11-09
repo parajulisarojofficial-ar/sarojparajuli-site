@@ -101,20 +101,25 @@
 
           if (!blogsErr && blogsData && blogsData.length > 0) {
             if (!payload) payload = {};
-            payload.posts = blogsData.map((b, idx) => ({
-              id: b.id,
-              sn: String(blogsData.length - idx).padStart(2, "0"),
-              title: b.title,
-              slug: b.slug,
-              category: b.category,
-              date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Nov 7, 2026",
-              read_time: b.slug === "optogenetics-retinitis-pigmentosa" ? "12 min read" : "4 min read",
-              image: b.cover_image,
-              body: b.content,
-              excerpt: b.excerpt,
-              summary: b.excerpt || b.content,
-              url: b.slug ? `blogs/${b.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html"
-            }));
+            payload.posts = blogsData.map((b, idx) => {
+              const isPersonal = b.blog_type === "personal" || (b.category && b.category.toLowerCase() === "personal");
+              return {
+                id: b.id,
+                sn: String(blogsData.length - idx).padStart(2, "0"),
+                title: b.title,
+                slug: b.slug,
+                category: b.category || (isPersonal ? "Personal" : "General"),
+                blog_type: isPersonal ? "personal" : (b.blog_type || "tech"),
+                date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Nov 2026",
+                read_time: b.slug === "optogenetics-retinitis-pigmentosa" ? "12 min read" : (b.slug === "how-to-claim-free-com-np-domain-nepal" ? "4 min read" : "3 min read"),
+                image: b.cover_image,
+                body: b.content,
+                content: b.content,
+                excerpt: b.excerpt,
+                summary: b.excerpt || b.content,
+                url: isPersonal ? "" : (b.slug ? `blogs/${b.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html")
+              };
+            });
           }
         } catch (e) {}
 
