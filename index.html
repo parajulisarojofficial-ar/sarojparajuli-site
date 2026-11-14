@@ -139,33 +139,32 @@
     <!-- =======================================================================
          TAB 1: HOME SECTION
          ======================================================================= -->
-    <section id="section-home" class="site-section space-y-12">
+    <section id="section-home" class="site-section space-y-12 w-full">
       
-      <!-- Hero Grid -->
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
+      <!-- Hero Grid (Perfect Centering on Mobile / Single-Column & Balanced 2-Column on Desktop) -->
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center justify-items-center w-full">
         
         <!-- Left Hero Content -->
-        <div class="lg:col-span-7 space-y-6">
+        <div class="lg:col-span-7 space-y-6 flex flex-col items-center text-center lg:items-start lg:text-left w-full">
           
-          <div id="homeBadgeContainer" class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-mono font-medium badge-sky">
-            <span class="w-2 h-2 rounded-full bg-sky-400 animate-ping"></span>
+          <div id="homeBadgeContainer" class="inline-flex items-center px-3.5 py-1.5 rounded-full text-xs font-mono font-medium badge-sky mx-auto lg:mx-0 shadow-sm">
             <span id="homeBadgeText">Available for Data Analytics &amp; M&amp;E Roles</span>
           </div>
 
-          <h1 class="text-4xl sm:text-6xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15]">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 dark:text-slate-100 tracking-tight leading-[1.15] text-center lg:text-left">
             <span id="homeGreeting">Hey, I’m</span> <span id="homeName" class="text-gradient-sky">Saroj Parajuli</span>
           </h1>
 
-          <p id="homeSubheadline" class="text-lg sm:text-xl font-semibold text-sky-600 dark:text-sky-400">
+          <p id="homeSubheadline" class="text-base sm:text-lg lg:text-xl font-semibold text-sky-600 dark:text-sky-400 text-center lg:text-left">
             Statistician • Data &amp; M&amp;E Analyst • Acoustic Musician
           </p>
 
-          <p id="homeBio" class="text-base text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl">
+          <p id="homeBio" class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed max-w-2xl text-center lg:text-left mx-auto lg:mx-0">
             Final-Year B.Sc. Statistics student at <strong class="text-slate-900 dark:text-slate-100 font-semibold">Tri-Chandra Multiple Campus (TU)</strong>, Kathmandu. Specializing in <strong class="text-sky-600 dark:text-sky-300 font-semibold">Statistical Modeling</strong>, quantitative survey design with <strong class="text-sky-600 dark:text-sky-300 font-semibold">KoboToolbox &amp; XLSForm</strong>, and data analysis using Python and PostgreSQL.
           </p>
 
           <!-- Action CTA Buttons -->
-          <div id="homeCtaContainer" class="flex flex-wrap items-center gap-3 pt-2">
+          <div id="homeCtaContainer" class="flex flex-wrap items-center justify-center lg:justify-start gap-3 pt-2 w-full">
             <button type="button" data-nav="career" class="px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-sm transition shadow-lg shadow-sky-600/25 flex items-center gap-2">
               <span id="homeCtaPrimaryText">View Career &amp; Portfolio</span>
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
@@ -180,8 +179,8 @@
           </div>
 
           <!-- Subtle & Minimalist Highlight Metrics -->
-          <div id="homeStatsRow" class="pt-5 border-t border-slate-200/80 dark:border-slate-800/80">
-            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          <div id="homeStatsRow" class="pt-5 border-t border-slate-200/80 dark:border-slate-800/80 w-full">
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
               <div class="space-y-0.5">
                 <div id="homeStat1Val" class="text-xl font-bold text-slate-900 dark:text-slate-100 font-mono tracking-tight">B.Sc.</div>
                 <div id="homeStat1Label" class="text-xs text-slate-500 dark:text-slate-400">Statistics Major</div>
@@ -204,7 +203,7 @@
         </div>
 
         <!-- Right Hero Interactive Animated Image Carousel -->
-        <div class="lg:col-span-5 flex justify-center">
+        <div class="lg:col-span-5 flex justify-center w-full">
           <div class="relative w-full max-w-sm sm:max-w-md">
             
             <!-- Soft Ambient Background Glow -->
@@ -230,7 +229,6 @@
 
               <!-- Top-right Counter Badge -->
               <div class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-slate-950/65 backdrop-blur-md border border-white/15 text-[10px] font-mono text-slate-200 z-20 flex items-center gap-1.5 pointer-events-none">
-                <span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span>
                 <span id="carouselCounter">1 / 10</span>
               </div>
 
@@ -256,8 +254,8 @@
       </div>
 
       <!-- Clean 3-Pillar Capability Ribbon -->
-      <div id="homePillarsRow" class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4">
-        <div class="p-6 rounded-2xl glass-card space-y-3">
+      <div id="homePillarsRow" class="grid grid-cols-1 md:grid-cols-3 gap-5 pt-4 w-full">
+        <div class="p-6 rounded-2xl glass-card space-y-3 flex flex-col items-center text-center sm:items-start sm:text-left">
           <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
           </div>
@@ -267,7 +265,7 @@
           </p>
         </div>
 
-        <div class="p-6 rounded-2xl glass-card space-y-3">
+        <div class="p-6 rounded-2xl glass-card space-y-3 flex flex-col items-center text-center sm:items-start sm:text-left">
           <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
           </div>
@@ -277,12 +275,16 @@
           </p>
         </div>
 
-        <div class="p-6 rounded-2xl glass-card space-y-3">
+        <div class="p-6 rounded-2xl glass-card space-y-3 flex flex-col items-center text-center sm:items-start sm:text-left">
           <div class="w-10 h-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-600 dark:text-sky-400">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
           </div>
           <h2 id="homePillar3Title" class="text-base font-bold text-slate-900 dark:text-slate-100">Acoustic Music &amp; Voice</h2>
           <p id="homePillar3Desc" class="text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+            Acoustic guitar chord arrangements, Nepali folk covers, fingerpicking sessions, and creative audio demos.
+          </p>
+        </div>
+      </div>
             Acoustic guitar chord arrangements, Nepali folk covers, fingerpicking sessions, and creative audio demos.
           </p>
         </div>
@@ -295,10 +297,10 @@
          ======================================================================= -->
     <section id="section-about" class="site-section hidden space-y-10">
       
-      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Background &amp; Profile</span>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2 text-center sm:text-left">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold block">Background &amp; Profile</span>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">About Saroj Parajuli</h1>
-        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">A deeper look at my academic roots, statistical journey, acoustic music, and social handles.</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto sm:mx-0">A deeper look at my academic roots, statistical journey, acoustic music, and social handles.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -386,14 +388,14 @@
          ======================================================================= -->
     <section id="section-blogs" class="site-section hidden space-y-8">
       
-      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Articles, Research &amp; Personal Notes</span>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2 text-center sm:text-left">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold block">Articles, Research &amp; Personal Notes</span>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Blogs &amp; Publications</h1>
-        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Divided into technical scientific guides and personal essays managed directly via database.</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto sm:mx-0">Divided into technical scientific guides and personal essays managed directly via database.</p>
       </div>
 
       <!-- Blog Category Sub-Navigation Pills -->
-      <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-slate-100/90 dark:bg-midnight-800/80 border border-slate-200 dark:border-slate-800 text-xs shadow-inner">
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 p-1.5 rounded-2xl bg-slate-100/90 dark:bg-midnight-800/80 border border-slate-200 dark:border-slate-800 text-xs shadow-inner">
         <button type="button" data-blog-tab="tech" class="blog-subtab-btn subtab-pill px-5 py-2.5 rounded-xl font-semibold active flex items-center gap-2">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
           <span>Tech Updates &amp; Research</span>
@@ -508,10 +510,10 @@
          ======================================================================= -->
     <section id="section-music" class="site-section hidden space-y-8">
       
-      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Acoustic Journey</span>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2 text-center sm:text-left">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold block">Acoustic Journey</span>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Music Gallery</h1>
-        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Acoustic guitar takes, original chord progressions, and YouTube video performances.</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto sm:mx-0">Acoustic guitar takes, original chord progressions, and YouTube video performances.</p>
       </div>
 
       <!-- Dynamic Music Container -->
@@ -537,14 +539,14 @@
          ======================================================================= -->
     <section id="section-career" class="site-section hidden space-y-8">
       
-      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Professional Profile</span>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2 text-center sm:text-left">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold block">Professional Profile</span>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Career &amp; Portfolio</h1>
-        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Academic milestones, technical proficiencies, research projects, and target career paths.</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto sm:mx-0">Academic milestones, technical proficiencies, research projects, and target career paths.</p>
       </div>
 
       <!-- Sub-Navigation Pills (The 5 Core Sub-Sections) -->
-      <div class="flex flex-wrap items-center gap-2 p-1.5 rounded-2xl bg-slate-100/90 dark:bg-midnight-800/80 border border-slate-200 dark:border-slate-800 text-xs shadow-inner">
+      <div class="flex flex-wrap items-center justify-center sm:justify-start gap-2 p-1.5 rounded-2xl bg-slate-100/90 dark:bg-midnight-800/80 border border-slate-200 dark:border-slate-800 text-xs shadow-inner">
         <button type="button" data-subtab="academic" class="subtab-pill px-4 py-2 rounded-xl font-semibold active">Academic Career</button>
         <button type="button" data-subtab="summary" class="subtab-pill px-4 py-2 rounded-xl font-semibold">Professional Summary</button>
         <button type="button" data-subtab="skills" class="subtab-pill px-4 py-2 rounded-xl font-semibold">Technical Skills</button>
@@ -895,10 +897,10 @@
          ======================================================================= -->
     <section id="section-contact" class="site-section hidden space-y-10">
       
-      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2">
-        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold">Get in Touch</span>
+      <div class="border-b border-slate-200 dark:border-slate-800 pb-5 space-y-2 text-center sm:text-left">
+        <span class="font-mono text-xs uppercase tracking-widest text-sky-600 dark:text-sky-400 font-semibold block">Get in Touch</span>
         <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900 dark:text-slate-100">Contact Me</h1>
-        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl">Have a data project, research collaboration, or just want to chat about music and numbers? Send me a message or leave a note.</p>
+        <p class="text-sm text-slate-600 dark:text-slate-400 max-w-2xl mx-auto sm:mx-0">Have a data project, research collaboration, or just want to chat about music and numbers? Send me a message or leave a note.</p>
       </div>
 
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
@@ -1059,12 +1061,9 @@
        CLEAN MINIMAL FOOTER
        ========================================================================= -->
   <footer class="border-t border-slate-200 dark:border-slate-800/80 py-8 px-4 sm:px-8 bg-slate-100/70 dark:bg-midnight-900/60 mt-12 text-center text-xs text-slate-500 dark:text-slate-400">
-    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2">
-        <span class="w-2 h-2 rounded-full bg-sky-500"></span>
-        <span class="text-slate-800 dark:text-slate-200 font-medium">Saroj Parajuli</span>
-        <span class="text-slate-400 dark:text-slate-500">•</span>
-        <span>Statistician &amp; Data Analyst</span>
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-3 text-center sm:text-left">
+      <div>
+        <span class="text-slate-800 dark:text-slate-200 font-semibold tracking-wide">Saroj Parajuli</span>
       </div>
       <div>
         <span>&copy; 2026 Saroj Parajuli. All rights reserved.</span>
@@ -1074,14 +1073,13 @@
 
   <!-- Toast Notification Container -->
   <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-slate-900 dark:bg-slate-900 border border-sky-500/40 text-slate-100 text-xs shadow-2xl flex items-center gap-2.5 pointer-events-none">
-    <span class="w-2 h-2 rounded-full bg-sky-400 animate-pulse"></span>
     <span id="toastMessage">Notification</span>
   </div>
 
   <!-- Client-side Scripts (Cache-Busted for Immediate Update) -->
-  <script src="js/config.js?v=20261114_v5"></script>
-  <script src="js/supabase-client.js?v=20261114_v5"></script>
-  <script src="js/analytics-chart.js?v=20261114_v5"></script>
-  <script src="js/main.js?v=20261114_v5"></script>
+  <script src="js/config.js?v=20261114_v6"></script>
+  <script src="js/supabase-client.js?v=20261114_v6"></script>
+  <script src="js/analytics-chart.js?v=20261114_v6"></script>
+  <script src="js/main.js?v=20261114_v6"></script>
 </body>
 </html>

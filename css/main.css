@@ -116,8 +116,37 @@ body {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  align-items: center;
   transition: background-color 0.25s ease, color 0.25s ease;
   overflow-x: hidden;
+  width: 100%;
+}
+
+/* Universal Center Alignment & Browser Zoom Resilience */
+header,
+#mainContent,
+footer {
+  width: 100%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+#mainContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.site-section {
+  width: 100%;
+  max-width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Prevent accidental horizontal overflow on high zoom levels */
+img, svg, video, canvas, iframe {
+  max-width: 100%;
 }
 
 /* Glass Surface Navigation & Cards */
