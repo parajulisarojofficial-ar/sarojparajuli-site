@@ -58,6 +58,46 @@ html[data-theme="light"] {
   display: none !important;
 }
 
+/* Smooth Tab Switching & Section Fade-In Animation */
+@keyframes sectionFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.site-section:not(.hidden) {
+  animation: sectionFadeIn 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.career-subtab-pane:not(.hidden),
+.blog-subtab-pane:not(.hidden) {
+  animation: sectionFadeIn 0.24s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Bulletproof Desktop & Mobile Nav Visibility */
+@media (min-width: 768px) {
+  .nav-tab-container {
+    display: flex !important;
+  }
+  #mobileMenuBtn {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .nav-tab-container {
+    display: none !important;
+  }
+  #mobileMenuBtn {
+    display: inline-flex !important;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 6rem;
@@ -141,12 +181,17 @@ html[data-theme="dark"] .nav-tab-container {
   position: relative;
   color: #475569;
   font-weight: 500;
-  transition: color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
+  transform: translateY(0);
+  transition: transform 0.15s ease, color 0.18s ease, background-color 0.18s ease, box-shadow 0.18s ease;
 }
 
 .nav-tab-btn:hover {
   color: #0284c7;
   background-color: rgba(2, 132, 199, 0.08);
+}
+
+.nav-tab-btn:active {
+  transform: scale(0.96);
 }
 
 html[data-theme="dark"] .nav-tab-btn {
@@ -171,6 +216,27 @@ html[data-theme="dark"] .nav-tab-btn.active {
   background-color: #0284c7 !important;
   font-weight: 600 !important;
   box-shadow: 0 0 16px rgba(14, 165, 233, 0.45) !important;
+}
+
+/* Light Mode Guaranteed Legibility & High Contrast */
+html[data-theme="light"] h1,
+html[data-theme="light"] h2,
+html[data-theme="light"] h3,
+html[data-theme="light"] .text-slate-900 {
+  color: #0f172a !important;
+}
+
+html[data-theme="light"] .text-slate-700 {
+  color: #334155 !important;
+}
+
+html[data-theme="light"] .text-slate-600 {
+  color: #475569 !important;
+}
+
+html[data-theme="light"] .glass-nav {
+  background: rgba(255, 255, 255, 0.98);
+  border-bottom: 1px solid #e2e8f0;
 }
 
 /* Sub-Tab Navigation for Career & Portfolio */

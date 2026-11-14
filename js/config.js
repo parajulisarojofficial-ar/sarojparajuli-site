@@ -20,7 +20,9 @@ window.SAROJ_CONFIG = {
 
   // Domain Metadata
   DOMAIN: "sarojparajuli.com.np",
-  CONTACT_EMAIL: "sarojparajuli.personal@outlook.com",
+  CONTACT_EMAIL: "contact@sarojparajuli.com.np",
+  INFO_EMAIL: "info@sarojparajuli.com.np",
+  CAREER_EMAIL: "career@sarojparajuli.com.np",
   LOCATION: "Kathmandu, Nepal",
   INSTITUTION: "Tri-Chandra Multiple Campus (Tribhuvan University)",
 

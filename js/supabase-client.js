@@ -91,6 +91,22 @@
           console.warn("Error querying Supabase site_content:", e);
         }
 
+        // Check dedicated 'homepage_content' table
+        try {
+          const { data: homeData, error: homeErr } = await sbClient
+            .from("homepage_content")
+            .select("*")
+            .eq("id", "main")
+            .maybeSingle();
+
+          if (!homeErr && homeData) {
+            if (!payload) payload = {};
+            payload.homepage = homeData;
+          }
+        } catch (e) {
+          console.warn("Error querying Supabase homepage_content:", e);
+        }
+
         // Check dedicated 'blogs' table
         try {
           const { data: blogsData, error: blogsErr } = await sbClient
@@ -101,23 +117,32 @@
 
           if (!blogsErr && blogsData && blogsData.length > 0) {
             if (!payload) payload = {};
+            const knownStaticSlugs = [
+              "optogenetics-retinitis-pigmentosa",
+              "how-to-claim-free-com-np-domain-nepal"
+            ];
             payload.posts = blogsData.map((b, idx) => {
-              const isPersonal = b.blog_type === "personal" || (b.category && b.category.toLowerCase() === "personal");
+              // preferred_section: 1 = Tech Updates, 0 = Personal Blog
+              const prefSec = typeof b.preferred_section === "number" ? b.preferred_section : (b.blog_type === "personal" || (b.category && b.category.toLowerCase() === "personal") ? 0 : 1);
+              const isPersonal = prefSec === 0;
+              const hasStaticHtml = b.slug && knownStaticSlugs.includes(b.slug);
               return {
                 id: b.id,
                 sn: String(blogsData.length - idx).padStart(2, "0"),
                 title: b.title,
                 slug: b.slug,
-                category: b.category || (isPersonal ? "Personal" : "General"),
-                blog_type: isPersonal ? "personal" : (b.blog_type || "tech"),
+                category: b.category || (isPersonal ? "Personal" : "Tech Updates"),
+                blog_type: isPersonal ? "personal" : "tech",
+                preferred_section: prefSec,
                 date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Nov 2026",
                 read_time: b.slug === "optogenetics-retinitis-pigmentosa" ? "12 min read" : (b.slug === "how-to-claim-free-com-np-domain-nepal" ? "4 min read" : "3 min read"),
                 image: b.cover_image,
                 body: b.content,
                 content: b.content,
                 excerpt: b.excerpt,
-                summary: b.excerpt || b.content,
-                url: isPersonal ? "" : (b.slug ? `blogs/${b.slug}.html` : "blogs/optogenetics-retinitis-pigmentosa.html")
+                summary: b.excerpt || (b.content ? (b.content.slice(0, 160) + "...") : ""),
+                url: hasStaticHtml ? `blogs/${b.slug}.html` : "",
+                has_static_html: Boolean(hasStaticHtml)
               };
             });
           }
@@ -141,19 +166,32 @@
         try {
           const { data: socialData, error: socialErr } = await sbClient
             .from("social_links")
-            .select("platform, url")
-            .eq("is_active", true);
+            .select("*")
+            .eq("is_active", true)
+            .order("display_order", { ascending: true });
 
           if (!socialErr && socialData && socialData.length > 0) {
             if (!payload) payload = {};
+            payload.socialLinksList = socialData;
             if (!payload.socials) payload.socials = {};
             socialData.forEach(row => {
               if (row.url && row.url.trim()) {
-                payload.socials[row.platform] = row.url.trim();
+                if (row.platform === "email" && row.url.includes("outlook.com")) {
+                  payload.socials[row.platform] = "contact@sarojparajuli.com.np";
+                } else {
+                  payload.socials[row.platform] = row.url.trim();
+                }
               }
             });
           }
         } catch (e) {}
+
+        if (payload && payload.socials) {
+          payload.socials.email = payload.socials.email && !payload.socials.email.includes("outlook.com") ? payload.socials.email : "contact@sarojparajuli.com.np";
+          payload.socials.email_info = payload.socials.email_info || "info@sarojparajuli.com.np";
+          payload.socials.email_contact = payload.socials.email_contact || "contact@sarojparajuli.com.np";
+          payload.socials.email_career = payload.socials.email_career || "career@sarojparajuli.com.np";
+        }
 
         if (payload) {
           localStorage.setItem(cfg.STORAGE_KEY_CONTENT, JSON.stringify(payload));
