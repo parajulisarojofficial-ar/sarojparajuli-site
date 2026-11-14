@@ -259,9 +259,246 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   // --------------------------------------------------------------------------
+  // 5A. HERO IMAGE CAROUSEL (10 Relatable Slides, 3s Auto-scroll, Swipe Enabled)
+  // --------------------------------------------------------------------------
+  const DEFAULT_HERO_GALLERY = [
+    {
+      image_url: "assets/passport_photo.jpg",
+      tag: "OFFICIAL PROFILE",
+      caption: "Saroj Parajuli — Statistician & Musician"
+    },
+    {
+      image_url: "assets/gallery/statistical-data-modeling.jpg",
+      tag: "STATISTICAL MODELING",
+      caption: "Probability Models & Python Regression Analytics"
+    },
+    {
+      image_url: "assets/gallery/acoustic-guitar-warm.jpg",
+      tag: "ACOUSTIC JOURNEY",
+      caption: "Acoustic Fingerstyle & Harmonic Compositions"
+    },
+    {
+      image_url: "assets/gallery/data-analytics-dashboard.jpg",
+      tag: "DATA ANALYTICS",
+      caption: "Statistical Significance, Correlation & Insights"
+    },
+    {
+      image_url: "assets/gallery/field-survey-research.jpg",
+      tag: "FIELD RESEARCH",
+      caption: "Quantitative Field Surveys & KoboToolbox Design"
+    },
+    {
+      image_url: "assets/gallery/creative-music-notebook.jpg",
+      tag: "SONGWRITING",
+      caption: "Acoustic Chords, Tabs & Composition Journal"
+    },
+    {
+      image_url: "assets/gallery/statistics-research-study.jpg",
+      tag: "ACADEMIC RESEARCH",
+      caption: "Inferential Statistics & Research Methodology"
+    },
+    {
+      image_url: "assets/gallery/acoustic-guitar-chords.jpg",
+      tag: "GUITAR SESSIONS",
+      caption: "Nepali Folk & Acoustic Cover Performances"
+    },
+    {
+      image_url: "assets/gallery/field-survey-data.jpg",
+      tag: "M&E SYSTEMS",
+      caption: "Data Collection Frameworks & Quality Monitoring"
+    },
+    {
+      image_url: "assets/gallery/kathmandu-valley-golden.jpg",
+      tag: "KATHMANDU VALLEY",
+      caption: "Fieldwork Horizons & Creative Inspiration"
+    }
+  ];
+
+  let heroCarouselTimer = null;
+  let heroCarouselInitialized = false;
+
+  function initHeroCarousel(galleryImages) {
+    const track = document.getElementById("heroCarouselTrack");
+    const frame = document.getElementById("heroCarouselFrame");
+    const prevBtn = document.getElementById("carouselPrevBtn");
+    const nextBtn = document.getElementById("carouselNextBtn");
+    const counterEl = document.getElementById("carouselCounter");
+    const tagEl = document.getElementById("carouselSlideTag");
+    const captionEl = document.getElementById("carouselSlideCaption");
+    const dotsContainer = document.getElementById("carouselDots");
+
+    if (!track || !frame) return;
+
+    let slides = DEFAULT_HERO_GALLERY;
+    if (galleryImages && Array.isArray(galleryImages) && galleryImages.length > 0) {
+      slides = galleryImages.map((img, i) => {
+        if (typeof img === "string") {
+          return {
+            image_url: img,
+            tag: i === 0 ? "OFFICIAL PROFILE" : `PORTFOLIO ${i + 1}`,
+            caption: i === 0 ? "Saroj Parajuli" : `Featured Visual ${i + 1}`
+          };
+        }
+        return {
+          image_url: img.image_url || img.url || img.src || "assets/passport_photo.jpg",
+          tag: img.tag || img.category || "GALLERY",
+          caption: img.caption || img.title || "Saroj Parajuli"
+        };
+      });
+    }
+
+    const total = slides.length;
+    let currentIndex = 0;
+
+    // Render slides into track
+    track.innerHTML = slides.map((slide, idx) => `
+      <div class="carousel-slide flex-shrink-0 w-full aspect-[4/5] relative overflow-hidden bg-slate-900 select-none">
+        <img src="${escapeHTML(slide.image_url)}" alt="${escapeHTML(slide.caption || 'Saroj Parajuli')}" class="w-full h-full object-cover pointer-events-none select-none transition-transform duration-700 ease-out" loading="${idx === 0 ? 'eager' : 'lazy'}" onerror="this.onerror=null; this.src='assets/passport_photo.jpg';">
+      </div>
+    `).join("");
+
+    // Render navigation dots
+    if (dotsContainer) {
+      dotsContainer.innerHTML = slides.map((_, idx) => `
+        <button type="button" class="carousel-dot ${idx === 0 ? 'active' : ''}" data-dot-idx="${idx}" aria-label="Go to slide ${idx + 1}"></button>
+      `).join("");
+
+      dotsContainer.querySelectorAll(".carousel-dot").forEach(dot => {
+        dot.addEventListener("click", (e) => {
+          e.stopPropagation();
+          const target = parseInt(dot.getAttribute("data-dot-idx"), 10);
+          if (!isNaN(target)) {
+            goTo(target);
+            restartTimer();
+          }
+        });
+      });
+    }
+
+    function updateSlideUI(idx) {
+      const item = slides[idx];
+      if (counterEl) counterEl.textContent = `${idx + 1} / ${total}`;
+      if (tagEl && item.tag) tagEl.textContent = item.tag;
+      if (captionEl && item.caption) captionEl.textContent = item.caption;
+
+      if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll(".carousel-dot");
+        dots.forEach((dot, dIdx) => {
+          dot.classList.toggle("active", dIdx === idx);
+        });
+      }
+    }
+
+    function goTo(idx) {
+      if (idx < 0) idx = total - 1;
+      if (idx >= total) idx = 0;
+      currentIndex = idx;
+      track.style.transform = `translateX(-${currentIndex * 100}%)`;
+      updateSlideUI(currentIndex);
+    }
+
+    function next() {
+      goTo(currentIndex + 1);
+    }
+
+    function prev() {
+      goTo(currentIndex - 1);
+    }
+
+    function startTimer() {
+      stopTimer();
+      heroCarouselTimer = setInterval(next, 3000);
+    }
+
+    function stopTimer() {
+      if (heroCarouselTimer) {
+        clearInterval(heroCarouselTimer);
+        heroCarouselTimer = null;
+      }
+    }
+
+    function restartTimer() {
+      startTimer();
+    }
+
+    if (!heroCarouselInitialized) {
+      heroCarouselInitialized = true;
+
+      if (prevBtn) {
+        prevBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          prev();
+          restartTimer();
+        });
+      }
+
+      if (nextBtn) {
+        nextBtn.addEventListener("click", (e) => {
+          e.stopPropagation();
+          next();
+          restartTimer();
+        });
+      }
+
+      frame.addEventListener("mouseenter", stopTimer);
+      frame.addEventListener("mouseleave", startTimer);
+
+      // Touch swipe & mouse drag gestures
+      let touchStartX = 0;
+      let touchDiffX = 0;
+      let isSwiping = false;
+
+      function onStart(e) {
+        stopTimer();
+        isSwiping = true;
+        touchStartX = e.type.startsWith("touch") ? e.touches[0].clientX : e.clientX;
+        touchDiffX = 0;
+      }
+
+      function onMove(e) {
+        if (!isSwiping) return;
+        const currentX = e.type.startsWith("touch") ? e.touches[0].clientX : e.clientX;
+        touchDiffX = currentX - touchStartX;
+      }
+
+      function onEnd() {
+        if (!isSwiping) return;
+        isSwiping = false;
+        const threshold = 40;
+        if (touchDiffX < -threshold) {
+          next();
+        } else if (touchDiffX > threshold) {
+          prev();
+        }
+        restartTimer();
+        touchDiffX = 0;
+      }
+
+      frame.addEventListener("touchstart", onStart, { passive: true });
+      frame.addEventListener("touchmove", onMove, { passive: true });
+      frame.addEventListener("touchend", onEnd);
+
+      frame.addEventListener("mousedown", onStart);
+      frame.addEventListener("mousemove", onMove);
+      frame.addEventListener("mouseup", onEnd);
+      frame.addEventListener("mouseleave", () => {
+        if (isSwiping) onEnd();
+        startTimer();
+      });
+    }
+
+    // Set initial slide state & start 3-second cycle
+    goTo(0);
+    startTimer();
+  }
+
+  // --------------------------------------------------------------------------
   // 5. HOMEPAGE CONTENT RENDERER (Driven by Supabase 'homepage_content' table)
   // --------------------------------------------------------------------------
   function renderHomepage(home) {
+    // 0. Initialize Animated Hero Image Carousel
+    initHeroCarousel(home ? home.gallery_images : null);
+
     if (!home) return;
 
     // 1. Badge
@@ -286,12 +523,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (nameEl && home.name) nameEl.textContent = home.name;
     if (subheadlineEl && home.subheadline) subheadlineEl.textContent = home.subheadline;
     if (bioEl && home.bio) bioEl.textContent = home.bio;
-
-    // 3. Profile Image
-    const profileImgEl = document.getElementById("homeProfileImg");
-    if (profileImgEl && home.profile_image_url) {
-      profileImgEl.src = home.profile_image_url;
-    }
 
     // 4. CTA Buttons
     const ctaContainer = document.getElementById("homeCtaContainer");
@@ -541,7 +772,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       subTitleEl.textContent = isPersonal ? "Personal Essay • Saroj Parajuli" : "Technical Article • Saroj Parajuli";
     }
     if (footerSourceEl) {
-      footerSourceEl.innerHTML = isPersonal ? "Synced via Google Drive &bull; Supabase Live" : "Supabase Live &bull; sarojparajuli.com.np";
+      footerSourceEl.innerHTML = "Published via Supabase PostgreSQL &bull; sarojparajuli.com.np";
     }
 
     const rawContent = story.content || story.body || story.summary || story.excerpt || "";
