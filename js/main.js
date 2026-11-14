@@ -792,17 +792,6 @@ document.addEventListener("DOMContentLoaded", async () => {
           });
         });
       }
-
-        // Attach click handlers to open modal
-        personalContainer.querySelectorAll(".read-story-btn, .read-story-title").forEach(btn => {
-          btn.addEventListener("click", () => {
-            const sId = btn.getAttribute("data-story-id");
-            if (sId && currentStoriesMap[sId]) {
-              openStoryModal(currentStoriesMap[sId]);
-            }
-          });
-        });
-      }
     }
   }
 
