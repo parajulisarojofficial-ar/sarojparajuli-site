@@ -80,6 +80,10 @@
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
           </svg>
         </button>
+        <button id="shareBlogBtn" type="button" title="Share this article" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white shadow-sm transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+          <span>Share</span>
+        </button>
       </div>
     </div>
   </header>
@@ -114,6 +118,11 @@
             <img src="../assets/passport_photo.jpg" alt="Saroj Parajuli" class="w-5 h-5 rounded-full object-cover border border-sky-500/50" onerror="this.onerror=null; this.src='../assets/images/saroj-photo.png';">
             <span class="text-slate-700 dark:text-slate-300 font-mono text-xs font-medium">Author: <strong>Saroj Parajuli</strong></span>
           </div>
+          <span class="text-slate-400 dark:text-slate-500 font-mono">•</span>
+          <button type="button" data-share-blog class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30 font-mono text-xs font-semibold transition" title="Share this guide">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            <span>Share Guide</span>
+          </button>
         </div>
       </header>
 
@@ -271,13 +280,17 @@ Email: [Your Email Address]</pre>
             <span class="block text-xs text-slate-500 dark:text-slate-400">B.Sc. Statistics • Tri-Chandra Campus (TU), Kathmandu</span>
           </div>
         </div>
-        <div class="pt-2">
+        <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
           <a href="../#blogs" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-sky-600/20">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
             </svg>
             <span>Back to All Blogs &amp; Publications</span>
           </a>
+          <button type="button" data-share-blog class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-semibold text-xs tracking-wider uppercase transition shadow-sm">
+            <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            <span>Share This Guide</span>
+          </button>
         </div>
       </footer>
 
@@ -372,5 +385,6 @@ Email: [Your Email Address]</pre>
       }
     })();
   </script>
+  <script src="../js/blog-share.js"></script>
 </body>
 </html>

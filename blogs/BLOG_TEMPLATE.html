@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Article Title Here | Saroj Parajuli</title>
+  <meta name="description" content="Brief summary of this article for search engines and social shares.">
+  <link rel="icon" type="image/png" href="../assets/passport_photo.jpg">
+  <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;0,800;1,600&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            serif: ['Playfair Display', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    .reading-progress { transition: width 0.15s ease-out; }
+    .prose-article p { margin-bottom: 1.25rem; line-height: 1.8; }
+    .glass-card { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 dark:bg-slate-950 dark:text-slate-100 font-sans antialiased transition-colors duration-300">
+
+  <!-- Top Reading Progress Bar -->
+  <div class="fixed top-0 left-0 w-full h-1.5 bg-slate-200 dark:bg-slate-800 z-50">
+    <div id="progressBar" class="h-full bg-gradient-to-r from-sky-500 via-cyan-400 to-emerald-400 reading-progress" style="width: 0%"></div>
+  </div>
+
+  <!-- Sticky Navigation Header -->
+  <header class="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 glass-card border-b border-slate-200/80 dark:border-slate-800/80 shadow-sm transition-colors">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <a href="../#blogs" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-700 dark:text-sky-400 border border-sky-500/30 text-xs font-semibold transition" title="Back to Saroj's Website">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+          </svg>
+          <span>Back to Website</span>
+        </a>
+        <div class="h-5 w-px bg-slate-300 dark:bg-slate-700"></div>
+        <div class="flex items-center gap-2.5">
+          <img src="../assets/passport_photo.jpg" alt="Saroj Parajuli" class="w-9 h-9 rounded-full border-2 border-sky-500/60 object-cover shadow-sm shrink-0">
+          <div>
+            <span class="text-xs font-bold uppercase tracking-widest text-sky-600 dark:text-sky-400 block leading-tight">Saroj Parajuli • Publication</span>
+            <span class="text-xs text-slate-500 dark:text-slate-400 hidden md:inline">Article Category</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reader Controls with Automatic Share Button -->
+      <div class="flex items-center gap-2">
+        <button id="fontDecreaseBtn" type="button" title="Decrease font size" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          A-
+        </button>
+        <button id="fontIncreaseBtn" type="button" title="Increase font size" class="px-2.5 py-1.5 rounded-lg text-xs font-semibold border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+          A+
+        </button>
+        <button id="themeToggleBtn" type="button" title="Toggle Dark/Light Mode" class="p-2 rounded-lg border border-slate-200 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800 transition text-slate-700 dark:text-amber-300">
+          <svg id="sunIcon" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+          </svg>
+          <svg id="moonIcon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+          </svg>
+        </button>
+        <!-- Share Button (Pre-wired & 1-click active) -->
+        <button id="shareBlogBtn" type="button" title="Share this article" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-sky-600 hover:bg-sky-500 text-white shadow-sm transition">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+          <span>Share</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Article Container -->
+  <main class="max-w-4xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+    <article id="articleBody" class="text-base sm:text-lg bg-white dark:bg-slate-900 rounded-3xl p-6 sm:p-10 border border-slate-200/80 dark:border-slate-800 shadow-xl space-y-8">
+      
+      <!-- Article Header -->
+      <header class="border-b border-slate-200 dark:border-slate-800 pb-6 space-y-4">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-sky-500/10 border border-sky-400/30 text-sky-600 dark:text-sky-400 text-xs font-semibold uppercase tracking-wider">
+          <span class="w-2 h-2 rounded-full bg-sky-500 animate-pulse"></span>
+          Category Name
+        </div>
+
+        <h1 class="font-serif text-2xl sm:text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight">
+          Your Future Blog Title Goes Here
+        </h1>
+
+        <!-- Posting Date, Author & Share Button -->
+        <div class="flex flex-wrap items-center gap-3 pt-2 text-xs">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500/15 border border-sky-500/30 text-sky-700 dark:text-sky-300 font-mono font-bold">
+            <svg class="w-3.5 h-3.5 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/>
+            </svg>
+            <span>Posted on: Month DD, YYYY</span>
+          </div>
+          <span class="text-slate-400 dark:text-slate-600 font-mono">•</span>
+          <span class="text-slate-600 dark:text-slate-400 font-mono text-xs">5 min read</span>
+          <span class="text-slate-400 dark:text-slate-500 font-mono">•</span>
+          <div class="inline-flex items-center gap-1.5">
+            <img src="../assets/passport_photo.jpg" alt="Saroj Parajuli" class="w-5 h-5 rounded-full object-cover border border-sky-500/50">
+            <span class="text-slate-700 dark:text-slate-300 font-mono text-xs font-medium">Author: <strong>Saroj Parajuli</strong></span>
+          </div>
+          <span class="text-slate-400 dark:text-slate-500 font-mono">•</span>
+          <button type="button" data-share-blog class="inline-flex items-center gap-1.5 px-3 py-1 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-700 dark:text-sky-300 border border-sky-500/30 font-mono text-xs font-semibold transition" title="Share this article">
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            <span>Share Article</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content Section -->
+      <section class="prose-article space-y-4 leading-relaxed text-slate-700 dark:text-slate-300">
+        <p>Your blog introduction paragraph goes here.</p>
+        <p>Write your detailed thoughts, methods, research, or tutorials in standard HTML.</p>
+      </section>
+
+      <!-- Footer & Return Navigation -->
+      <footer class="mt-12 pt-8 border-t border-slate-200 dark:border-slate-800 text-center space-y-4">
+        <div class="flex items-center justify-center gap-3">
+          <img src="../assets/passport_photo.jpg" alt="Saroj Parajuli" class="w-12 h-12 rounded-full border-2 border-sky-500/60 object-cover shadow-md">
+          <div class="text-left">
+            <span class="block text-sm font-bold text-slate-900 dark:text-white">Saroj Parajuli</span>
+            <span class="block text-xs text-slate-500 dark:text-slate-400">B.Sc. Statistics • Tri-Chandra Campus (TU), Kathmandu</span>
+          </div>
+        </div>
+        <div class="pt-2 flex flex-wrap items-center justify-center gap-3">
+          <a href="../#blogs" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wider uppercase transition shadow-lg shadow-sky-600/20">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/>
+            </svg>
+            <span>Back to All Blogs &amp; Publications</span>
+          </a>
+          <button type="button" data-share-blog class="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 border border-slate-300 dark:border-slate-700 font-semibold text-xs tracking-wider uppercase transition shadow-sm">
+            <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+            <span>Share This Article</span>
+          </button>
+        </div>
+      </footer>
+
+    </article>
+  </main>
+
+  <script>
+    (function () {
+      // 1. Reading Progress Bar
+      const progressBar = document.getElementById('progressBar');
+      window.addEventListener('scroll', function() {
+        const scrollTop = window.scrollY || document.documentElement.scrollTop;
+        const docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = docHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / docHeight) * 100)) : 0;
+        if (progressBar) progressBar.style.width = scrolled + '%';
+      });
+
+      // 2. Dark / Light Theme Toggle & Persistence
+      const savedTheme = localStorage.getItem('saroj_theme') || 'dark';
+      if (savedTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+
+      const themeToggleBtn = document.getElementById('themeToggleBtn');
+      if (themeToggleBtn) {
+        themeToggleBtn.addEventListener('click', function() {
+          const isDark = document.documentElement.classList.toggle('dark');
+          localStorage.setItem('saroj_theme', isDark ? 'dark' : 'light');
+        });
+      }
+
+      // 3. Font Size Controls
+      const articleBody = document.getElementById('articleBody');
+      const fontIncreaseBtn = document.getElementById('fontIncreaseBtn');
+      const fontDecreaseBtn = document.getElementById('fontDecreaseBtn');
+      const sizes = ['text-sm', 'text-base', 'text-lg', 'text-xl'];
+      let currentSizeIndex = 1;
+
+      function updateFontSize() {
+        if (!articleBody) return;
+        sizes.forEach(cls => articleBody.classList.remove(cls));
+        articleBody.classList.add(sizes[currentSizeIndex]);
+      }
+
+      if (fontIncreaseBtn) {
+        fontIncreaseBtn.addEventListener('click', function() {
+          if (currentSizeIndex < sizes.length - 1) {
+            currentSizeIndex++;
+            updateFontSize();
+          }
+        });
+      }
+
+      if (fontDecreaseBtn) {
+        fontDecreaseBtn.addEventListener('click', function() {
+          if (currentSizeIndex > 0) {
+            currentSizeIndex--;
+            updateFontSize();
+          }
+        });
+      }
+    })();
+  </script>
+
+  <!-- Universal Blog Share Utility (Automatically powers all share buttons on this page) -->
+  <script src="../js/blog-share.js"></script>
+</body>
+</html>

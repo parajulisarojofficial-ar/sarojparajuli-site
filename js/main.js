@@ -129,14 +129,75 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   });
 
+  // Deep Linking & Shared Blog Detection (#blog=slug or ?blog=slug)
+  function checkAndOpenSharedBlog() {
+    const hash = window.location.hash || "";
+    const searchParams = new URLSearchParams(window.location.search);
+    let blogTarget = searchParams.get("blog") || searchParams.get("story");
+
+    if (!blogTarget && hash) {
+      const match = hash.match(/#(?:blog|story)=([^&]+)/i) || hash.match(/^#blogs\/([^\/&]+)/i);
+      if (match) {
+        blogTarget = decodeURIComponent(match[1]);
+      }
+    }
+
+    if (!blogTarget) return;
+
+    // Switch to blogs tab
+    switchTab("blogs", false);
+
+    // If siteContent or currentStoriesMap has posts, find it
+    const allPosts = (siteContent && Array.isArray(siteContent.posts) && siteContent.posts.length > 0)
+      ? siteContent.posts
+      : Object.values(currentStoriesMap);
+
+    if (!allPosts || allPosts.length === 0) return;
+
+    const targetLower = blogTarget.toLowerCase();
+    const found = allPosts.find(p => 
+      (p.id && String(p.id).toLowerCase() === targetLower) ||
+      (p.slug && String(p.slug).toLowerCase() === targetLower) ||
+      (p.title && p.title.toLowerCase() === targetLower)
+    );
+
+    if (found) {
+      const prefSec = typeof found.preferred_section === "number"
+        ? found.preferred_section
+        : (found.blog_type === "personal" || (found.category && found.category.toLowerCase() === "personal") ? 0 : 1);
+      
+      if (typeof switchBlogTab === "function") {
+        switchBlogTab(prefSec === 0 ? "personal" : "tech");
+      }
+
+      if (found.has_static_html && found.url) {
+        const card = document.querySelector(`a[href*="${found.url}"]`) || document.querySelector(`[data-blog-url*="${found.url}"]`);
+        if (card) {
+          card.scrollIntoView({ behavior: "smooth", block: "center" });
+        }
+      } else if (typeof openStoryModal === "function") {
+        openStoryModal(found);
+      }
+    }
+  }
+
   // Handle Initial URL Hash & Back/Forward buttons
   function handleUrlHash() {
     let target = "";
-    const rawHash = (window.location.hash || "").replace(/^#/, "").trim().toLowerCase();
+    const rawHash = (window.location.hash || "").replace(/^#/, "").trim();
     const rawPath = (window.location.pathname || "").replace(/^\//, "").trim().toLowerCase();
 
-    if (rawHash && VALID_TABS.includes(rawHash)) {
-      target = rawHash;
+    // Check if the hash is targeting a specific blog
+    if (rawHash.toLowerCase().startsWith("blog=") || rawHash.toLowerCase().startsWith("story=") || rawHash.toLowerCase().startsWith("blogs/")) {
+      target = "blogs";
+      switchTab(target, false);
+      checkAndOpenSharedBlog();
+      return;
+    }
+
+    const cleanHash = rawHash.toLowerCase();
+    if (cleanHash && VALID_TABS.includes(cleanHash)) {
+      target = cleanHash;
     } else if (rawPath && VALID_TABS.includes(rawPath)) {
       target = rawPath;
     } else {
@@ -256,6 +317,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderBlogs(siteContent.posts);
     renderMusicGallery(siteContent.musicGallery || siteContent.musicTracks);
     loadGuestbookMessages();
+    checkAndOpenSharedBlog();
   }
 
   // --------------------------------------------------------------------------
@@ -749,10 +811,36 @@ document.addEventListener("DOMContentLoaded", async () => {
   // 7. BLOGS SECTION (Dual Categories: Tech Updates & Personal Stories)
   // --------------------------------------------------------------------------
   const currentStoriesMap = {};
+  let currentOpenStory = null;
+
+  function getBlogShareUrl(post) {
+    const base = window.location.origin;
+    if (post && post.has_static_html && post.url) {
+      const cleanPath = post.url.replace(/^\/?/, "");
+      return `${base}/${cleanPath}`;
+    }
+    const key = (post && (post.slug || post.id)) || "";
+    return `${base}/#blog=${encodeURIComponent(key)}`;
+  }
 
   function openStoryModal(story) {
     const modal = document.getElementById("personalStoryModal");
     if (!modal || !story) return;
+
+    currentOpenStory = story;
+    const shareUrl = getBlogShareUrl(story);
+    const storyTitle = story.title || "Blog Article";
+
+    const modalShareBtn = document.getElementById("shareStoryModalBtn");
+    const modalShareBottomBtn = document.getElementById("shareStoryModalBottomBtn");
+    if (modalShareBtn) {
+      modalShareBtn.setAttribute("data-blog-title", storyTitle);
+      modalShareBtn.setAttribute("data-blog-url", shareUrl);
+    }
+    if (modalShareBottomBtn) {
+      modalShareBottomBtn.setAttribute("data-blog-title", storyTitle);
+      modalShareBottomBtn.setAttribute("data-blog-url", shareUrl);
+    }
 
     const titleEl = document.getElementById("modalStoryTitle");
     const dateEl = document.getElementById("modalStoryDate");
@@ -786,6 +874,14 @@ document.addEventListener("DOMContentLoaded", async () => {
       }
     }
 
+    // Update URL hash without scroll jumps
+    if (window.history && window.history.replaceState) {
+      const slugOrId = story.slug || story.id;
+      if (slugOrId) {
+        window.history.replaceState(null, "", "#blog=" + encodeURIComponent(slugOrId));
+      }
+    }
+
     modal.classList.remove("hidden");
     document.body.classList.add("overflow-hidden");
   }
@@ -795,6 +891,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!modal) return;
     modal.classList.add("hidden");
     document.body.classList.remove("overflow-hidden");
+    currentOpenStory = null;
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", "#blogs");
+    }
   }
 
   // Bind modal close buttons once DOM is loaded
@@ -861,6 +961,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           const storyId = post.id || `tech-${index}`;
           currentStoriesMap[storyId] = post;
 
+          const shareUrl = getBlogShareUrl(post);
           const isStatic = Boolean(post.has_static_html && post.url);
 
           const card = document.createElement("article");
@@ -879,13 +980,24 @@ document.addEventListener("DOMContentLoaded", async () => {
               </h2>
             `;
             actionHtml = `
-              <a href="${safePostUrl}" 
-                 class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
-                <span>Read Full Blog</span>
-                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                </svg>
-              </a>
+              <div class="flex flex-row md:flex-col items-stretch gap-2.5 w-full md:w-auto">
+                <a href="${safePostUrl}" 
+                   class="flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
+                  <span>Read Full Blog</span>
+                  <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                  </svg>
+                </a>
+                <button type="button"
+                        data-share-blog
+                        data-blog-title="${escapeHTML(title)}"
+                        data-blog-url="${escapeHTML(shareUrl)}"
+                        class="share-blog-btn inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-all shadow-sm group/btn"
+                        title="Share this blog">
+                  <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                  <span>Share</span>
+                </button>
+              </div>
             `;
           } else {
             titleHtml = `
@@ -894,14 +1006,25 @@ document.addEventListener("DOMContentLoaded", async () => {
               </h2>
             `;
             actionHtml = `
-              <button type="button" 
-                      data-story-id="${escapeHTML(storyId)}"
-                      class="read-tech-btn w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
-                <span>Read Article</span>
-                <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
-                </svg>
-              </button>
+              <div class="flex flex-row md:flex-col items-stretch gap-2.5 w-full md:w-auto">
+                <button type="button" 
+                        data-story-id="${escapeHTML(storyId)}"
+                        class="read-tech-btn flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
+                  <span>Read Article</span>
+                  <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                  </svg>
+                </button>
+                <button type="button" 
+                        data-share-blog
+                        data-blog-title="${escapeHTML(title)}"
+                        data-blog-url="${escapeHTML(shareUrl)}"
+                        class="share-blog-btn inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-all shadow-sm group/btn"
+                        title="Share this article">
+                  <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                  <span>Share</span>
+                </button>
+              </div>
             `;
           }
 
@@ -969,6 +1092,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           const readTime = story.read_time || "3 min read";
           const storyId = story.id || `story-${index}`;
           currentStoriesMap[storyId] = story;
+          const shareUrl = getBlogShareUrl(story);
 
           const card = document.createElement("article");
           card.className = "p-5 sm:p-6 rounded-2xl glass-card border border-slate-200 dark:border-slate-800/80 hover:border-sky-500/40 transition-all duration-200 group flex flex-col md:flex-row items-start md:items-center gap-5 shadow-sm";
@@ -1005,12 +1129,23 @@ document.addEventListener("DOMContentLoaded", async () => {
             </div>
 
             <div class="flex-shrink-0 w-full md:w-auto pt-3 md:pt-0 border-t border-slate-200 dark:border-slate-800/60 md:border-t-0 flex md:flex-col justify-end">
-              <button type="button" 
-                      data-story-id="${escapeHTML(storyId)}"
-                      class="read-story-btn w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 to-deepblue-600 hover:from-sky-500 hover:to-deepblue-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
-                <span>Read Story</span>
-              </button>
+              <div class="flex flex-row md:flex-col items-stretch gap-2.5 w-full md:w-auto">
+                <button type="button" 
+                        data-story-id="${escapeHTML(storyId)}"
+                        class="read-story-btn flex-1 md:flex-initial inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-600 to-deepblue-600 hover:from-sky-500 hover:to-deepblue-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                  <span>Read Story</span>
+                </button>
+                <button type="button" 
+                        data-share-blog
+                        data-blog-title="${escapeHTML(title)}"
+                        data-blog-url="${escapeHTML(shareUrl)}"
+                        class="share-blog-btn inline-flex items-center justify-center gap-1.5 px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700/80 border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 font-semibold text-xs transition-all shadow-sm group/btn"
+                        title="Share this story">
+                  <svg class="w-4 h-4 text-sky-600 dark:text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
+                  <span>Share</span>
+                </button>
+              </div>
             </div>
           `;
           personalContainer.appendChild(card);
