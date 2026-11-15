@@ -59,20 +59,16 @@ create policy "Public can read site_content"
   for select
   using (true);
 
--- B. Manage site content:
--- Allows update/insert from both authenticated Supabase users AND the secured CMS Studio
-create policy "Manage site_content"
-  on public.site_content
-  for all
-  using (true)
-  with check (true);
-
--- C. Visitors can submit valid guestbook messages
+-- B. Visitors can submit valid guestbook messages
 create policy "Visitors can insert guestbook_messages"
   on public.guestbook_messages
   for insert
   with check (
-    length(trim(sender_name)) > 0
+    length(trim(sender_name)) >= 1 and length(trim(sender_name)) <= 100
+    and length(trim(message)) >= 2 and length(trim(message)) <= 2000
+  );
+
+-- C. Public can view approved guestbook messages
     and length(trim(message)) > 0
   );
 

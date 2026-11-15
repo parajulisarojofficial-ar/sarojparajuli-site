@@ -4,10 +4,38 @@ if (typeof WebSocket === 'undefined') {
   } catch (e) {}
 }
 const { createClient } = require('@supabase/supabase-js');
+const crypto = require('crypto');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://qibqrnkvslgvgcowgabp.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY;
+
+function safeCompare(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) {
+    crypto.timingSafeEqual(bufA, bufA);
+    return false;
+  }
+  return crypto.timingSafeEqual(bufA, bufB);
+}
+
+const recentIps = new Map();
+function isRateLimited(ip) {
+  const now = Date.now();
+  const last = recentIps.get(ip);
+  if (last && (now - last) < 5000) { // 5-second per-IP cooldown
+    return true;
+  }
+  recentIps.set(ip, now);
+  if (recentIps.size > 500) {
+    for (const [k, v] of recentIps.entries()) {
+      if (now - v > 60000) recentIps.delete(k);
+    }
+  }
+  return false;
+}
 
 let supabase = null;
 if (SUPABASE_URL && SUPABASE_KEY) {
@@ -62,6 +90,11 @@ module.exports = async (req, res) => {
 
   // 2. POST - Add new message with strict validation & anti-bot honeypot
   if (req.method === 'POST') {
+    const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'ip';
+    if (isRateLimited(ip)) {
+      return res.status(429).json({ error: 'Please wait a few seconds before submitting another note.' });
+    }
+
     const { sender_name, sender_contact, message, website_hp } = req.body || {};
 
     // Anti-bot honeypot
@@ -111,7 +144,7 @@ module.exports = async (req, res) => {
     }
 
     const adminKey = req.headers['x-admin-key'] || (req.body && req.body.adminKey) || req.query.adminKey;
-    if (!adminKey || adminKey !== ADMIN_SECRET_KEY) {
+    if (!adminKey || !safeCompare(adminKey, ADMIN_SECRET_KEY)) {
       return res.status(401).json({ error: 'Unauthorized: Invalid Admin Key' });
     }
 

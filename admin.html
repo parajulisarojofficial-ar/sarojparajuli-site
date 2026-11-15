@@ -526,17 +526,19 @@ create table if not exists public.guestbook_messages (
 alter table public.site_content enable row level security;
 alter table public.guestbook_messages enable row level security;
 
+-- Strict Read-Only Policies for Public
 create policy "Public can read site_content"
   on public.site_content for select using (true);
 
-create policy "Manage site_content"
-  on public.site_content for all using (true) with check (true);
-
-create policy "Visitors can insert guestbook_messages"
-  on public.guestbook_messages for insert with check (length(trim(sender_name)) > 0 and length(trim(message)) > 0);
-
 create policy "Public can read guestbook_messages"
-  on public.guestbook_messages for select using (status = 'approved' or status is null);</pre>
+  on public.guestbook_messages for select using (status = 'approved' or status is null);
+
+-- Validated Guestbook Submissions
+create policy "Public can submit validated guestbook messages"
+  on public.guestbook_messages for insert
+  with check (length(trim(sender_name)) >= 1 and length(trim(sender_name)) <= 100 and length(trim(message)) >= 2 and length(trim(message)) <= 2000);
+
+-- Note: Mutations to site_content require service_role via /api/content with ADMIN_SECRET_KEY.</pre>
           </div>
 
         </div>

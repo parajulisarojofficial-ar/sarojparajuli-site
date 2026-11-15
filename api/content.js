@@ -6,10 +6,22 @@ if (typeof WebSocket === 'undefined') {
 const { createClient } = require('@supabase/supabase-js');
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://qibqrnkvslgvgcowgabp.supabase.co';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
 const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY;
+
+function safeCompare(a, b) {
+  if (typeof a !== 'string' || typeof b !== 'string') return false;
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  if (bufA.length !== bufB.length) {
+    crypto.timingSafeEqual(bufA, bufA);
+    return false;
+  }
+  return crypto.timingSafeEqual(bufA, bufB);
+}
 
 let supabase = null;
 if (SUPABASE_URL && SUPABASE_KEY) {
@@ -76,7 +88,7 @@ module.exports = async (req, res) => {
     }
 
     const adminKey = req.headers['x-admin-key'] || (req.body && req.body.adminKey);
-    if (!adminKey || adminKey !== ADMIN_SECRET_KEY) {
+    if (!adminKey || !safeCompare(adminKey, ADMIN_SECRET_KEY)) {
       return res.status(401).json({ error: 'Unauthorized: Invalid Admin Key' });
     }
 
@@ -88,6 +100,11 @@ module.exports = async (req, res) => {
     const { payload } = req.body || {};
     if (!payload || typeof payload !== 'object') {
       return res.status(400).json({ error: 'Invalid payload data' });
+    }
+
+    const payloadJson = JSON.stringify(payload);
+    if (payloadJson.length > 2000000) {
+      return res.status(413).json({ error: 'Payload exceeds maximum limit (2MB).' });
     }
 
     if (!supabase) {
