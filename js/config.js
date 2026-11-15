@@ -15,9 +15,6 @@ window.SAROJ_CONFIG = {
   STORAGE_KEY_ADMIN_TOKEN: "saroj_admin_session_v2",
   STORAGE_KEY_SB_CONFIG: "saroj_sb_custom_config_v2",
 
-  // Admin Master Passphrase (Default client passkey, matches backend server)
-  ADMIN_DEFAULT_KEY: "saroj_cms_pass_2026",
-
   // Domain Metadata
   DOMAIN: "sarojparajuli.com.np",
   CONTACT_EMAIL: "contact@sarojparajuli.com.np",

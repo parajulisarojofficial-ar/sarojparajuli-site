@@ -221,7 +221,7 @@
     },
 
     /**
-     * Save/Upsert site content to Supabase
+     * Save/Upsert site content to Supabase (Admin only via secure backend)
      */
     saveContent: async function(payload, adminKey) {
       // 1. Always update local storage
@@ -229,39 +229,28 @@
         localStorage.setItem(cfg.STORAGE_KEY_CONTENT, JSON.stringify(payload));
       } catch (e) {}
 
-      // 2. Try server backend endpoint first (if available)
+      if (!adminKey) {
+        return { success: false, message: "Saved locally only. Admin key required for Supabase sync." };
+      }
+
+      // 2. Route via secure server backend endpoint
       try {
         const response = await fetch(cfg.API_ENDPOINTS.content, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "x-admin-key": adminKey || cfg.ADMIN_DEFAULT_KEY
+            "x-admin-key": adminKey
           },
           body: JSON.stringify({ payload, adminKey })
         });
         if (response.ok) {
           return { success: true, message: "Saved to Supabase via secure backend!" };
+        } else {
+          const errData = await response.json().catch(() => ({}));
+          return { success: false, message: errData.error || "Server rejected update (Unauthorized)." };
         }
       } catch (e) {
-        // Fallback to direct client SDK upsert
-      }
-
-      // 3. Fallback to direct Supabase SDK
-      if (!sbClient) {
-        return { success: false, message: "Saved locally only (Supabase not connected)." };
-      }
-
-      try {
-        const { error } = await sbClient.from("site_content").upsert({
-          id: "main",
-          payload: payload,
-          updated_at: new Date().toISOString()
-        });
-
-        if (error) throw error;
-        return { success: true, message: "Successfully synced live to Supabase!" };
-      } catch (err) {
-        return { success: false, message: "Supabase error: " + err.message };
+        return { success: false, message: "Network error contacting save endpoint." };
       }
     },
 
@@ -308,6 +297,24 @@
       if (!cleanName || !cleanMessage) {
         throw new Error("Please enter both your name and a message.");
       }
+      if (cleanName.length > 100) {
+        throw new Error("Name must not exceed 100 characters.");
+      }
+      if (cleanContact.length > 100) {
+        throw new Error("Contact detail must not exceed 100 characters.");
+      }
+      if (cleanMessage.length < 2 || cleanMessage.length > 2000) {
+        throw new Error("Message must be between 2 and 2000 characters.");
+      }
+
+      // Rate limit: 15-second cooldown
+      const lastSubmitKey = "saroj_gb_last_submit";
+      const lastSubmit = parseInt(localStorage.getItem(lastSubmitKey) || "0", 10);
+      const now = Date.now();
+      if (now - lastSubmit < 15000) {
+        const remaining = Math.ceil((15000 - (now - lastSubmit)) / 1000);
+        throw new Error(`Please wait ${remaining}s before posting another note.`);
+      }
 
       const newEntry = {
         sender_name: cleanName,
@@ -325,11 +332,12 @@
         });
         if (res.ok) {
           const body = await res.json();
+          localStorage.setItem(lastSubmitKey, String(Date.now()));
           return body.entry || newEntry;
         }
       } catch (e) {}
 
-      // 2. Direct Supabase insert
+      // 2. Direct Supabase insert (validated by Postgres RLS check)
       if (sbClient) {
         const { data, error } = await sbClient
           .from("guestbook_messages")
@@ -338,29 +346,30 @@
           .single();
 
         if (error) throw error;
+        localStorage.setItem(lastSubmitKey, String(Date.now()));
         return data || newEntry;
       }
 
+      localStorage.setItem(lastSubmitKey, String(Date.now()));
       return newEntry;
     },
 
     /**
-     * Delete guestbook message (Admin only)
+     * Delete guestbook message (Admin only via secure backend)
      */
     deleteGuestbookMessage: async function(id, adminKey) {
-      if (sbClient) {
-        const { error } = await sbClient
-          .from("guestbook_messages")
-          .delete()
-          .eq("id", id);
-        if (!error) return true;
+      if (!adminKey) {
+        throw new Error("Admin authentication required to delete messages.");
       }
 
-      // Try server endpoint
       try {
-        const res = await fetch(cfg.API_ENDPOINTS.guestbook + "/" + id, {
+        const res = await fetch(cfg.API_ENDPOINTS.guestbook + "?id=" + encodeURIComponent(id), {
           method: "DELETE",
-          headers: { "x-admin-key": adminKey || cfg.ADMIN_DEFAULT_KEY }
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-key": adminKey
+          },
+          body: JSON.stringify({ id, adminKey })
         });
         return res.ok;
       } catch (e) {

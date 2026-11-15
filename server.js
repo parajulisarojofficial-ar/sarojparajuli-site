@@ -115,6 +115,11 @@ app.post('/api/content', async (req, res) => {
     return res.status(401).json({ error: 'Unauthorized: Invalid Admin Key' });
   }
 
+  // Key verification check
+  if (req.body && req.body.action === 'verify') {
+    return res.json({ success: true, message: 'Authentication successful.' });
+  }
+
   const { payload } = req.body;
   if (!payload || typeof payload !== 'object') {
     return res.status(400).json({ error: 'Invalid payload data' });

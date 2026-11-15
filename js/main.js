@@ -628,7 +628,8 @@ document.addEventListener("DOMContentLoaded", async () => {
         else if (item.platform === "email_career") descText = "Career & roles: career@sarojparajuli.com.np";
         else descText = item.url;
 
-        const href = item.url.startsWith("mailto:") || item.url.startsWith("http") ? item.url : (item.platform.includes("email") ? `mailto:${item.url}` : item.url);
+        const rawHref = item.url.startsWith("mailto:") || item.url.startsWith("http") ? item.url : (item.platform.includes("email") ? `mailto:${item.url}` : item.url);
+        const href = sanitizeUrl(rawHref);
 
         card.innerHTML = `
           <div class="flex items-center gap-3.5 min-w-0">
@@ -738,7 +739,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             <div class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${escapeHTML(p.desc)}</div>
           </div>
         </div>
-        <a href="${escapeHTML(p.url)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sky-600/15 hover:bg-sky-600 text-sky-600 dark:text-sky-400 hover:text-white border border-sky-500/30 text-xs font-semibold transition">Open</a>
+        <a href="${escapeHTML(sanitizeUrl(p.url))}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-sky-600/15 hover:bg-sky-600 text-sky-600 dark:text-sky-400 hover:text-white border border-sky-500/30 text-xs font-semibold transition">Open</a>
       `;
       container.appendChild(card);
     });
@@ -778,7 +779,8 @@ document.addEventListener("DOMContentLoaded", async () => {
     const rawContent = story.content || story.body || story.summary || story.excerpt || "";
     if (contentEl) {
       if (window.marked && typeof window.marked.parse === "function") {
-        contentEl.innerHTML = window.marked.parse(rawContent);
+        const parsedHtml = window.marked.parse(rawContent);
+        contentEl.innerHTML = window.DOMPurify ? DOMPurify.sanitize(parsedHtml) : escapeHTML(rawContent);
       } else {
         contentEl.innerHTML = `<p class="whitespace-pre-wrap">${escapeHTML(rawContent)}</p>`;
       }
@@ -868,15 +870,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           let actionHtml = "";
 
           if (isStatic) {
+            const safePostUrl = escapeHTML(sanitizeUrl(post.url));
             titleHtml = `
               <h2 class="text-lg sm:text-xl md:text-2xl font-bold text-slate-900 dark:text-slate-100 group-hover:text-sky-600 dark:group-hover:text-sky-400 transition-colors leading-snug">
-                <a href="${escapeHTML(post.url)}" class="focus:outline-none hover:underline" title="Read full blog: ${escapeHTML(title)}">
+                <a href="${safePostUrl}" class="focus:outline-none hover:underline" title="Read full blog: ${escapeHTML(title)}">
                   ${escapeHTML(title)}
                 </a>
               </h2>
             `;
             actionHtml = `
-              <a href="${escapeHTML(post.url)}" 
+              <a href="${safePostUrl}" 
                  class="w-full md:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-md transition-all group-hover:shadow-sky-500/20 group-hover:shadow-lg">
                 <span>Read Full Blog</span>
                 <svg class="w-4 h-4 transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -1053,7 +1056,8 @@ document.addEventListener("DOMContentLoaded", async () => {
       const card = document.createElement("div");
       card.className = "p-6 rounded-2xl glass-card space-y-5 flex flex-col justify-between hover:border-sky-500/40 transition group";
 
-      const ytId = track.youtube_id || extractYouTubeId(track.youtube_url || track.url);
+      const rawYtId = track.youtube_id || extractYouTubeId(track.youtube_url || track.url);
+      const ytId = rawYtId && /^[\w-]{11}$/.test(rawYtId) ? rawYtId : null;
 
       let mediaHtml = "";
       if (ytId) {
@@ -1069,14 +1073,16 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
         `;
       } else if (track.cover_image || track.image) {
+        const safeImgUrl = escapeHTML(sanitizeUrl(track.cover_image || track.image));
         mediaHtml = `
           <div class="aspect-video rounded-xl overflow-hidden bg-midnight-950 border border-slate-800">
-            <img src="${escapeHTML(track.cover_image || track.image)}" alt="${escapeHTML(track.title)}" class="w-full h-full object-cover">
+            <img src="${safeImgUrl}" alt="${escapeHTML(track.title)}" class="w-full h-full object-cover">
           </div>
         `;
       }
 
-      const watchUrl = track.youtube_url || (ytId ? `https://youtube.com/shorts/${ytId}` : null);
+      const rawWatchUrl = track.youtube_url || (ytId ? `https://youtube.com/shorts/${ytId}` : null);
+      const watchUrl = rawWatchUrl ? sanitizeUrl(rawWatchUrl) : null;
 
       card.innerHTML = `
         <div class="space-y-3.5">
@@ -1217,6 +1223,21 @@ document.addEventListener("DOMContentLoaded", async () => {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+  function sanitizeUrl(url) {
+    if (!url || typeof url !== "string") return "#";
+    const trimmed = url.trim();
+    if (/^(javascript|vbscript|data):/i.test(trimmed)) {
+      return "#";
+    }
+    if (/^(https?:|mailto:|tel:|\/|#)/i.test(trimmed)) {
+      return trimmed;
+    }
+    if (!/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) {
+      return trimmed;
+    }
+    return "#";
   }
 
   // Start Pipeline

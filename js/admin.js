@@ -10,23 +10,73 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   // 1. Check Authentication
   if (currentAdminKey) {
-    unlockAdmin();
+    verifySession();
   } else {
     showAuthPrompt();
+  }
+
+  async function verifySession() {
+    try {
+      const res = await fetch(cfg.API_ENDPOINTS.content, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-key": currentAdminKey
+        },
+        body: JSON.stringify({ action: "verify", adminKey: currentAdminKey })
+      });
+      if (res.ok) {
+        unlockAdmin();
+      } else {
+        sessionStorage.removeItem(cfg.STORAGE_KEY_ADMIN_TOKEN);
+        currentAdminKey = "";
+        showAuthPrompt();
+      }
+    } catch (e) {
+      unlockAdmin();
+    }
   }
 
   // Bind Auth Form
   const authForm = document.getElementById("adminLoginForm");
   if (authForm) {
-    authForm.addEventListener("submit", (e) => {
+    authForm.addEventListener("submit", async (e) => {
       e.preventDefault();
       const pass = document.getElementById("adminPassInput").value.trim();
-      if (pass === cfg.ADMIN_DEFAULT_KEY || pass.length >= 6) {
-        currentAdminKey = pass;
-        sessionStorage.setItem(cfg.STORAGE_KEY_ADMIN_TOKEN, pass);
-        unlockAdmin();
-      } else {
-        showToast("Incorrect Admin Passkey. Please check your credentials.");
+      if (!pass) return;
+
+      const submitBtn = authForm.querySelector("button[type=submit]");
+      const origText = submitBtn ? submitBtn.innerHTML : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = "<span>Verifying...</span>";
+      }
+
+      try {
+        const res = await fetch(cfg.API_ENDPOINTS.content, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-key": pass
+          },
+          body: JSON.stringify({ action: "verify", adminKey: pass })
+        });
+
+        if (res.ok) {
+          currentAdminKey = pass;
+          sessionStorage.setItem(cfg.STORAGE_KEY_ADMIN_TOKEN, pass);
+          unlockAdmin();
+          showToast("Access Granted. Welcome to CMS Studio!");
+        } else {
+          showToast("Incorrect Admin Passkey. Access denied.");
+        }
+      } catch (err) {
+        showToast("Authentication server error. Please check your connection.");
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = origText;
+        }
       }
     });
   }
@@ -587,5 +637,20 @@ document.addEventListener("DOMContentLoaded", async () => {
       .replace(/>/g, "&gt;")
       .replace(/"/g, "&quot;")
       .replace(/'/g, "&#039;");
+  }
+
+  function sanitizeUrl(url) {
+    if (!url || typeof url !== "string") return "#";
+    const trimmed = url.trim();
+    if (/^(javascript|vbscript|data):/i.test(trimmed)) {
+      return "#";
+    }
+    if (/^(https?:|mailto:|tel:|\/|#)/i.test(trimmed)) {
+      return trimmed;
+    }
+    if (!/^[a-z][a-z0-9+.-]*:/i.test(trimmed)) {
+      return trimmed;
+    }
+    return "#";
   }
 });

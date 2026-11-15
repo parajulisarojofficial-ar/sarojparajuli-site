@@ -6,17 +6,42 @@ if (typeof WebSocket === 'undefined') {
 const { createClient } = require('@supabase/supabase-js');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://qibqrnkvslgvgcowgabp.supabase.co';
-const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY || 'sb_publishable_I3_EYP6XFV1gqUC1x4r55w_q4aeYwgn';
-const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY || 'saroj_cms_pass_2026';
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_ANON_KEY;
+const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY;
 
-module.exports = async (req, res) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
+let supabase = null;
+if (SUPABASE_URL && SUPABASE_KEY) {
+  supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
+function setCorsHeaders(req, res) {
+  const origin = req.headers.origin || '';
+  const isAllowed =
+    origin === 'https://sarojparajuli.com.np' ||
+    origin === 'https://www.sarojparajuli.com.np' ||
+    /^https:\/\/sarojparajuli-site[a-z0-9-]*\.vercel\.app$/.test(origin) ||
+    /^http:\/\/localhost(:\d+)?$/.test(origin) ||
+    /^http:\/\/127\.0\.0\.1(:\d+)?$/.test(origin);
+
+  if (isAllowed) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Vary', 'Origin');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', 'https://sarojparajuli.com.np');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-admin-key');
+}
+
+module.exports = async (req, res) => {
+  setCorsHeaders(req, res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
+  }
+
+  if (!supabase) {
+    return res.status(500).json({ error: 'Supabase client is not configured on the server.' });
   }
 
   // 1. GET - Fetch Guestbook Messages
@@ -35,7 +60,7 @@ module.exports = async (req, res) => {
     }
   }
 
-  // 2. POST - Add new message
+  // 2. POST - Add new message with strict validation & anti-bot honeypot
   if (req.method === 'POST') {
     const { sender_name, sender_contact, message, website_hp } = req.body || {};
 
@@ -50,6 +75,9 @@ module.exports = async (req, res) => {
 
     if (cleanName.length < 1 || cleanName.length > 100) {
       return res.status(400).json({ error: 'Name must be between 1 and 100 characters.' });
+    }
+    if (cleanContact.length > 100) {
+      return res.status(400).json({ error: 'Contact detail must not exceed 100 characters.' });
     }
     if (cleanMessage.length < 2 || cleanMessage.length > 2000) {
       return res.status(400).json({ error: 'Message must be between 2 and 2000 characters.' });
@@ -78,14 +106,18 @@ module.exports = async (req, res) => {
 
   // 3. DELETE - Delete a message (Admin key required)
   if (req.method === 'DELETE') {
+    if (!ADMIN_SECRET_KEY) {
+      return res.status(500).json({ error: 'Server configuration error: ADMIN_SECRET_KEY is not configured.' });
+    }
+
     const adminKey = req.headers['x-admin-key'] || (req.body && req.body.adminKey) || req.query.adminKey;
     if (!adminKey || adminKey !== ADMIN_SECRET_KEY) {
       return res.status(401).json({ error: 'Unauthorized: Invalid Admin Key' });
     }
 
     const id = req.query.id || (req.body && req.body.id);
-    if (!id) {
-      return res.status(400).json({ error: 'Missing message ID' });
+    if (!id || typeof id !== 'string') {
+      return res.status(400).json({ error: 'Missing or invalid message ID' });
     }
 
     try {
