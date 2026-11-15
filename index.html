@@ -487,7 +487,7 @@
             </div>
           </div>
           <div class="flex items-center gap-2">
-            <button type="button" id="shareStoryModalBtn" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-sky-500/10 hover:bg-sky-500/20 text-sky-600 dark:text-sky-400 border border-sky-500/30 text-xs font-semibold transition" title="Share this blog">
+            <button type="button" id="shareStoryModalBtn" data-share-blog class="share-blog-btn inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-semibold text-xs tracking-wide shadow-sm transition group/btn" title="Share this article">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
               <span>Share</span>
             </button>
@@ -509,17 +509,10 @@
         </div>
 
         <!-- Modal Footer -->
-        <div class="p-4 px-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between bg-slate-50/80 dark:bg-midnight-800/50 text-xs">
-          <span id="modalStoryFooterSource" class="text-slate-500 font-mono text-[11px]">Published via Supabase PostgreSQL &bull; sarojparajuli.com.np</span>
-          <div class="flex items-center gap-2">
-            <button type="button" id="shareStoryModalBottomBtn" class="px-3.5 py-2 rounded-xl bg-sky-600 hover:bg-sky-500 text-white font-medium transition inline-flex items-center gap-1.5 shadow-sm">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/></svg>
-              <span>Share Story</span>
-            </button>
-            <button type="button" id="closeStoryModalBottomBtn" class="px-4 py-2 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition">
-              Close Story
-            </button>
-          </div>
+        <div class="p-4 px-6 border-t border-slate-200 dark:border-slate-800 flex items-center justify-end bg-slate-50/80 dark:bg-midnight-800/50 text-xs">
+          <button type="button" id="closeStoryModalBottomBtn" class="px-5 py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-800 dark:text-slate-200 font-medium transition">
+            Close Story
+          </button>
         </div>
       </div>
     </div>
@@ -527,7 +520,7 @@
     <!-- =======================================================================
          UNIVERSAL BLOG SHARE MODAL
          ======================================================================= -->
-    <div id="universalShareModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-opacity" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+    <div id="universalShareModal" class="fixed inset-0 z-[70] hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-opacity" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
       <div class="relative w-full max-w-lg bg-white dark:bg-midnight-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden p-6 sm:p-7 space-y-5 animate-in fade-in zoom-in-95 duration-200">
         
         <!-- Header -->
@@ -1178,7 +1171,7 @@
   </footer>
 
   <!-- Toast Notification Container -->
-  <div id="toastNotification" class="fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-slate-900 dark:bg-slate-900 border border-sky-500/40 text-slate-100 text-xs shadow-2xl flex items-center gap-2.5 pointer-events-none">
+  <div id="toastNotification" class="fixed bottom-6 right-6 z-[80] transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-slate-900 dark:bg-slate-900 border border-sky-500/40 text-slate-100 text-xs shadow-2xl flex items-center gap-2.5 pointer-events-none">
     <span id="toastMessage">Notification</span>
   </div>
 

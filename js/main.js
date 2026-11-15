@@ -832,14 +832,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     const storyTitle = story.title || "Blog Article";
 
     const modalShareBtn = document.getElementById("shareStoryModalBtn");
-    const modalShareBottomBtn = document.getElementById("shareStoryModalBottomBtn");
     if (modalShareBtn) {
       modalShareBtn.setAttribute("data-blog-title", storyTitle);
       modalShareBtn.setAttribute("data-blog-url", shareUrl);
-    }
-    if (modalShareBottomBtn) {
-      modalShareBottomBtn.setAttribute("data-blog-title", storyTitle);
-      modalShareBottomBtn.setAttribute("data-blog-url", shareUrl);
     }
 
     const titleEl = document.getElementById("modalStoryTitle");
@@ -848,7 +843,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     const readEl = document.getElementById("modalStoryReadTime");
     const contentEl = document.getElementById("modalStoryContent");
     const subTitleEl = document.getElementById("modalStoryAuthorSubtitle");
-    const footerSourceEl = document.getElementById("modalStoryFooterSource");
 
     const isPersonal = story.preferred_section === 0 || story.blog_type === "personal";
 
@@ -859,9 +853,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     if (subTitleEl) {
       subTitleEl.textContent = isPersonal ? "Personal Essay • Saroj Parajuli" : "Technical Article • Saroj Parajuli";
-    }
-    if (footerSourceEl) {
-      footerSourceEl.innerHTML = "Published via Supabase PostgreSQL &bull; sarojparajuli.com.np";
     }
 
     const rawContent = story.content || story.body || story.summary || story.excerpt || "";
@@ -897,10 +888,24 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   }
 
-  // Bind modal close buttons once DOM is loaded
+  // Bind modal buttons once DOM is loaded
   const closeStoryBtn = document.getElementById("closeStoryModalBtn");
   const closeStoryBottomBtn = document.getElementById("closeStoryModalBottomBtn");
+  const modalShareBtn = document.getElementById("shareStoryModalBtn");
   const storyModalEl = document.getElementById("personalStoryModal");
+
+  if (modalShareBtn) {
+    modalShareBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      const story = currentOpenStory;
+      if (!story) return;
+      const title = story.title || "Blog Article";
+      const url = getBlogShareUrl(story);
+      if (typeof window.triggerBlogShare === "function") {
+        window.triggerBlogShare({ title, url }, modalShareBtn);
+      }
+    });
+  }
 
   if (closeStoryBtn) closeStoryBtn.addEventListener("click", closeStoryModal);
   if (closeStoryBottomBtn) closeStoryBottomBtn.addEventListener("click", closeStoryModal);

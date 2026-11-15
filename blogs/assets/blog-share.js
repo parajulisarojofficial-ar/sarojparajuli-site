@@ -39,7 +39,7 @@
     if (!toast) {
       toast = document.createElement('div');
       toast.id = 'toastNotification';
-      toast.className = 'fixed bottom-6 right-6 z-50 transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-slate-900 border border-sky-500/40 text-slate-100 text-xs shadow-2xl flex items-center gap-2.5 pointer-events-none';
+      toast.className = 'fixed bottom-6 right-6 z-[80] transform translate-y-24 opacity-0 transition-all duration-300 px-4 py-3 rounded-xl bg-slate-900 border border-sky-500/40 text-slate-100 text-xs shadow-2xl flex items-center gap-2.5 pointer-events-none';
       toast.innerHTML = `<span id="toastMessage">${escapeHtml(message)}</span>`;
       document.body.appendChild(toast);
       text = document.getElementById('toastMessage');
@@ -169,7 +169,7 @@
 
     modal = document.createElement('div');
     modal.id = 'universalShareModal';
-    modal.className = 'fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-opacity';
+    modal.className = 'fixed inset-0 z-[70] hidden flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-opacity';
     modal.setAttribute('role', 'dialog');
     modal.setAttribute('aria-modal', 'true');
     modal.setAttribute('aria-labelledby', 'shareModalTitle');
@@ -367,7 +367,7 @@
    * Global Event Delegation for any share button (Current and Future blogs)
    */
   document.addEventListener('click', (e) => {
-    const btn = e.target.closest('[data-share-blog], .share-blog-btn, #shareBlogBtn, [data-share-btn]');
+    const btn = e.target.closest('[data-share-blog], .share-blog-btn, #shareBlogBtn, #shareStoryModalBtn, [data-share-btn]');
     if (!btn) return;
 
     e.preventDefault();
