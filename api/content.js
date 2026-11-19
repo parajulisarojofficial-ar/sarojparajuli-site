@@ -119,6 +119,32 @@ module.exports = async (req, res) => {
       });
 
       if (error) throw error;
+
+      // Sync dedicated 'blogs' table if posts array is provided
+      if (Array.isArray(payload.posts)) {
+        for (const post of payload.posts) {
+          if (!post.slug && !post.title) continue;
+          const blogRecord = {
+            title: post.title,
+            slug: post.slug || null,
+            category: post.category || 'Tech Updates',
+            cover_image: post.image || null,
+            excerpt: post.excerpt || post.summary || '',
+            content: post.body || post.content || post.excerpt || post.summary || '',
+            blog_type: post.blog_type || (post.preferred_section === 0 ? 'personal' : 'tech'),
+            preferred_section: typeof post.preferred_section === 'number' ? post.preferred_section : (post.blog_type === 'personal' ? 0 : 1),
+            is_published: post.is_published !== false,
+            updated_at: new Date().toISOString()
+          };
+          if (post.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(post.id)) {
+            blogRecord.id = post.id;
+          }
+          if (post.slug) {
+            await supabase.from('blogs').upsert(blogRecord, { onConflict: 'slug' });
+          }
+        }
+      }
+
       return res.status(200).json({ success: true, message: 'Content synced live to Supabase.' });
     } catch (err) {
       return res.status(500).json({ error: 'Failed to update Supabase', details: err.message });

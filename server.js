@@ -126,7 +126,7 @@ app.post('/api/content', async (req, res) => {
   }
 
   try {
-    // 1. Upsert to Supabase
+    // 1. Upsert to Supabase site_content
     const { error } = await supabase.from('site_content').upsert({
       id: 'main',
       payload: payload,
@@ -135,7 +135,32 @@ app.post('/api/content', async (req, res) => {
 
     if (error) throw error;
 
-    // 2. Also keep local data backup updated
+    // 2. Sync dedicated 'blogs' table if posts array is provided
+    if (Array.isArray(payload.posts)) {
+      for (const post of payload.posts) {
+        if (!post.slug && !post.title) continue;
+        const blogRecord = {
+          title: post.title,
+          slug: post.slug || null,
+          category: post.category || 'Tech Updates',
+          cover_image: post.image || null,
+          excerpt: post.excerpt || post.summary || '',
+          content: post.body || post.content || post.excerpt || post.summary || '',
+          blog_type: post.blog_type || (post.preferred_section === 0 ? 'personal' : 'tech'),
+          preferred_section: typeof post.preferred_section === 'number' ? post.preferred_section : (post.blog_type === 'personal' ? 0 : 1),
+          is_published: post.is_published !== false,
+          updated_at: new Date().toISOString()
+        };
+        if (post.id && /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(post.id)) {
+          blogRecord.id = post.id;
+        }
+        if (post.slug) {
+          await supabase.from('blogs').upsert(blogRecord, { onConflict: 'slug' });
+        }
+      }
+    }
+
+    // 3. Also keep local data backup updated
     try {
       const localPath = path.join(__dirname, 'data', 'default_content.json');
       fs.writeFileSync(localPath, JSON.stringify(payload, null, 2), 'utf8');
