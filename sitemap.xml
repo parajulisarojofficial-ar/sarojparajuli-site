@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+  
+  <!-- Homepage -->
+  <url>
+    <loc>https://sarojparajuli.com.np/</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  <!-- Featured Technical Publication: GTA 1 to 6 Evolution & Launch Analysis -->
+  <url>
+    <loc>https://sarojparajuli.com.np/blogs/history-of-gta-evolution-gta6-launch-analysis.html</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+    <image:image>
+      <image:loc>https://sarojparajuli.com.np/assets/passport_photo.jpg</image:loc>
+      <image:title>GTA Evolution (GTA 1 to 6): Launch Review and Technical Analysis</image:title>
+    </image:image>
+  </url>
+
+  <!-- Technical Publication: Free .com.np Domain in Nepal -->
+  <url>
+    <loc>https://sarojparajuli.com.np/blogs/how-to-claim-free-com-np-domain-nepal.html</loc>
+    <lastmod>2026-11-07</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Technical Publication: 2026 Nobel Prize in Optogenetics & Medicine -->
+  <url>
+    <loc>https://sarojparajuli.com.np/blogs/optogenetics-retinitis-pigmentosa.html</loc>
+    <lastmod>2026-11-06</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <!-- Section Hubs -->
+  <url>
+    <loc>https://sarojparajuli.com.np/#blogs</loc>
+    <lastmod>2026-11-19</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://sarojparajuli.com.np/#about</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://sarojparajuli.com.np/#music</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://sarojparajuli.com.np/#career</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://sarojparajuli.com.np/#contact</loc>
+    <lastmod>2026-11-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+</urlset>

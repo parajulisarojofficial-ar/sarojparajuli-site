@@ -116,12 +116,12 @@
             .order("created_at", { ascending: false });
 
           if (!blogsErr && blogsData && blogsData.length > 0) {
-            if (!payload) payload = {};
             const knownStaticSlugs = [
+              "history-of-gta-evolution-gta6-launch-analysis",
               "optogenetics-retinitis-pigmentosa",
               "how-to-claim-free-com-np-domain-nepal"
             ];
-            payload.posts = blogsData.map((b, idx) => {
+            const mappedBlogs = blogsData.map((b, idx) => {
               // preferred_section: 1 = Tech Updates, 0 = Personal Blog
               const prefSec = typeof b.preferred_section === "number" ? b.preferred_section : (b.blog_type === "personal" || (b.category && b.category.toLowerCase() === "personal") ? 0 : 1);
               const isPersonal = prefSec === 0;
@@ -135,7 +135,7 @@
                 blog_type: isPersonal ? "personal" : "tech",
                 preferred_section: prefSec,
                 date: b.created_at ? new Date(b.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" }) : "Nov 2026",
-                read_time: b.slug === "optogenetics-retinitis-pigmentosa" ? "12 min read" : (b.slug === "how-to-claim-free-com-np-domain-nepal" ? "4 min read" : "3 min read"),
+                read_time: b.slug === "history-of-gta-evolution-gta6-launch-analysis" ? "11 min read" : (b.slug === "optogenetics-retinitis-pigmentosa" ? "12 min read" : (b.slug === "how-to-claim-free-com-np-domain-nepal" ? "4 min read" : "3 min read")),
                 image: b.cover_image,
                 body: b.content,
                 content: b.content,
@@ -145,6 +145,14 @@
                 has_static_html: Boolean(hasStaticHtml)
               };
             });
+
+            if (!payload) payload = {};
+            // Preserve any extra posts from site_content that are not in blogs table
+            const blogsSlugs = new Set(mappedBlogs.map(p => p.slug).filter(Boolean));
+            const existingExtraPosts = Array.isArray(payload.posts)
+              ? payload.posts.filter(p => !p.slug || !blogsSlugs.has(p.slug))
+              : [];
+            payload.posts = [...existingExtraPosts, ...mappedBlogs];
           }
         } catch (e) {}
 

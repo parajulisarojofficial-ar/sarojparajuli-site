@@ -51,6 +51,23 @@
   },
   "posts": [
     {
+      "id": "post-gta-6-evolution",
+      "sn": "04",
+      "title": "GTA Evolution (GTA 1 to 6): The 13-Year Hype, Day-One Launch Review, $1.5B Sales & The Future of Gaming",
+      "slug": "history-of-gta-evolution-gta6-launch-analysis",
+      "category": "Gaming Architecture & Economics",
+      "blog_type": "tech",
+      "preferred_section": 1,
+      "date": "Nov 19, 2026",
+      "read_time": "11 min read",
+      "summary": "From 1997 top-down 2D chaos to GTA 6's record-shattering $1.52B day-one sales and 12.4M concurrent players. A complete technical breakdown of GTA 1-6, the 13-year hype arc, day-one review, and how this launch permanently shifts the gaming industry.",
+      "excerpt": "From 1997 top-down 2D chaos to GTA 6's record-shattering $1.52B day-one sales and 12.4M concurrent players. A complete technical breakdown of GTA 1-6, the 13-year hype arc, day-one review, and how this launch permanently shifts the gaming industry.",
+      "url": "blogs/history-of-gta-evolution-gta6-launch-analysis.html",
+      "has_static_html": true,
+      "image": "",
+      "is_published": true
+    },
+    {
       "id": "a1ad97c5-efd1-47e4-9c8c-b510fd74a3e7",
       "sn": "03",
       "title": "The Overall Shift Of Tech From Normal Browising To AI Driven Workflows",
